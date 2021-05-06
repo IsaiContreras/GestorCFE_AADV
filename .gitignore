@@ -1,0 +1,4 @@
+# Gitignore file
+*.sln
+.vs
+/CFE_GestionRecibos/bin
