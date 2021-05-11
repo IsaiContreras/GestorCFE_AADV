@@ -12,7 +12,7 @@ namespace CFE_GestionRecibos.Administrador
 {
     public partial class Administrador : Form
     {
-        public int id = 001;
+        public Guid id;
         public string username = "Default Admin";
 
         public Administrador()

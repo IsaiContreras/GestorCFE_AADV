@@ -28,25 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tbx_username = new System.Windows.Forms.TextBox();
             this.cbx_usertype = new System.Windows.Forms.ComboBox();
-            this.PASSWORD = new System.Windows.Forms.TextBox();
+            this.tbx_password = new System.Windows.Forms.TextBox();
             this.btn_login = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.chb_rememberme = new System.Windows.Forms.CheckBox();
+            this.cbx_email = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
-            // 
-            // tbx_username
-            // 
-            this.tbx_username.BackColor = System.Drawing.Color.DimGray;
-            this.tbx_username.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_username.Location = new System.Drawing.Point(53, 140);
-            this.tbx_username.MaxLength = 50;
-            this.tbx_username.Name = "tbx_username";
-            this.tbx_username.Size = new System.Drawing.Size(228, 22);
-            this.tbx_username.TabIndex = 1;
             // 
             // cbx_usertype
             // 
@@ -62,16 +52,18 @@
             this.cbx_usertype.Name = "cbx_usertype";
             this.cbx_usertype.Size = new System.Drawing.Size(141, 24);
             this.cbx_usertype.TabIndex = 0;
+            this.cbx_usertype.SelectedIndexChanged += new System.EventHandler(this.cbx_usertype_SelectedIndexChanged);
             // 
-            // PASSWORD
+            // tbx_password
             // 
-            this.PASSWORD.BackColor = System.Drawing.Color.DimGray;
-            this.PASSWORD.ForeColor = System.Drawing.SystemColors.Control;
-            this.PASSWORD.Location = new System.Drawing.Point(53, 192);
-            this.PASSWORD.Name = "PASSWORD";
-            this.PASSWORD.PasswordChar = '*';
-            this.PASSWORD.Size = new System.Drawing.Size(228, 22);
-            this.PASSWORD.TabIndex = 2;
+            this.tbx_password.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_password.ForeColor = System.Drawing.SystemColors.Control;
+            this.tbx_password.Location = new System.Drawing.Point(53, 192);
+            this.tbx_password.MaxLength = 8;
+            this.tbx_password.Name = "tbx_password";
+            this.tbx_password.PasswordChar = '*';
+            this.tbx_password.Size = new System.Drawing.Size(228, 22);
+            this.tbx_password.TabIndex = 2;
             // 
             // btn_login
             // 
@@ -99,11 +91,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.Control;
-            this.label2.Location = new System.Drawing.Point(50, 120);
+            this.label2.Location = new System.Drawing.Point(50, 112);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(129, 17);
+            this.label2.Size = new System.Drawing.Size(124, 17);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Nombre de usuario";
+            this.label2.Text = "Correo electrónico";
             // 
             // label3
             // 
@@ -127,20 +119,31 @@
             this.chb_rememberme.Text = "Recordar contraseña";
             this.chb_rememberme.UseVisualStyleBackColor = false;
             // 
+            // cbx_email
+            // 
+            this.cbx_email.BackColor = System.Drawing.Color.DimGray;
+            this.cbx_email.ForeColor = System.Drawing.SystemColors.Control;
+            this.cbx_email.FormattingEnabled = true;
+            this.cbx_email.Location = new System.Drawing.Point(53, 133);
+            this.cbx_email.MaxLength = 60;
+            this.cbx_email.Name = "cbx_email";
+            this.cbx_email.Size = new System.Drawing.Size(228, 24);
+            this.cbx_email.TabIndex = 1;
+            // 
             // LOG_IN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(342, 353);
+            this.Controls.Add(this.cbx_email);
             this.Controls.Add(this.chb_rememberme);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_login);
-            this.Controls.Add(this.PASSWORD);
+            this.Controls.Add(this.tbx_password);
             this.Controls.Add(this.cbx_usertype);
-            this.Controls.Add(this.tbx_username);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(360, 400);
             this.MinimumSize = new System.Drawing.Size(360, 400);
@@ -153,15 +156,14 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox tbx_username;
         private System.Windows.Forms.ComboBox cbx_usertype;
-        private System.Windows.Forms.TextBox PASSWORD;
+        private System.Windows.Forms.TextBox tbx_password;
         private System.Windows.Forms.Button btn_login;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chb_rememberme;
+        private System.Windows.Forms.ComboBox cbx_email;
     }
 }
 

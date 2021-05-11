@@ -12,7 +12,7 @@ namespace CFE_GestionRecibos.Empleado
 {
     public partial class Empleado : Form
     {
-        public int id = 001;
+        public Guid id;
         public string username = "Default Employee";
 
         public Empleado()

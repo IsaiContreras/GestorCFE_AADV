@@ -12,7 +12,7 @@ namespace CFE_GestionRecibos.Cliente
 {
     public partial class Cliente : Form
     {
-        public int id = 001;
+        public Guid id;
         public string username = "Default Costumer";
 
         public Cliente()
