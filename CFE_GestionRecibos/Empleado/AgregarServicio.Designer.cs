@@ -48,13 +48,15 @@
             this.st_username = new System.Windows.Forms.Label();
             this.tbx_medidor = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.tbx_col = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.ForeColor = System.Drawing.SystemColors.Control;
-            this.label12.Location = new System.Drawing.Point(298, 117);
+            this.label12.Location = new System.Drawing.Point(461, 117);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(99, 17);
             this.label12.TabIndex = 0;
@@ -64,11 +66,11 @@
             // 
             this.tbx_cp.BackColor = System.Drawing.Color.DimGray;
             this.tbx_cp.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_cp.Location = new System.Drawing.Point(301, 137);
+            this.tbx_cp.Location = new System.Drawing.Point(464, 137);
             this.tbx_cp.MaxLength = 10;
             this.tbx_cp.Name = "tbx_cp";
             this.tbx_cp.Size = new System.Drawing.Size(97, 22);
-            this.tbx_cp.TabIndex = 7;
+            this.tbx_cp.TabIndex = 9;
             // 
             // label11
             // 
@@ -84,7 +86,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.ForeColor = System.Drawing.SystemColors.Control;
-            this.label10.Location = new System.Drawing.Point(298, 72);
+            this.label10.Location = new System.Drawing.Point(298, 117);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(57, 17);
             this.label10.TabIndex = 0;
@@ -98,17 +100,17 @@
             this.tbx_munic.MaxLength = 30;
             this.tbx_munic.Name = "tbx_munic";
             this.tbx_munic.Size = new System.Drawing.Size(124, 22);
-            this.tbx_munic.TabIndex = 6;
+            this.tbx_munic.TabIndex = 7;
             // 
             // tbx_estado
             // 
             this.tbx_estado.BackColor = System.Drawing.Color.DimGray;
             this.tbx_estado.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_estado.Location = new System.Drawing.Point(301, 92);
+            this.tbx_estado.Location = new System.Drawing.Point(301, 137);
             this.tbx_estado.MaxLength = 30;
             this.tbx_estado.Name = "tbx_estado";
-            this.tbx_estado.Size = new System.Drawing.Size(130, 22);
-            this.tbx_estado.TabIndex = 5;
+            this.tbx_estado.Size = new System.Drawing.Size(157, 22);
+            this.tbx_estado.TabIndex = 8;
             // 
             // label9
             // 
@@ -182,7 +184,7 @@
             this.cbx_servicio.Location = new System.Drawing.Point(301, 182);
             this.cbx_servicio.Name = "cbx_servicio";
             this.cbx_servicio.Size = new System.Drawing.Size(260, 24);
-            this.cbx_servicio.TabIndex = 8;
+            this.cbx_servicio.TabIndex = 10;
             // 
             // label1
             // 
@@ -201,7 +203,7 @@
             this.btn_cancelar.Location = new System.Drawing.Point(437, 216);
             this.btn_cancelar.Name = "btn_cancelar";
             this.btn_cancelar.Size = new System.Drawing.Size(124, 27);
-            this.btn_cancelar.TabIndex = 10;
+            this.btn_cancelar.TabIndex = 12;
             this.btn_cancelar.Text = "Cancelar";
             this.btn_cancelar.UseVisualStyleBackColor = false;
             this.btn_cancelar.Click += new System.EventHandler(this.btn_cancelar_Click);
@@ -213,7 +215,7 @@
             this.btn_ok.Location = new System.Drawing.Point(307, 216);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(124, 27);
-            this.btn_ok.TabIndex = 9;
+            this.btn_ok.TabIndex = 11;
             this.btn_ok.Text = "Agregar";
             this.btn_ok.UseVisualStyleBackColor = false;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
@@ -260,12 +262,34 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Medidor*";
             // 
+            // tbx_col
+            // 
+            this.tbx_col.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_col.ForeColor = System.Drawing.SystemColors.Control;
+            this.tbx_col.Location = new System.Drawing.Point(301, 92);
+            this.tbx_col.MaxLength = 30;
+            this.tbx_col.Name = "tbx_col";
+            this.tbx_col.Size = new System.Drawing.Size(130, 22);
+            this.tbx_col.TabIndex = 6;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.SystemColors.Control;
+            this.label3.Location = new System.Drawing.Point(298, 71);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(60, 17);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Colonia*";
+            // 
             // AgregarServicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(573, 255);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.tbx_col);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbx_medidor);
             this.Controls.Add(this.st_identity);
@@ -321,5 +345,7 @@
         private System.Windows.Forms.Label st_username;
         private System.Windows.Forms.TextBox tbx_medidor;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbx_col;
+        private System.Windows.Forms.Label label3;
     }
 }

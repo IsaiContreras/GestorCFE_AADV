@@ -12,8 +12,21 @@ namespace CFE_GestionRecibos
 {
     public partial class LOG_IN : Form
     {
-        byte tries = 0;
-        string mailused = "";
+        private byte tries = 0;
+        private string mailused = "";
+        private List<LogRem> rem_logins;
+
+        private void FillRememberList(byte type)
+        {
+            EnlaceCassandra link = new EnlaceCassandra();
+            rem_logins = link.GetRemembers(type);
+            cbx_email.DisplayMember = "Correo_electronico";
+            cbx_email.ValueMember = "Contrasena";
+            cbx_email.DataSource = rem_logins;
+            cbx_email.SelectedIndex = -1;
+            tbx_password.Text = "";
+            chb_rememberme.Checked = false;
+        }
 
         public LOG_IN()
         {
@@ -27,12 +40,21 @@ namespace CFE_GestionRecibos
         
         private void btn_login_Click(object sender, EventArgs e)
         {
+            if (cbx_email.Text.Length == 0)
+            {
+                MessageBox.Show("Capture el correo electrónico.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if (tbx_password.TextLength != 8)
+            {
+                MessageBox.Show("La constraseña debe contener 8 caracteres.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             switch (cbx_usertype.SelectedIndex)
             {
-                case 0:
+                case 0: // Cliente
                     {
-                        // Cliente
-                        LogCliente log = new LogCliente();
+                        Login log = new Login();
                         log.correo_e = cbx_email.Text;
                         log.contra = tbx_password.Text;
                         EnlaceCassandra link = new EnlaceCassandra();
@@ -40,9 +62,17 @@ namespace CFE_GestionRecibos
                         {
                             case 0:
                                 {
+                                    if (chb_rememberme.Checked == true & cbx_email.SelectedIndex == -1)
+                                    {
+                                        link.RememberLogin(ref log, 0);
+                                    }
+                                    else if (chb_rememberme.Checked == false & cbx_email.SelectedIndex != -1)
+                                    {
+                                        link.DropLogin(ref log, 0);
+                                    }
                                     Cliente.Cliente dialogCli = new Cliente.Cliente();
                                     dialogCli.username = log.username;
-                                    dialogCli.id = log.id_cl;
+                                    dialogCli.id = log.id;
                                     Hide();
                                     dialogCli.ShowDialog();
                                     Close();
@@ -73,10 +103,9 @@ namespace CFE_GestionRecibos
                         }
                         break;
                     }
-                case 1:
+                case 1: // Empleado
                     {
-                        // Empleado
-                        LogEmpleado log = new LogEmpleado();
+                        Login log = new Login();
                         log.correo_e = cbx_email.Text;
                         log.contra = tbx_password.Text;
                         EnlaceCassandra link = new EnlaceCassandra();
@@ -84,9 +113,17 @@ namespace CFE_GestionRecibos
                         {
                             case 0:
                                 {
+                                    if (chb_rememberme.Checked == true & cbx_email.SelectedIndex == -1)
+                                    {
+                                        link.RememberLogin(ref log, 1);
+                                    }
+                                    else if (chb_rememberme.Checked == false & cbx_email.SelectedIndex != -1)
+                                    {
+                                        link.DropLogin(ref log, 1);
+                                    }
                                     Empleado.Empleado dialogEmp = new Empleado.Empleado();
                                     dialogEmp.username = log.username;
-                                    dialogEmp.id = log.num_emp;
+                                    dialogEmp.id = log.id;
                                     Hide();
                                     dialogEmp.ShowDialog();
                                     Close();
@@ -117,21 +154,27 @@ namespace CFE_GestionRecibos
                         }
                         break;
                     }
-                case 2:
+                case 2: // Administrador
                     {
-                        // Administrador
-                        LogAdmin log = new LogAdmin();
+                        Login log = new Login();
                         log.correo_e = cbx_email.Text;
                         log.contra = tbx_password.Text;
-
                         EnlaceCassandra link = new EnlaceCassandra();
                         switch(link.Login_Admin(ref log))
                         {
                             case 0:
                                 {
+                                    if (chb_rememberme.Checked == true & cbx_email.SelectedIndex == -1)
+                                    {
+                                        link.RememberLogin(ref log, 2);
+                                    }
+                                    else if (chb_rememberme.Checked == false & cbx_email.SelectedIndex != -1)
+                                    {
+                                        link.DropLogin(ref log, 2);
+                                    }
                                     Administrador.Administrador dialogAdmin = new Administrador.Administrador();
                                     dialogAdmin.username = log.username;
-                                    dialogAdmin.id = log.id_adm;
+                                    dialogAdmin.id = log.id;
                                     Hide();
                                     dialogAdmin.ShowDialog();
                                     Close();
@@ -142,9 +185,6 @@ namespace CFE_GestionRecibos
                                 break;
                             case 2:
                                 MessageBox.Show("Contraseña incorrecta.", "Dato globito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                break;
-                            case 3:
-                                MessageBox.Show("Usuario bloqueado.", "Dato globito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 break;
                             default:
                                 break;
@@ -158,8 +198,26 @@ namespace CFE_GestionRecibos
 
         private void cbx_usertype_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cbx_email.Text = "";
-            tbx_password.Text = "";
+            FillRememberList((byte)cbx_usertype.SelectedIndex);
+        }
+
+        private void cbx_email_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbx_email.SelectedIndex != -1)
+            {
+                chb_rememberme.Checked = true;
+                tbx_password.Text = cbx_email.SelectedValue.ToString();
+            }
+        }
+
+        private void cbx_email_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 8)
+            {
+                chb_rememberme.Checked = false;
+                cbx_email.SelectedIndex = -1;
+                tbx_password.Text = "";
+            }
         }
     }
 }

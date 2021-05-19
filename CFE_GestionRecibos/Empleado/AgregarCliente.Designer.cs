@@ -31,7 +31,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.txt_añonac = new System.Windows.Forms.TextBox();
+            this.tbx_añonac = new System.Windows.Forms.TextBox();
             this.cbx_mesnac = new System.Windows.Forms.ComboBox();
             this.cbx_dianac = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -62,7 +62,9 @@
             this.btn_addtel = new System.Windows.Forms.Button();
             this.btn_deltel = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbx_curp = new System.Windows.Forms.TextBox();
+            this.tbx_col = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label6
@@ -95,15 +97,15 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Mes";
             // 
-            // txt_añonac
+            // tbx_añonac
             // 
-            this.txt_añonac.BackColor = System.Drawing.Color.DimGray;
-            this.txt_añonac.ForeColor = System.Drawing.SystemColors.Control;
-            this.txt_añonac.Location = new System.Drawing.Point(187, 121);
-            this.txt_añonac.MaxLength = 8;
-            this.txt_añonac.Name = "txt_añonac";
-            this.txt_añonac.Size = new System.Drawing.Size(82, 22);
-            this.txt_añonac.TabIndex = 5;
+            this.tbx_añonac.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_añonac.ForeColor = System.Drawing.SystemColors.Control;
+            this.tbx_añonac.Location = new System.Drawing.Point(187, 121);
+            this.tbx_añonac.MaxLength = 8;
+            this.tbx_añonac.Name = "tbx_añonac";
+            this.tbx_añonac.Size = new System.Drawing.Size(82, 22);
+            this.tbx_añonac.TabIndex = 5;
             // 
             // cbx_mesnac
             // 
@@ -112,18 +114,18 @@
             this.cbx_mesnac.ForeColor = System.Drawing.SystemColors.Control;
             this.cbx_mesnac.FormattingEnabled = true;
             this.cbx_mesnac.Items.AddRange(new object[] {
-            "Enero",
-            "Febrero",
-            "Marzo",
-            "Abril",
-            "Mayo",
-            "Junio",
-            "Julio",
-            "Agosto",
-            "Septiembre",
-            "Octubre",
-            "Noviembre",
-            "Diciembre"});
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12"});
             this.cbx_mesnac.Location = new System.Drawing.Point(12, 119);
             this.cbx_mesnac.Name = "cbx_mesnac";
             this.cbx_mesnac.Size = new System.Drawing.Size(98, 24);
@@ -266,7 +268,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.ForeColor = System.Drawing.SystemColors.Control;
-            this.label8.Location = new System.Drawing.Point(420, 9);
+            this.label8.Location = new System.Drawing.Point(417, 9);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(72, 17);
             this.label8.TabIndex = 0;
@@ -286,17 +288,17 @@
             // 
             this.tbx_estado.BackColor = System.Drawing.Color.DimGray;
             this.tbx_estado.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_estado.Location = new System.Drawing.Point(301, 73);
+            this.tbx_estado.Location = new System.Drawing.Point(431, 119);
             this.tbx_estado.MaxLength = 30;
             this.tbx_estado.Name = "tbx_estado";
             this.tbx_estado.Size = new System.Drawing.Size(130, 22);
-            this.tbx_estado.TabIndex = 11;
+            this.tbx_estado.TabIndex = 13;
             // 
             // tbx_munic
             // 
             this.tbx_munic.BackColor = System.Drawing.Color.DimGray;
             this.tbx_munic.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_munic.Location = new System.Drawing.Point(437, 73);
+            this.tbx_munic.Location = new System.Drawing.Point(301, 119);
             this.tbx_munic.MaxLength = 30;
             this.tbx_munic.Name = "tbx_munic";
             this.tbx_munic.Size = new System.Drawing.Size(124, 22);
@@ -306,7 +308,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.ForeColor = System.Drawing.SystemColors.Control;
-            this.label10.Location = new System.Drawing.Point(299, 54);
+            this.label10.Location = new System.Drawing.Point(431, 99);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(57, 17);
             this.label10.TabIndex = 0;
@@ -316,7 +318,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.ForeColor = System.Drawing.SystemColors.Control;
-            this.label11.Location = new System.Drawing.Point(434, 54);
+            this.label11.Location = new System.Drawing.Point(299, 99);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(72, 17);
             this.label11.TabIndex = 0;
@@ -326,17 +328,17 @@
             // 
             this.tbx_cp.BackColor = System.Drawing.Color.DimGray;
             this.tbx_cp.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_cp.Location = new System.Drawing.Point(301, 121);
-            this.tbx_cp.MaxLength = 10;
+            this.tbx_cp.Location = new System.Drawing.Point(301, 164);
+            this.tbx_cp.MaxLength = 5;
             this.tbx_cp.Name = "tbx_cp";
             this.tbx_cp.Size = new System.Drawing.Size(97, 22);
-            this.tbx_cp.TabIndex = 13;
+            this.tbx_cp.TabIndex = 14;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.ForeColor = System.Drawing.SystemColors.Control;
-            this.label12.Location = new System.Drawing.Point(298, 101);
+            this.label12.Location = new System.Drawing.Point(299, 144);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(99, 17);
             this.label12.TabIndex = 0;
@@ -346,17 +348,17 @@
             // 
             this.tbx_email.BackColor = System.Drawing.Color.DimGray;
             this.tbx_email.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_email.Location = new System.Drawing.Point(301, 212);
-            this.tbx_email.MaxLength = 50;
+            this.tbx_email.Location = new System.Drawing.Point(301, 254);
+            this.tbx_email.MaxLength = 60;
             this.tbx_email.Name = "tbx_email";
             this.tbx_email.Size = new System.Drawing.Size(257, 22);
-            this.tbx_email.TabIndex = 15;
+            this.tbx_email.TabIndex = 16;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.ForeColor = System.Drawing.SystemColors.Control;
-            this.label13.Location = new System.Drawing.Point(299, 192);
+            this.label13.Location = new System.Drawing.Point(299, 234);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(129, 17);
             this.label13.TabIndex = 0;
@@ -366,12 +368,12 @@
             // 
             this.tbx_password.BackColor = System.Drawing.Color.DimGray;
             this.tbx_password.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_password.Location = new System.Drawing.Point(301, 257);
+            this.tbx_password.Location = new System.Drawing.Point(301, 299);
             this.tbx_password.MaxLength = 8;
             this.tbx_password.Name = "tbx_password";
             this.tbx_password.PasswordChar = '*';
             this.tbx_password.Size = new System.Drawing.Size(258, 22);
-            this.tbx_password.TabIndex = 16;
+            this.tbx_password.TabIndex = 17;
             // 
             // btn_cancel
             // 
@@ -380,7 +382,7 @@
             this.btn_cancel.Location = new System.Drawing.Point(443, 335);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(118, 26);
-            this.btn_cancel.TabIndex = 18;
+            this.btn_cancel.TabIndex = 19;
             this.btn_cancel.Text = "Cancelar";
             this.btn_cancel.UseVisualStyleBackColor = false;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
@@ -392,7 +394,7 @@
             this.btn_ok.Location = new System.Drawing.Point(313, 335);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(118, 26);
-            this.btn_ok.TabIndex = 17;
+            this.btn_ok.TabIndex = 18;
             this.btn_ok.Text = "Agregar";
             this.btn_ok.UseVisualStyleBackColor = false;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
@@ -401,7 +403,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.ForeColor = System.Drawing.SystemColors.Control;
-            this.label14.Location = new System.Drawing.Point(299, 237);
+            this.label14.Location = new System.Drawing.Point(299, 279);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(86, 17);
             this.label14.TabIndex = 0;
@@ -413,7 +415,7 @@
             this.lbx_telefonos.ForeColor = System.Drawing.SystemColors.Control;
             this.lbx_telefonos.FormattingEnabled = true;
             this.lbx_telefonos.ItemHeight = 16;
-            this.lbx_telefonos.Location = new System.Drawing.Point(12, 198);
+            this.lbx_telefonos.Location = new System.Drawing.Point(12, 205);
             this.lbx_telefonos.Name = "lbx_telefonos";
             this.lbx_telefonos.Size = new System.Drawing.Size(257, 84);
             this.lbx_telefonos.TabIndex = 0;
@@ -422,7 +424,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.ForeColor = System.Drawing.SystemColors.Control;
-            this.label15.Location = new System.Drawing.Point(9, 178);
+            this.label15.Location = new System.Drawing.Point(9, 185);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(71, 17);
             this.label15.TabIndex = 0;
@@ -432,7 +434,7 @@
             // 
             this.btn_addtel.BackColor = System.Drawing.Color.DimGray;
             this.btn_addtel.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_addtel.Location = new System.Drawing.Point(18, 288);
+            this.btn_addtel.Location = new System.Drawing.Point(18, 295);
             this.btn_addtel.Name = "btn_addtel";
             this.btn_addtel.Size = new System.Drawing.Size(30, 30);
             this.btn_addtel.TabIndex = 6;
@@ -444,7 +446,7 @@
             // 
             this.btn_deltel.BackColor = System.Drawing.Color.DimGray;
             this.btn_deltel.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_deltel.Location = new System.Drawing.Point(55, 288);
+            this.btn_deltel.Location = new System.Drawing.Point(55, 295);
             this.btn_deltel.Name = "btn_deltel";
             this.btn_deltel.Size = new System.Drawing.Size(30, 30);
             this.btn_deltel.TabIndex = 7;
@@ -456,21 +458,41 @@
             // 
             this.label16.AutoSize = true;
             this.label16.ForeColor = System.Drawing.SystemColors.Control;
-            this.label16.Location = new System.Drawing.Point(299, 146);
+            this.label16.Location = new System.Drawing.Point(299, 189);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(51, 17);
             this.label16.TabIndex = 19;
             this.label16.Text = "CURP*";
             // 
-            // textBox1
+            // tbx_curp
             // 
-            this.textBox1.BackColor = System.Drawing.Color.DimGray;
-            this.textBox1.ForeColor = System.Drawing.SystemColors.Control;
-            this.textBox1.Location = new System.Drawing.Point(301, 167);
-            this.textBox1.MaxLength = 18;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(260, 22);
-            this.textBox1.TabIndex = 14;
+            this.tbx_curp.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_curp.ForeColor = System.Drawing.SystemColors.Control;
+            this.tbx_curp.Location = new System.Drawing.Point(301, 209);
+            this.tbx_curp.MaxLength = 18;
+            this.tbx_curp.Name = "tbx_curp";
+            this.tbx_curp.Size = new System.Drawing.Size(260, 22);
+            this.tbx_curp.TabIndex = 15;
+            // 
+            // tbx_col
+            // 
+            this.tbx_col.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_col.ForeColor = System.Drawing.SystemColors.Control;
+            this.tbx_col.Location = new System.Drawing.Point(301, 74);
+            this.tbx_col.MaxLength = 30;
+            this.tbx_col.Name = "tbx_col";
+            this.tbx_col.Size = new System.Drawing.Size(260, 22);
+            this.tbx_col.TabIndex = 11;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.ForeColor = System.Drawing.SystemColors.Control;
+            this.label17.Location = new System.Drawing.Point(299, 54);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(60, 17);
+            this.label17.TabIndex = 21;
+            this.label17.Text = "Colonia*";
             // 
             // AgregarCliente
             // 
@@ -478,7 +500,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(573, 373);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.tbx_col);
+            this.Controls.Add(this.tbx_curp);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.btn_deltel);
             this.Controls.Add(this.btn_addtel);
@@ -505,7 +529,7 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txt_añonac);
+            this.Controls.Add(this.tbx_añonac);
             this.Controls.Add(this.cbx_mesnac);
             this.Controls.Add(this.cbx_dianac);
             this.Controls.Add(this.label3);
@@ -531,7 +555,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txt_añonac;
+        private System.Windows.Forms.TextBox tbx_añonac;
         private System.Windows.Forms.ComboBox cbx_mesnac;
         private System.Windows.Forms.ComboBox cbx_dianac;
         private System.Windows.Forms.Label label3;
@@ -562,6 +586,8 @@
         private System.Windows.Forms.Button btn_addtel;
         private System.Windows.Forms.Button btn_deltel;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbx_curp;
+        private System.Windows.Forms.TextBox tbx_col;
+        private System.Windows.Forms.Label label17;
     }
 }

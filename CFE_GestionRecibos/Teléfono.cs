@@ -17,9 +17,28 @@ namespace CFE_GestionRecibos
             InitializeComponent();
         }
 
+        public bool validar()
+        {
+            if (tbx_tel.TextLength == 0)
+            {
+                MessageBox.Show("", "Información incompleta", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return false;
+            }
+            else if (!RegexUtilities.IsOnlyNumerics(tbx_tel.Text))
+            {
+                MessageBox.Show("", "Información inválida", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return false;
+            }
+
+            return true;
+        }
+
         private void btn_ok_Click(object sender, EventArgs e)
         {
-            Close();
+            if (validar())
+            {
+                Close();
+            }
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

@@ -129,6 +129,8 @@
             this.cbx_email.Name = "cbx_email";
             this.cbx_email.Size = new System.Drawing.Size(228, 24);
             this.cbx_email.TabIndex = 1;
+            this.cbx_email.SelectedIndexChanged += new System.EventHandler(this.cbx_email_SelectedIndexChanged);
+            this.cbx_email.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cbx_email_KeyPress);
             // 
             // LOG_IN
             // 

@@ -178,3 +178,5 @@ D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AAD
 D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\bin\Debug\System.Threading.Tasks.Dataflow.xml
 D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\obj\Debug\CFE_GestionRecibos.csproj.CopyComplete
+D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\obj\Debug\CFE_GestionRecibos.Empleado.Consumo.resources
+D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\obj\Debug\CFE_GestionRecibos.Empleado.Tarifa.resources

@@ -35,7 +35,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cbx_dianac = new System.Windows.Forms.ComboBox();
             this.cbx_mesnac = new System.Windows.Forms.ComboBox();
-            this.txt_añonac = new System.Windows.Forms.TextBox();
+            this.tbx_añonac = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -45,7 +45,7 @@
             this.tbx_rfc = new System.Windows.Forms.TextBox();
             this.tbx_email = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.tbx_contra = new System.Windows.Forms.TextBox();
+            this.tbx_password = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.btn_ok = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
@@ -155,32 +155,33 @@
             this.cbx_mesnac.ForeColor = System.Drawing.SystemColors.Control;
             this.cbx_mesnac.FormattingEnabled = true;
             this.cbx_mesnac.Items.AddRange(new object[] {
-            "Enero",
-            "Febrero",
-            "Marzo",
-            "Abril",
-            "Mayo",
-            "Junio",
-            "Julio",
-            "Agosto",
-            "Septiembre",
-            "Octubre",
-            "Noviembre",
-            "Diciembre"});
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12"});
             this.cbx_mesnac.Location = new System.Drawing.Point(13, 134);
             this.cbx_mesnac.Name = "cbx_mesnac";
             this.cbx_mesnac.Size = new System.Drawing.Size(98, 24);
             this.cbx_mesnac.TabIndex = 3;
+            this.cbx_mesnac.Tag = "";
             // 
-            // txt_añonac
+            // tbx_añonac
             // 
-            this.txt_añonac.BackColor = System.Drawing.Color.DimGray;
-            this.txt_añonac.ForeColor = System.Drawing.SystemColors.Control;
-            this.txt_añonac.Location = new System.Drawing.Point(189, 134);
-            this.txt_añonac.MaxLength = 5;
-            this.txt_añonac.Name = "txt_añonac";
-            this.txt_añonac.Size = new System.Drawing.Size(82, 22);
-            this.txt_añonac.TabIndex = 5;
+            this.tbx_añonac.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_añonac.ForeColor = System.Drawing.SystemColors.Control;
+            this.tbx_añonac.Location = new System.Drawing.Point(189, 134);
+            this.tbx_añonac.MaxLength = 5;
+            this.tbx_añonac.Name = "tbx_añonac";
+            this.tbx_añonac.Size = new System.Drawing.Size(82, 22);
+            this.tbx_añonac.TabIndex = 5;
             // 
             // label4
             // 
@@ -225,6 +226,7 @@
             // tbx_curp
             // 
             this.tbx_curp.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_curp.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tbx_curp.ForeColor = System.Drawing.SystemColors.Control;
             this.tbx_curp.Location = new System.Drawing.Point(12, 227);
             this.tbx_curp.MaxLength = 18;
@@ -245,6 +247,7 @@
             // tbx_rfc
             // 
             this.tbx_rfc.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_rfc.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tbx_rfc.ForeColor = System.Drawing.SystemColors.Control;
             this.tbx_rfc.Location = new System.Drawing.Point(301, 33);
             this.tbx_rfc.MaxLength = 13;
@@ -272,16 +275,16 @@
             this.label9.TabIndex = 0;
             this.label9.Text = "Correo electrónico*";
             // 
-            // tbx_contra
+            // tbx_password
             // 
-            this.tbx_contra.BackColor = System.Drawing.Color.DimGray;
-            this.tbx_contra.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_contra.Location = new System.Drawing.Point(301, 134);
-            this.tbx_contra.MaxLength = 8;
-            this.tbx_contra.Name = "tbx_contra";
-            this.tbx_contra.PasswordChar = '*';
-            this.tbx_contra.Size = new System.Drawing.Size(258, 22);
-            this.tbx_contra.TabIndex = 9;
+            this.tbx_password.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_password.ForeColor = System.Drawing.SystemColors.Control;
+            this.tbx_password.Location = new System.Drawing.Point(301, 134);
+            this.tbx_password.MaxLength = 8;
+            this.tbx_password.Name = "tbx_password";
+            this.tbx_password.PasswordChar = '*';
+            this.tbx_password.Size = new System.Drawing.Size(258, 22);
+            this.tbx_password.TabIndex = 9;
             // 
             // label10
             // 
@@ -375,7 +378,7 @@
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.tbx_contra);
+            this.Controls.Add(this.tbx_password);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.tbx_email);
             this.Controls.Add(this.tbx_rfc);
@@ -385,7 +388,7 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txt_añonac);
+            this.Controls.Add(this.tbx_añonac);
             this.Controls.Add(this.cbx_mesnac);
             this.Controls.Add(this.cbx_dianac);
             this.Controls.Add(this.label3);
@@ -399,7 +402,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(591, 302);
             this.Name = "Agregar";
-            this.Text = "Agregar";
+            this.Text = "Agregar empleado";
             this.Load += new System.EventHandler(this.Agregar_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -415,7 +418,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbx_dianac;
         private System.Windows.Forms.ComboBox cbx_mesnac;
-        private System.Windows.Forms.TextBox txt_añonac;
+        private System.Windows.Forms.TextBox tbx_añonac;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
@@ -425,7 +428,7 @@
         private System.Windows.Forms.TextBox tbx_rfc;
         private System.Windows.Forms.TextBox tbx_email;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox tbx_contra;
+        private System.Windows.Forms.TextBox tbx_password;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btn_ok;
         private System.Windows.Forms.Button btn_cancel;
