@@ -124,7 +124,7 @@ namespace CFE_GestionRecibos.Empleado
                     EnlaceCassandra link = new EnlaceCassandra();
                     if (link.ModificarServicio(serv, servMod))
                     {
-                        MessageBox.Show("Servicio agregado con éxito.", "Aviso");
+                        MessageBox.Show("Servicio modificado con éxito.", "Aviso");
                         DialogResult = DialogResult.OK;
                         Close();
                     }

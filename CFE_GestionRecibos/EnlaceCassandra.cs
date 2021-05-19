@@ -634,6 +634,7 @@ namespace CFE_GestionRecibos
                                     .Add(dellogin.Bind(oldcli.correo_electronico))
                                     .Add(login.Bind(newcli.correo_electronico, newcli.contrasena, oldcli.id_cliente, newcli.nombres + " " + newcli.apellidos, false));
                         _session.Execute(batch1);
+                        desconectar();
                     }
                     else return false;
                 }
@@ -645,6 +646,7 @@ namespace CFE_GestionRecibos
                 regactquery += "values(?, ?, toTimestamp(now()), 'Modificación de Cliente', ?);";
                 string descripcion = "Empleado con ID {0}, {1}, modificó a cliente con ID {2}, {3}.";
                 descripcion = string.Format(descripcion, newcli.id_emp, newcli.empUsername, oldcli.id_cliente, newcli.nombres + ' ' + newcli.apellidos);
+                conectar();
                 var updcli = _session.Prepare(updateqry);
                 var updlogin = _session.Prepare(updatelog);
                 var regactinsert = _session.Prepare(regactquery);
@@ -666,25 +668,39 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
-        public bool EliminarCliente(Guid id_cli)
+        public bool EliminarCliente(Guid id_cli, Guid id_emp)
         {
             try
             {
-                ClienteClass delemp = DatosCliente(id_cli);
+                ClienteClass delcli = DatosCliente(id_cli);
+                EmpleadoClass emp = DatosEmpleado(id_emp);
+                Guid regact_id = Guid.NewGuid();
                 string delqry = "update Cliente set Activo = false where ID_Cliente = ?;";
                 string dellogin = "delete from Log_Cliente where Correo_electronico = ?;";
                 string delrem = "delete from Recordar_contra where Tipo_user = ? and Correo_electronico = ?;";
-                string delserv = "update Servicio set Activo = false where ID_Cliente = ?;";
+                string delserv = "update Servicio set Activo = false where ID_Cliente = ? and ID_Serv = ?;";
+                string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
+                regactquery += "values(?, ?, toTimestamp(now()), 'Baja de Cliente', ?);";
+                string descripcion = "Empleado con ID {0}, {1}, dió de baja a cliente con ID {2}, {3}.";
+                descripcion = string.Format(descripcion, id_emp, emp.nombres + " " + emp.apellidos, delcli.id_cliente, delcli.nombres + ' ' + delcli.apellidos);
+                List<ServicioList> servicios = LlenarServicios(id_cli);
                 conectar();
+                foreach (ServicioList s in servicios)
+                {
+                    var delete_servicio = _session.Prepare(delserv);
+                    var batch2 = new BatchStatement()
+                                    .Add(delete_servicio.Bind(id_cli, s.id_serv));
+                    _session.Execute(batch2);
+                }
                 var delete_cliente = _session.Prepare(delqry);
                 var delete_login = _session.Prepare(dellogin);
                 var delete_rem = _session.Prepare(delrem);
-                var delete_serv = _session.Prepare(delserv);
+                var regact = _session.Prepare(regactquery);
                 var batch = new BatchStatement()
                             .Add(delete_cliente.Bind(id_cli))
-                            .Add(delete_login.Bind(delemp.correo_electronico))
-                            .Add(delete_rem.Bind((sbyte)0, delemp.correo_electronico))
-                            .Add(delete_serv.Bind(id_cli));
+                            .Add(delete_login.Bind(delcli.correo_electronico))
+                            .Add(delete_rem.Bind((sbyte)0, delcli.correo_electronico))
+                            .Add(regact.Bind(id_emp, regact_id, descripcion));
                 _session.Execute(batch);
                 return true;
             }
@@ -710,7 +726,7 @@ namespace CFE_GestionRecibos
                     insertqry += "values(?, ?, ?, ?, ?, ?);";
                     string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
                     regactquery += "values(?, ?, toTimestamp(now()), 'Registro de Servicio', ?);";
-                    string descripcion = "Empleado con ID {0}, {1}, registró a servicio con Medidor {2} para cliente con ID {3}, {4}.";
+                    string descripcion = "Empleado con ID {0}, {1}, registró servicio con Medidor {2} para cliente con ID {3}, {4}.";
                     descripcion = string.Format(descripcion, serv.id_emp, serv.empUsername, serv.medidor, serv.id_cliente, serv.cliUsername);
                     conectar();
                     var empinsert = _session.Prepare(insertqry);
@@ -745,20 +761,22 @@ namespace CFE_GestionRecibos
                         conectar();
                         var serv_upd = _session.Prepare(updservmod);
                         var batch = new BatchStatement()
-                                    .Add(serv_upd.Bind(newserv.medidor, newserv.tipo_serv, oldserv.id_cliente, oldserv.id_servicio));
+                                    .Add(serv_upd.Bind(newserv.medidor, newserv.tipo_serv, oldserv.id_cliente, oldserv.id_serv));
                         _session.Execute(batch);
+                        desconectar();
                     }
                 }
                 Guid regact_clave = Guid.NewGuid();
                 string updservdom = "update Servicio set Domicilio = ? where ID_Cliente = ? and ID_Serv = ?;";
                 string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
                 regactquery += "values(?, ?, toTimestamp(now()), 'Modificación de Servicio', ?);";
-                string descripcion = "Empleado con ID {0}, {1}, registró a servicio con Medidor {2} para cliente con ID {3}, {4}.";
+                string descripcion = "Empleado con ID {0}, {1}, modificó servicio con Medidor {2} para cliente con ID {3}, {4}.";
                 descripcion = string.Format(descripcion, newserv.id_emp, newserv.empUsername, newserv.medidor, newserv.id_cliente, newserv.cliUsername);
+                conectar();
                 var serv_dom = _session.Prepare(updservdom);
                 var regact = _session.Prepare(regactquery);
                 var batch2 = new BatchStatement()
-                                 .Add(serv_dom.Bind(newserv.domic.getAssembled(), oldserv.id_cliente, oldserv.id_servicio))
+                                 .Add(serv_dom.Bind(newserv.domic.getAssembled(), oldserv.id_cliente, oldserv.id_serv))
                                  .Add(regact.Bind(newserv.id_emp, regact_clave, descripcion));
                 _session.Execute(batch2);
                 return true;
@@ -783,7 +801,7 @@ namespace CFE_GestionRecibos
                 Guid regact_clave = Guid.NewGuid();
                 string delqry = "update Servicio set Activo = false where ID_Cliente = ? and ID_Serv = ?;";
                 string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
-                regactquery += "values(?, ?, toTimestamp(now()), 'Registro de Servicio', ?);";
+                regactquery += "values(?, ?, toTimestamp(now()), 'Baja de Servicio', ?);";
                 string descripcion = "Empleado con ID {0}, {1}, eliminó a servicio con Medidor {2} para cliente con ID {3}, {4}.";
                 descripcion = string.Format(descripcion, id_emp, empl.nombres + " " + empl.apellidos, delserv.medidor, client.id_cliente, client.nombres + " " + client.apellidos);
                 conectar();

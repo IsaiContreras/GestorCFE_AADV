@@ -131,7 +131,7 @@ namespace CFE_GestionRecibos
             domic = new Domicilio(domicilio);
         }
         public Guid id_cliente;
-        public Guid id_servicio;
+        public Guid id_serv;
         public long medidor;
         public bool tipo_serv;
         public string domicilio;

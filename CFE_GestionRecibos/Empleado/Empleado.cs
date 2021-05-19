@@ -55,6 +55,12 @@ namespace CFE_GestionRecibos.Empleado
                 btn_elimserv.Enabled = true;
                 btn_conshist.Enabled = true;
             }
+            else
+            {
+                btn_modserv.Enabled = false;
+                btn_elimserv.Enabled = false;
+                btn_conshist.Enabled = false;
+            }
         }
 
         private void btn_agrclient_Click(object sender, EventArgs e)
@@ -112,7 +118,7 @@ namespace CFE_GestionRecibos.Empleado
             dialogMS.Text = "Modificar servicio";
             if (dialogMS.ShowDialog() == DialogResult.OK)
             {
-                UpdateClientesDgv();
+                UpdateServiciosDgv();
             }
         }
 
@@ -147,7 +153,7 @@ namespace CFE_GestionRecibos.Empleado
             {
                 EnlaceCassandra link = new EnlaceCassandra();
                 Guid id_cl = (Guid)dgv_clientes.SelectedRows[0].Cells[4].Value;
-                if (link.EliminarCliente(id_cl))
+                if (link.EliminarCliente(id_cl, id))
                 {
                     MessageBox.Show("Cliente eliminado con éxito.", "Información");
                     UpdateClientesDgv();
@@ -166,7 +172,7 @@ namespace CFE_GestionRecibos.Empleado
             {
                 EnlaceCassandra link = new EnlaceCassandra();
                 Guid id_cli = (Guid)dgv_clientes.SelectedRows[0].Cells[4].Value;
-                Guid id_ser = (Guid)dgv_clientes.SelectedRows[0].Cells[4].Value;
+                Guid id_ser = (Guid)dgv_servicios.SelectedRows[0].Cells[3].Value;
                 if (link.EliminarServicio(id_cli, id_ser, id))
                 {
                     MessageBox.Show("Servicio eliminado con éxito.", "Información");
