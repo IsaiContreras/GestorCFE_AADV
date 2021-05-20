@@ -130,7 +130,7 @@ namespace CFE_GestionRecibos.Empleado
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo agregar el servicio.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        MessageBox.Show("No se pudo modificar el servicio.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         DialogResult = DialogResult.Cancel;
                         Close();
                     }

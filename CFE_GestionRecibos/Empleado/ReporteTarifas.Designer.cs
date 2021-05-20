@@ -56,6 +56,7 @@
             this.btn_buscar.TabIndex = 2;
             this.btn_buscar.Text = "Buscar";
             this.btn_buscar.UseVisualStyleBackColor = false;
+            this.btn_buscar.Click += new System.EventHandler(this.btn_buscar_Click);
             // 
             // dgv_reporte
             // 

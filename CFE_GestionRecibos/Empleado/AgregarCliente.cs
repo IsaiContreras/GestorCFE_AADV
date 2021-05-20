@@ -62,6 +62,12 @@ namespace CFE_GestionRecibos.Empleado
                 MessageBox.Show("Escriba su año de nacimiento.", "Información incompleta.", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return false;
             }
+            DateTime dt;
+            if (!DateTime.TryParse(string.Format("{0}-{1}-{2}", Convert.ToInt32(tbx_añonac.Text), Convert.ToInt32(cbx_mesnac.Text), Convert.ToInt32(cbx_dianac.Text)), out dt))
+            {
+                MessageBox.Show("La fecha ingresada no es válida.", "Información inválida", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return false;
+            }
             else if (!RegexUtilities.IsOnlyNumerics(tbx_añonac.Text))
             {
                 MessageBox.Show("El año no debe contener letras.", "Información inválida", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -69,11 +75,12 @@ namespace CFE_GestionRecibos.Empleado
             }
             if (tbx_calle.TextLength == 0)
             {
-
+                MessageBox.Show("Capture la calle de su domicilio.", "Información incompleta", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return false;
             }
             if (tbx_numext.TextLength == 0)
             {
-                MessageBox.Show("Llene el número externo.", "Información inválida", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("Llene el número externo.", "Información incompleta", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return false;
             }
             else if (!RegexUtilities.IsOnlyNumerics(tbx_numext.Text))
@@ -127,7 +134,7 @@ namespace CFE_GestionRecibos.Empleado
                 empUsername,
                 tbx_nombres.Text,
                 tbx_apellidos.Text,
-                new LocalDate(Convert.ToInt32(tbx_añonac.Text), Convert.ToInt32(cbx_mesnac.Text), Convert.ToInt32(cbx_dianac.Text)),
+                new LocalDate(dt.Year, dt.Month,dt.Day),
                 new Domicilio(tbx_calle.Text, tbx_numext.Text, tbx_numint.Text, tbx_col.Text, tbx_munic.Text, tbx_estado.Text, tbx_cp.Text),
                 tbx_curp.Text,
                 tbx_email.Text,

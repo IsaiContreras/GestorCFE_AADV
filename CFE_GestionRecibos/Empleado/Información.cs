@@ -12,7 +12,7 @@ namespace CFE_GestionRecibos.Empleado
 {
     public partial class Información : Form
     {
-        public int id = 001;
+        public Guid id;
 
         public Información()
         {

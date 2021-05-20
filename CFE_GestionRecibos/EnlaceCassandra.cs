@@ -337,7 +337,7 @@ namespace CFE_GestionRecibos
             }
         }
 
-        public long ExisteUsuario(string correo, char tipo)
+        private long ExisteUsuario(string correo, char tipo)
         {
             try
             {
@@ -556,8 +556,177 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
+        public ServicioClass DatosServicioPorMed(long med)
+        {
+            try
+            {
+                string qry = "select ID_Cliente, ID_Serv, Medidor, Tipo_serv, Domicilio from Servicio where Medidor = {0} allow filtering; ";
+                qry = string.Format(qry, med);
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                ServicioClass user = mapper.Single<ServicioClass>(qry);                return user;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public TarifaClass DatosTarifa(int year, sbyte month, bool tipo_serv)
+        {
+            try
+            {
+                string qry = "select Year, Month, Tipo_serv, Tar_basica, Tar_intermedia, Tar_excedente from Reporte_Tarifas where Year = {0} and Month = {1} and Tipo_serv = {2};";
+                qry = string.Format(qry, year, month, tipo_serv);
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                TarifaClass user = mapper.Single<TarifaClass>(qry);                return user;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public List<ConsumoClass> ListaConsumos(int year, sbyte month, bool tipo_serv)
+        {
+            try
+            {
+                string qry = "select Year, Month, Tipo_serv, Medidor, kW_totales, kW_basica, kW_intermedia, kW_excedente from Reporte_Consumos ";
+                qry += "where Year = {0} and Month = {1} and Tipo_serv = {2} allow filtering;";
+                qry = string.Format(qry, year, month, tipo_serv);
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<ConsumoClass> lista = mapper.Fetch<ConsumoClass>(qry);
 
-        public long ExisteServicio(long medidor, bool tipo)
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public List<ConsumoHist> Consumo_Historico(Guid id_serv, int year)
+        {
+            try
+            {
+                string qry = "select Year, Month, Medidor, Consumo_kW, Pago_total, Importe_Pago, Pendiente_Pago from Consumo_Historico ";
+                qry += "where ID_Serv = {0} and Year = {1} allow filtering;";
+                qry = string.Format(qry, id_serv, year);
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<ConsumoHist> lista = mapper.Fetch<ConsumoHist>(qry);
+
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public List<ConsumoClass> ReporteConsumos(int year)
+        {
+            try
+            {
+                string qry = "select Year, Month, Medidor, kW_basica, kW_intermedia, kW_excedente from Reporte_Consumos ";
+                qry += "where Year = {0} allow filtering;";
+                qry = string.Format(qry, year);
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<ConsumoClass> lista = mapper.Fetch<ConsumoClass>(qry);
+
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public List<TarifaClass> ReporteTarifas(int year)
+        {
+            try
+            {
+                string qry = "select Year, Month, Tar_basica, Tar_intermedia, Tar_excedente from Reporte_Tarifas ";
+                qry += "where Year = {0} allow filtering;";
+                qry = string.Format(qry, year);
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<TarifaClass> lista = mapper.Fetch<TarifaClass>(qry);
+
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        private long ExisteTarifa(int year, sbyte month, bool tipo)
+        {
+            try
+            {
+                string qry = "select count(*) from Reporte_Tarifas where Year = ? and Month = ? and Tipo_serv = ?;";
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                return mapper.Single<long>(qry, year, month, tipo);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return -1;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        private long ExisteConsumo(Guid id_serv, int year, sbyte month)
+        {
+            try
+            {
+                string qry = "select count(*) from Consumo where ID_Serv = ? and Year = ? and Month = ?;";
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                return mapper.Single<long>(qry, id_serv, year, month);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return -1;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        private long ExisteServicio(long medidor, bool tipo)
         {
             try
             {
@@ -824,214 +993,162 @@ namespace CFE_GestionRecibos
             }
         }
 
-        //public bool InsertEmpleado(EmpleadoClass emp)
-        //{
-        //    return true;
-        //}
+        public bool AgregarTarifa(TarifaClass tar)
+        {
+            try
+            {
+                string insert_tar = "update Reporte_Tarifas set Tar_basica = ?, Tar_intermedia = ?, Tar_excedente = ? ";
+                insert_tar += "where Year = ? and Month = ? and Tipo_serv = ?;";
+                conectar();
+                var insert = _session.Prepare(insert_tar);
+                var batch = new BatchStatement()
+                            .Add(insert.Bind(tar.tar_basica, tar.tar_intermedia, tar.tar_excedente, tar.year, tar.month, tar.tipo_serv));
+                _session.Execute(batch);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public bool AgregarConsumo(ConsumoClass cons)
+        {
+            try
+            {
+                ServicioClass ser = DatosServicioPorMed(cons.medidor);
+                if (ser == null)
+                {
+                    return false;
+                }
+                string insert_rep = "update Reporte_Consumos set kW_totales = ?, kW_basica = ?, kW_intermedia = ?, kW_excedente = ? ";
+                insert_rep += "where Year = ? and Month = ? and Tipo_serv = ? and Medidor = ?;";
+                string cons_hist = "update Consumo_Historico set Medidor = ?, Consumo_kW = ?, Pago_total = 0, Importe_Pago = 0, Pendiente_Pago = 0 ";
+                cons_hist += "where ID_Serv = ? and Year = ? and Month = ?;";
+                conectar();
+                var report = _session.Prepare(insert_rep);
+                var hist = _session.Prepare(cons_hist);
+                var batch = new BatchStatement()
+                            .Add(report.Bind(cons.kw_totales, cons.kw_basica, cons.kw_intermedia, cons.kw_excedente, cons.year, cons.month, ser.tipo_serv, cons.medidor))
+                            .Add(hist.Bind(cons.medidor, cons.kw_totales, ser.id_serv, cons.year, cons.month));
+                _session.Execute(batch);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
 
-        //public bool InsertUsers(users param)
-        //{
-        //    var Err = false; // SI no hay error
-        //    try
-        //    {
-        //        conectar();
-        //        var fecha = param.f_nac.ToString("yyyy-MM-dd");
-        //        var id = new Guid();
-        //        id = Guid.NewGuid();
-
-        //        var query = "BEGIN BATCH ";
-        //        var query1 = "insert into users(id, name, email, f_nac) values({0}, '{1}', '{2}', '{3}'); ";
-        //        query1 = string.Format(query1, id, param.name, param.email, fecha);
-        //        var query2 = "insert into users2(id, name, email) values({0}, '{1}', '{2}'); ";
-        //        query2 = string.Format(query2, id, param.name, param.email);
-        //        query = query + query1 + query2 + " APPLY BATCH;";
-
-        //        _session.Execute(query);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        MessageBox.Show(e.Message);
-        //        Err = true;
-        //        throw e;
-        //    }
-        //    finally
-        //    {
-        //        // desconectar o cerrar la conexión
-        //        desconectar();
-
-        //    }
-        //    return Err;
-        //}
-
-        //public bool InsertClientes(clientes param)
-        //{
-        //    var Err = false; // SI no hay error
-        //    try
-        //    {
-        //        conectar();
-
-        //        var query1 = "insert into clientes(user_id, first_name, last_name) values('{0}', '{1}', '{2}'); ";
-        //        query1 = string.Format(query1, param.user_id, param.first_name, param.last_name);
-
-        //        _session.Execute(query1);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        MessageBox.Show(e.Message);
-        //        Err = true;
-        //        throw e;
-        //    }
-        //    finally
-        //    {
-        //        // desconectar o cerrar la conexión
-        //        desconectar();
-
-        //    }
-        //    return Err;
-        //}
-
-        //public bool UpdateClientes(clientes param, int accion)
-        //{
-        //    var Err = false; // SI no hay error
-        //    var oper = "+";
-        //    if(accion == 0) { oper = "-"; }
-        //    try
-        //    {
-        //        conectar();
-
-        //        var query1 = "update clientes ";
-        //        query1 += "set ";
-        //        query1 += "    first_name = '{1}', ";
-        //        query1 += "    last_name = '{2}', ";
-        //        query1 += "    emails = emails " + oper +" ['{3}'] ";
-        //        query1 += " where user_id =  '{0}' ";
-        //        query1 += " IF EXISTS; ";
-        //        query1 = string.Format(query1, param.user_id, param.first_name, param.last_name, param.emails);
-
-        //        _session.Execute(query1);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        MessageBox.Show(e.Message);
-        //        Err = true;
-        //        throw e;
-        //    }
-        //    finally
-        //    {
-        //        // desconectar o cerrar la conexión
-        //        desconectar();
-
-        //    }
-        //    return Err;
-        //}
-
-        //public List<clientes1> Get_Clientes(string user_id)
-        //{
-        //    string query = "select user_id, first_name, last_name, emails ";
-        //    query += "from clientes ";
-        //    query += "where user_id = '{0}'; ";
-        //    query = string.Format(query, user_id);
-        //    conectar();
-
-        //    IMapper mapper = new Mapper(_session);
-        //    IEnumerable<clientes1> ctes = mapper.Fetch<clientes1>(query);
-
-        //    desconectar();
-        //    return ctes.ToList();
-
-        //}
-
-        //public void InsertaDatos(int id, string dato)
-        //{
-        //    try
-        //    {
-        //        conectar();
-
-        //        string qry = "insert into ejemplo(campo1, campo2) values(";
-        //        qry = qry + id.ToString();
-        //        qry = qry + ",'";
-        //        qry = qry + dato;
-        //        qry = qry + "');";
-
-
-        //        string query = "insert into ejemplo(campo1, campo2) values({0}, '{1}');";
-        //        qry = string.Format(query, id, dato);
-
-        //        _session.Execute(qry);
-        //    }
-        //    catch(Exception e)
-        //    {
-        //        throw e;   
-        //    }
-        //    finally
-        //    {
-        //        // desconectar o cerrar la conexión
-        //        desconectar();
-        //    }
-        //}
-
-        //public IEnumerable<Ejemplo> Get_One(int dato)
-        //{
-        //    string query = "SELECT campo1, campo2 FROM ejemplo WHERE campo1 = ?;";
-        //    conectar();
-        //    IMapper mapper = new Mapper(_session);
-        //    IEnumerable<Ejemplo> users = mapper.Fetch<Ejemplo>(query, dato);
-
-        //    desconectar();
-        //    return users.ToList();
-        //}
-
-        //public List<Ejemplo> Get_All()
-        //{
-        //    string query = "SELECT campo1, campo2 FROM ejemplo;";
-        //    conectar();
-
-        //    IMapper mapper = new Mapper(_session);
-        //    IEnumerable<Ejemplo> users = mapper.Fetch<Ejemplo>(query);
-
-        //    desconectar();
-        //    return users.ToList();
-
-        //}
-
-        // Ejemplo de leer row x row
-        //public void GetOne()
-        //{
-        //    conectar();
-
-        //    string query ="SELECT campo1, campo2 FROM ejemplo;";
-
-        //    // Execute a query on a connection synchronously 
-        //    var rs = _session.Execute(query);
-
-        //    // Iterate through the RowSet 
-        //    foreach (var row in rs)
-        //    {
-        //        var value = row.GetValue<int>("campo1");
-        //        // Do something with the value 
-        //        var texto = row.GetValue<string>("campo2");
-        //        // Do something with the value 
-
-        //        MessageBox.Show(texto, value.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-        //        /*
-        //        RowSet rsUsers = session.Execute(qry);
-
-        //        ////////////////////////////////////////////////
-        //        var users = new List<UserModel>();
-        //        foreach (var userRow in rsUsers)
-        //        {
-        //            //users.Add(ReflectionTools.GetSingleEntryDynamicFromReader<UserModel>(userRow));
-        //        }
-
-        //        foreach (UserModel user in users)
-        //        {
-        //            Console.WriteLine("{0} {1} {2} {3} {4}", user.Id, user.FirstName, user.LastName, user.Country, user.IsActive);
-        //        }
-        //        */
-
-        //    }
-        //}
-
+        public decimal PrevRecibo(Guid id_serv, int year, sbyte month)
+        {
+            try
+            {
+                string search = "select Pendiente_Pago from Recibos where ID_Serv = ? and Year = ? and Month = ? allow filtering;";
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                return mapper.Single<decimal>(search, id_serv, year, month);
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public bool GenerarRecibos(Guid id_emp, string emp_name, int year, sbyte month, bool tipo_serv)
+        {
+            try
+            {
+                TarifaClass tarifa = DatosTarifa(year, month, tipo_serv);
+                if (tarifa == null) return false;
+                List<ConsumoClass> consumos = ListaConsumos(year, month, tipo_serv);
+                List<ReciboClass> recibos = new List<ReciboClass>();
+                DateTime vencimiento = DateTime.Today;
+                vencimiento = vencimiento.AddDays(10);
+                decimal IVA = Convert.ToDecimal(ConfigurationManager.AppSettings["IVA"].ToString());
+                int prevyear = 0;
+                sbyte prevmonth = 0;
+                if (month == 1)
+                {
+                    prevyear = year -1;
+                    prevmonth = 12;
+                }
+                else
+                {
+                    prevyear = year;
+                    prevmonth = Convert.ToSByte(month - 1);
+                }
+                foreach (ConsumoClass cons in consumos)
+                {
+                    Guid recibo_gen = Guid.NewGuid();
+                    ReciboClass r = new ReciboClass();
+                    ServicioClass serv = DatosServicioPorMed(cons.medidor);
+                    r.id_ser = serv.id_serv;
+                    r.id_rec = recibo_gen;
+                    r.year = year;
+                    r.month = month;
+                    r.tipo_ser = tipo_serv;
+                    r.medidor = cons.medidor;
+                    r.domicilio = serv.domicilio;
+                    r.fec_venc = new LocalDate(vencimiento.Year, vencimiento.Month, vencimiento.Day);
+                    r.consumo_basico = cons.kw_basica;
+                    r.consumo_intermedio = cons.kw_intermedia;
+                    r.consumo_excedente = cons.kw_excedente;
+                    r.consumo_total = cons.kw_totales;
+                    r.precio_basico = tarifa.tar_basica * cons.kw_basica;
+                    r.precio_intermedio = tarifa.tar_intermedia * cons.kw_intermedia;
+                    r.precio_excedente = tarifa.tar_excedente * cons.kw_excedente;
+                    r.precio_total = r.precio_basico + r.precio_intermedio + r.precio_excedente;
+                    r.cargo_iva = r.precio_total * IVA;
+                    r.prev_pendiente = PrevRecibo(serv.id_serv, prevyear, prevmonth);
+                    r.pago_total = r.precio_total + r.cargo_iva + r.prev_pendiente;
+                    r.importe_pago = 0;
+                    r.pendiente_pago = 0;
+                    r.pagado = false;
+                    recibos.Add(r);
+                }
+                PreparedStatement insertqry;
+                var batch = new BatchStatement();
+                conectar();
+                foreach(ReciboClass reg in recibos)
+                {
+                    string qry = "update Recibos set Year = ?, Month = ?, Tipo_serv = ?, Medidor = ?, Domicilio = ?, Fecha_venci = ?, ";
+                    qry += "Consumo_basico = ?, Consumo_intermedio = ?, Consumo_excedente = ?, Consumo_total = ?, ";
+                    qry += "Precio_basico = ?, Precio_intermedio = ?, Precio_excedente = ?, Precio_total = ?, ";
+                    qry += "Cargo_IVA = ?, Pago_total = ?, Importe_Pago = ?, Pendiente_Pago = ?, Prev_pendiente = ?, Pagado = ? ";
+                    qry += "where ID_Serv = ? and ID_Rec = ?;";
+                    insertqry = _session.Prepare(qry);
+                    batch.Add(insertqry.Bind(
+                                reg.year, reg.month, reg.tipo_ser, reg.medidor, reg.domicilio, reg.fec_venc,
+                                reg.consumo_basico, reg.consumo_intermedio, reg.consumo_excedente, reg.consumo_total,
+                                reg.precio_basico, reg.precio_intermedio, reg.precio_excedente, reg.precio_total,
+                                reg.cargo_iva, reg.pago_total, reg.importe_pago, reg.pendiente_pago, reg.prev_pendiente, reg.pagado,
+                                reg.id_ser, reg.id_rec
+                              ));
+                }
+                _session.Execute(batch);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally{
+                desconectar();
+            }
+        }
     }
 }

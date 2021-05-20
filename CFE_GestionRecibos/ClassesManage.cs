@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 using Cassandra;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -149,26 +150,39 @@ namespace CFE_GestionRecibos
         public Guid id_serv { get; set; }
     }
 
-    public class RecibosClass
+    public class ReciboClass
     {
+        public ReciboClass()
+        {
+
+        }
+        public void get_domic_parts()
+        {
+            domic = new Domicilio(domicilio);
+        }
         public Guid id_ser;
         public Guid id_rec;
-        public string nombre_cl;
         public int year;
-        public byte month;
-        public string domicilio_cl;
+        public sbyte month;
         public bool tipo_ser;
         public long medidor;
-        public DateTime fec_venc;
         public string domicilio;
+        public LocalDate fec_venc;
+        public int consumo_basico;
+        public int consumo_intermedio;
+        public int consumo_excedente;
+        public int consumo_total;
+        public decimal precio_basico;
+        public decimal precio_intermedio;
+        public decimal precio_excedente;
+        public decimal precio_total;
+        public decimal cargo_iva;
+        public decimal pago_total;
+        public decimal importe_pago;
+        public decimal pendiente_pago;
+        public decimal prev_pendiente;
         public bool pagado;
-        public double pago_total;
-        public double cargo_iva;
-        public double precio_bas;
-        public double precio_inter;
-        public double precio_exced;
-        public double importe_pago;
-        public double pendiente_pago;
+        public Domicilio domic;
     }
 
     public class Telefono_cl
@@ -183,6 +197,98 @@ namespace CFE_GestionRecibos
         public Guid id;
         public string telefono;
         public long id_cl;
+    }
+
+    public class TarifaClass
+    {
+        public TarifaClass()
+        {
+
+        }
+        public TarifaClass(int año, sbyte mes, bool tipo, decimal tar_b, decimal tar_i, decimal tar_e)
+        {
+            year = año;
+            month = mes;
+            tipo_serv = tipo;
+            tar_basica = tar_b;
+            tar_intermedia = tar_i;
+            tar_excedente = tar_e;
+        }
+        public int year { get; set; }
+        public sbyte month { get; set; }
+        public bool tipo_serv { get; set; }
+        public decimal tar_basica { get; set; }
+        public decimal tar_intermedia { get; set; }
+        public decimal tar_excedente { get; set; }
+    }
+
+    public class ConsumoClass
+    {
+        public ConsumoClass()
+        {
+
+        }
+        public ConsumoClass(int año, sbyte mes, long med, int kw_tot)
+        {
+            year = año;
+            month = mes;
+            medidor = med;
+            kw_totales = kw_tot;
+
+            get_cons_parts();
+        }
+        private void get_cons_parts()
+        {
+            int kW_b = Convert.ToInt32(ConfigurationManager.AppSettings["kW_Basico"].ToString());
+            int kW_i = Convert.ToInt32(ConfigurationManager.AppSettings["kW_Inter"].ToString());
+            int kW_t = kw_totales;
+            int kW_bas = 0, kW_inter = 0, kW_exced = 0;
+            if (kw_totales > kW_b)
+            {
+                kW_t -= kW_b;
+                kW_bas = kW_b;
+                if (kw_totales > kW_i + kW_b)
+                {
+                    kW_t -= kW_i;
+                    kW_inter = kW_i;
+                    kW_exced = kW_t;
+                }
+                else
+                {
+                    kW_inter = kW_t;
+                }
+            }
+            else
+            {
+                kW_bas = kW_t;
+            }
+            kw_basica = kW_bas;
+            kw_intermedia = kW_inter;
+            kw_excedente = kW_exced;
+        }
+        public int year { get; set; }
+        public sbyte month { get; set; }
+        public long medidor { get; set; }
+        public bool tipo_serv { get; set; }
+        public int kw_totales { get; set; }
+        public int kw_basica { get; set; }
+        public int kw_intermedia { get; set; }
+        public int kw_excedente { get; set; }
+    }
+
+    public class ConsumoHist
+    {
+        public ConsumoHist()
+        {
+
+        }
+        public int year { get; set; }
+        public sbyte month { get; set; }
+        public long medidor { get; set; }
+        public int consumo_kw { get; set; }
+        public decimal pago_total { get; set; }
+        public decimal importe_pago { get; set; }
+        public decimal pendiente_pago { get; set; }
     }
 
     public class Domicilio

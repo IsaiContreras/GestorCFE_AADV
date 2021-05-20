@@ -30,6 +30,25 @@ namespace CFE_GestionRecibos.Empleado
             dgv_servicios.Columns.Clear();
             dgv_servicios.Rows.Clear();
             dgv_clientes.DataSource = link.LlenarClientes();
+            if (dgv_clientes.Rows.Count > 0)
+            {
+                btn_modclient.Enabled = true;
+                btn_elimclient.Enabled = true;
+                btn_infocliente.Enabled = true;
+                btn_agrserv.Enabled = true;
+                btn_showserv.Enabled = true;
+            }
+            else
+            {
+                btn_modclient.Enabled = false;
+                btn_elimclient.Enabled = false;
+                btn_infocliente.Enabled = false;
+                btn_agrserv.Enabled = false;
+                btn_showserv.Enabled = false;
+                btn_modserv.Enabled = false;
+                btn_elimserv.Enabled = false;
+                btn_conshist.Enabled = false;
+            }
         }
 
         private void UpdateServiciosDgv()//ACTUALIZA DGV SERVICIOS
@@ -90,7 +109,7 @@ namespace CFE_GestionRecibos.Empleado
         private void btn_infoempl_Click(object sender, EventArgs e)
         {
             Información dialogInfo = new Información();
-            dialogInfo.id = Convert.ToInt32(id);
+            dialogInfo.id = id;
             dialogInfo.ShowDialog();
         }
 
@@ -143,6 +162,7 @@ namespace CFE_GestionRecibos.Empleado
         private void btn_conshist_Click(object sender, EventArgs e)
         {
             ConsumoHistórico dialogCH = new ConsumoHistórico();
+            dialogCH.id_serv = (Guid)dgv_servicios.SelectedRows[0].Cells[3].Value;
             dialogCH.ShowDialog();
         }
 
@@ -202,7 +222,9 @@ namespace CFE_GestionRecibos.Empleado
         private void btn_genrec_Click(object sender, EventArgs e)
         {
             GeneradorRecibo dialogGR = new GeneradorRecibo();
-            dialogGR.Show();
+            dialogGR.id_emp = id;
+            dialogGR.username = username;
+            dialogGR.ShowDialog();
         }
 
         private void btn_regtaf_Click(object sender, EventArgs e)

@@ -60,6 +60,12 @@ namespace CFE_GestionRecibos.Administrador
                 MessageBox.Show("Escriba su año de nacimiento.", "Información incompleta", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return false;
             }
+            DateTime dt;
+            if (!DateTime.TryParse(string.Format("{0}-{1}-{2}", Convert.ToInt32(tbx_añonac.Text), Convert.ToInt32(cbx_mesnac.Text), Convert.ToInt32(cbx_dianac.Text)), out dt))
+            {
+                MessageBox.Show("La fecha ingresada no es válida.", "Información inválida", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return false;
+            }
             else if (!RegexUtilities.IsOnlyNumerics(tbx_añonac.Text))
             {
                 MessageBox.Show("El año no debe contener letras.", "Información inválida", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -89,7 +95,7 @@ namespace CFE_GestionRecibos.Administrador
             emp = new EmpleadoClass(
                 tbx_nombres.Text,
                 tbx_apellidos.Text,
-                new LocalDate(Convert.ToInt32(tbx_añonac.Text), Convert.ToInt32(cbx_mesnac.Text), Convert.ToInt32(cbx_dianac.Text)),
+                new LocalDate(dt.Year, dt.Month, dt.Day),
                 tbx_rfc.Text,
                 tbx_curp.Text,
                 tbx_email.Text,
@@ -131,13 +137,13 @@ namespace CFE_GestionRecibos.Administrador
                     EnlaceCassandra link = new EnlaceCassandra();
                     if (link.ModificarEmpleado(emp, empMod))
                     {
-                        MessageBox.Show("Empleado agregado con éxito.", "Aviso");
+                        MessageBox.Show("Empleado modificado con éxito.", "Aviso");
                         DialogResult = DialogResult.OK;
                         Close();
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo agregar el empleado. Quizá el correo electrónico ya esté usado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        MessageBox.Show("No se pudo modificar el empleado. Quizá el correo electrónico ya esté usado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         DialogResult = DialogResult.Cancel;
                         Close();
                     }

@@ -12,7 +12,7 @@ namespace CFE_GestionRecibos.Empleado
 {
     public partial class Tarifa : Form
     {
-        
+        TarifaClass tarifa;
 
         public Tarifa()
         {
@@ -67,6 +67,15 @@ namespace CFE_GestionRecibos.Empleado
                 return false;
             }
 
+            tarifa = new TarifaClass(
+                Convert.ToInt32(tbx_año.Text),
+                Convert.ToSByte(cbx_mes.Text),
+                Convert.ToBoolean(cbx_tiposerv.SelectedIndex),
+                Convert.ToDecimal(tbx_tarbas.Text),
+                Convert.ToDecimal(tbx_tarint.Text),
+                Convert.ToDecimal(tbx_tarexc.Text)
+            );
+
             return true;
         }
 
@@ -84,8 +93,17 @@ namespace CFE_GestionRecibos.Empleado
         {
             if (validar())
             {
-                MessageBox.Show("Tarifa capturada.", "Información");
-                Close();
+                EnlaceCassandra link = new EnlaceCassandra();
+                if (link.AgregarTarifa(tarifa))
+                {
+                    MessageBox.Show("Tarifa capturada.", "Información");
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo registrar la tarifa.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    Close();
+                }
             }
         }
     }

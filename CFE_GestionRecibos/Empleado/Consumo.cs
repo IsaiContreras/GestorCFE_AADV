@@ -12,6 +12,8 @@ namespace CFE_GestionRecibos.Empleado
 {
     public partial class Consumo : Form
     {
+        ConsumoClass consumo;
+
         public Consumo()
         {
             InitializeComponent();
@@ -55,6 +57,12 @@ namespace CFE_GestionRecibos.Empleado
                 return false;
             }
 
+            consumo = new ConsumoClass(
+                Convert.ToInt32(tbx_año.Text),    
+                Convert.ToSByte(cbx_mes.Text),
+                Convert.ToInt64(tbx_medidor.Text),
+                Convert.ToInt32(tbx_consumo.Text)
+            );
 
             return true;
         }
@@ -68,8 +76,17 @@ namespace CFE_GestionRecibos.Empleado
         {
             if (validar())
             {
-                MessageBox.Show("Consumo capturado.", "Información");
-                Close();
+                EnlaceCassandra link = new EnlaceCassandra();
+                if (link.AgregarConsumo(consumo))
+                {
+                    MessageBox.Show("Consumo capturado.", "Información");
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo registrar el consumo.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    Close();
+                }
             }
         }
     }

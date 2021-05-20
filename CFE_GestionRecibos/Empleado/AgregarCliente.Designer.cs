@@ -467,6 +467,7 @@
             // tbx_curp
             // 
             this.tbx_curp.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_curp.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tbx_curp.ForeColor = System.Drawing.SystemColors.Control;
             this.tbx_curp.Location = new System.Drawing.Point(301, 209);
             this.tbx_curp.MaxLength = 18;

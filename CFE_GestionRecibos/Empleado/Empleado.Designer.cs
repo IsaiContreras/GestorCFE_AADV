@@ -38,7 +38,7 @@
             this.btn_modclient = new System.Windows.Forms.Button();
             this.btn_elimclient = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.st_agrserv = new System.Windows.Forms.Button();
+            this.btn_agrserv = new System.Windows.Forms.Button();
             this.btn_modserv = new System.Windows.Forms.Button();
             this.btn_elimserv = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -149,6 +149,7 @@
             // btn_modclient
             // 
             this.btn_modclient.BackColor = System.Drawing.Color.DimGray;
+            this.btn_modclient.Enabled = false;
             this.btn_modclient.ForeColor = System.Drawing.SystemColors.Control;
             this.btn_modclient.Location = new System.Drawing.Point(326, 95);
             this.btn_modclient.Name = "btn_modclient";
@@ -161,6 +162,7 @@
             // btn_elimclient
             // 
             this.btn_elimclient.BackColor = System.Drawing.Color.DimGray;
+            this.btn_elimclient.Enabled = false;
             this.btn_elimclient.ForeColor = System.Drawing.SystemColors.Control;
             this.btn_elimclient.Location = new System.Drawing.Point(513, 95);
             this.btn_elimclient.Name = "btn_elimclient";
@@ -181,17 +183,18 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Gestión de clientes";
             // 
-            // st_agrserv
+            // btn_agrserv
             // 
-            this.st_agrserv.BackColor = System.Drawing.Color.DimGray;
-            this.st_agrserv.ForeColor = System.Drawing.SystemColors.Control;
-            this.st_agrserv.Location = new System.Drawing.Point(712, 95);
-            this.st_agrserv.Name = "st_agrserv";
-            this.st_agrserv.Size = new System.Drawing.Size(201, 29);
-            this.st_agrserv.TabIndex = 8;
-            this.st_agrserv.Text = "Agregar";
-            this.st_agrserv.UseVisualStyleBackColor = false;
-            this.st_agrserv.Click += new System.EventHandler(this.st_agrserv_Click);
+            this.btn_agrserv.BackColor = System.Drawing.Color.DimGray;
+            this.btn_agrserv.Enabled = false;
+            this.btn_agrserv.ForeColor = System.Drawing.SystemColors.Control;
+            this.btn_agrserv.Location = new System.Drawing.Point(712, 95);
+            this.btn_agrserv.Name = "btn_agrserv";
+            this.btn_agrserv.Size = new System.Drawing.Size(201, 29);
+            this.btn_agrserv.TabIndex = 8;
+            this.btn_agrserv.Text = "Agregar";
+            this.btn_agrserv.UseVisualStyleBackColor = false;
+            this.btn_agrserv.Click += new System.EventHandler(this.st_agrserv_Click);
             // 
             // btn_modserv
             // 
@@ -318,6 +321,7 @@
             // btn_infocliente
             // 
             this.btn_infocliente.BackColor = System.Drawing.Color.DimGray;
+            this.btn_infocliente.Enabled = false;
             this.btn_infocliente.ForeColor = System.Drawing.SystemColors.Control;
             this.btn_infocliente.Location = new System.Drawing.Point(513, 130);
             this.btn_infocliente.Name = "btn_infocliente";
@@ -342,6 +346,7 @@
             // btn_showserv
             // 
             this.btn_showserv.BackColor = System.Drawing.Color.DimGray;
+            this.btn_showserv.Enabled = false;
             this.btn_showserv.ForeColor = System.Drawing.SystemColors.Control;
             this.btn_showserv.Location = new System.Drawing.Point(712, 130);
             this.btn_showserv.Name = "btn_showserv";
@@ -370,7 +375,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_elimserv);
             this.Controls.Add(this.btn_modserv);
-            this.Controls.Add(this.st_agrserv);
+            this.Controls.Add(this.btn_agrserv);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_elimclient);
             this.Controls.Add(this.btn_modclient);
@@ -407,7 +412,7 @@
         private System.Windows.Forms.Button btn_modclient;
         private System.Windows.Forms.Button btn_elimclient;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button st_agrserv;
+        private System.Windows.Forms.Button btn_agrserv;
         private System.Windows.Forms.Button btn_modserv;
         private System.Windows.Forms.Button btn_elimserv;
         private System.Windows.Forms.Label label2;

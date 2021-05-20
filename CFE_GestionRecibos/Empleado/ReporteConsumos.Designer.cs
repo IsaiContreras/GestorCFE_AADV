@@ -50,11 +50,19 @@
             // 
             // dgv_reporte
             // 
+            this.dgv_reporte.AllowUserToAddRows = false;
+            this.dgv_reporte.AllowUserToDeleteRows = false;
+            this.dgv_reporte.AllowUserToResizeColumns = false;
+            this.dgv_reporte.AllowUserToResizeRows = false;
             this.dgv_reporte.BackgroundColor = System.Drawing.Color.DimGray;
             this.dgv_reporte.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_reporte.Location = new System.Drawing.Point(13, 72);
+            this.dgv_reporte.MultiSelect = false;
             this.dgv_reporte.Name = "dgv_reporte";
+            this.dgv_reporte.ReadOnly = true;
+            this.dgv_reporte.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgv_reporte.RowTemplate.Height = 24;
+            this.dgv_reporte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_reporte.Size = new System.Drawing.Size(526, 262);
             this.dgv_reporte.TabIndex = 3;
             // 
@@ -68,6 +76,7 @@
             this.btn_buscar.TabIndex = 2;
             this.btn_buscar.Text = "Buscar";
             this.btn_buscar.UseVisualStyleBackColor = false;
+            this.btn_buscar.Click += new System.EventHandler(this.btn_buscar_Click);
             // 
             // tbx_año
             // 
@@ -83,7 +92,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.Control;
-            this.label1.Location = new System.Drawing.Point(12, 38);
+            this.label1.Location = new System.Drawing.Point(12, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 17);
             this.label1.TabIndex = 0;

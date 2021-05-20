@@ -67,7 +67,7 @@
             this.tbx_cp.BackColor = System.Drawing.Color.DimGray;
             this.tbx_cp.ForeColor = System.Drawing.SystemColors.Control;
             this.tbx_cp.Location = new System.Drawing.Point(464, 137);
-            this.tbx_cp.MaxLength = 10;
+            this.tbx_cp.MaxLength = 5;
             this.tbx_cp.Name = "tbx_cp";
             this.tbx_cp.Size = new System.Drawing.Size(97, 22);
             this.tbx_cp.TabIndex = 9;

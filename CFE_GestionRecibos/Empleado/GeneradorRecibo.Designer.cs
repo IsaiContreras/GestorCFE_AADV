@@ -56,18 +56,18 @@
             this.cbx_mes.ForeColor = System.Drawing.SystemColors.Control;
             this.cbx_mes.FormattingEnabled = true;
             this.cbx_mes.Items.AddRange(new object[] {
-            "Enero",
-            "Febrero",
-            "Marzo",
-            "Abril",
-            "Mayo",
-            "Junio",
-            "Julio",
-            "Agosto",
-            "Septiembre",
-            "Octubre",
-            "Noviembre",
-            "Diciembre"});
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12"});
             this.cbx_mes.Location = new System.Drawing.Point(122, 33);
             this.cbx_mes.Name = "cbx_mes";
             this.cbx_mes.Size = new System.Drawing.Size(114, 24);
@@ -173,6 +173,7 @@
             this.MinimumSize = new System.Drawing.Size(445, 262);
             this.Name = "GeneradorRecibo";
             this.Text = "Generar recibo";
+            this.Load += new System.EventHandler(this.GeneradorRecibo_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
