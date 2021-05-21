@@ -109,9 +109,9 @@
             // 
             this.btn_ok.BackColor = System.Drawing.Color.DimGray;
             this.btn_ok.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_ok.Location = new System.Drawing.Point(301, 337);
+            this.btn_ok.Location = new System.Drawing.Point(304, 328);
             this.btn_ok.Name = "btn_ok";
-            this.btn_ok.Size = new System.Drawing.Size(112, 28);
+            this.btn_ok.Size = new System.Drawing.Size(306, 28);
             this.btn_ok.TabIndex = 1;
             this.btn_ok.Text = "Aceptar";
             this.btn_ok.UseVisualStyleBackColor = false;
@@ -143,7 +143,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(425, 377);
+            this.ClientSize = new System.Drawing.Size(622, 377);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lbx_telefonos);
             this.Controls.Add(this.btn_ok);
@@ -155,11 +155,12 @@
             this.Controls.Add(this.st_identity);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(443, 424);
+            this.MaximumSize = new System.Drawing.Size(640, 424);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(443, 324);
+            this.MinimumSize = new System.Drawing.Size(640, 424);
             this.Name = "Información";
             this.Text = "Información de usuario";
+            this.Load += new System.EventHandler(this.Información_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

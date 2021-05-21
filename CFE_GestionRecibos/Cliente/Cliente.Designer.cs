@@ -63,11 +63,20 @@
             // 
             // dgv_recibos
             // 
+            this.dgv_recibos.AllowUserToAddRows = false;
+            this.dgv_recibos.AllowUserToDeleteRows = false;
+            this.dgv_recibos.AllowUserToResizeColumns = false;
+            this.dgv_recibos.AllowUserToResizeRows = false;
             this.dgv_recibos.BackgroundColor = System.Drawing.Color.DimGray;
             this.dgv_recibos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_recibos.GridColor = System.Drawing.Color.Black;
             this.dgv_recibos.Location = new System.Drawing.Point(13, 130);
+            this.dgv_recibos.MultiSelect = false;
             this.dgv_recibos.Name = "dgv_recibos";
+            this.dgv_recibos.ReadOnly = true;
+            this.dgv_recibos.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgv_recibos.RowTemplate.Height = 24;
+            this.dgv_recibos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_recibos.Size = new System.Drawing.Size(600, 361);
             this.dgv_recibos.TabIndex = 2;
             // 
@@ -81,6 +90,7 @@
             this.cbx_servicios.Name = "cbx_servicios";
             this.cbx_servicios.Size = new System.Drawing.Size(601, 24);
             this.cbx_servicios.TabIndex = 1;
+            this.cbx_servicios.SelectedIndexChanged += new System.EventHandler(this.cbx_servicios_SelectedIndexChanged);
             // 
             // btn_recibo
             // 

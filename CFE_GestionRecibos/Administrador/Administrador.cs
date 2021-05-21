@@ -53,7 +53,7 @@ namespace CFE_GestionRecibos.Administrador
         private void btn_regact_Click(object sender, EventArgs e)
         {
             Registro dialogC = new Registro();
-            //dialogC.id_emp = (Guid)dgv_empleados.SelectedRows[0].Cells[?].Value;
+            dialogC.id = (Guid)dgv_empleados.SelectedRows[0].Cells[3].Value;
             dialogC.ShowDialog();
         }
 
@@ -86,7 +86,7 @@ namespace CFE_GestionRecibos.Administrador
         private void btn_info_Click(object sender, EventArgs e)
         {
             Empleado.Información dialogInfo = new Empleado.Información();
-            //dialogInfo.id_emp = (Guid)dgv_empleados.SelectedRows[0].Cells[?].Value;
+            dialogInfo.id = (Guid)dgv_empleados.SelectedRows[0].Cells[3].Value;
             dialogInfo.ShowDialog();
         }
 

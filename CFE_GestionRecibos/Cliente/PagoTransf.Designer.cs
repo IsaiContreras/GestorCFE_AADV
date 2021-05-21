@@ -218,6 +218,7 @@
             this.MinimumSize = new System.Drawing.Size(492, 299);
             this.Name = "PagoTransf";
             this.Text = "Pago por transferencia";
+            this.Load += new System.EventHandler(this.PagoTransf_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

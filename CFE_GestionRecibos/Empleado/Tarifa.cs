@@ -14,6 +14,9 @@ namespace CFE_GestionRecibos.Empleado
     {
         TarifaClass tarifa;
 
+        public Guid id_emp;
+        public string username;
+
         public Tarifa()
         {
             InitializeComponent();
@@ -94,7 +97,7 @@ namespace CFE_GestionRecibos.Empleado
             if (validar())
             {
                 EnlaceCassandra link = new EnlaceCassandra();
-                if (link.AgregarTarifa(tarifa))
+                if (link.AgregarTarifa(tarifa, id_emp, username))
                 {
                     MessageBox.Show("Tarifa capturada.", "Información");
                     Close();

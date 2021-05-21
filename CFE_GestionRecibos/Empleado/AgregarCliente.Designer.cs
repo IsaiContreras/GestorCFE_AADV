@@ -65,6 +65,7 @@
             this.tbx_curp = new System.Windows.Forms.TextBox();
             this.tbx_col = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
+            this.tbx_telefono = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label6
@@ -232,7 +233,7 @@
             this.tbx_calle.MaxLength = 30;
             this.tbx_calle.Name = "tbx_calle";
             this.tbx_calle.Size = new System.Drawing.Size(113, 22);
-            this.tbx_calle.TabIndex = 8;
+            this.tbx_calle.TabIndex = 9;
             // 
             // tbx_numint
             // 
@@ -242,7 +243,7 @@
             this.tbx_numint.MaxLength = 10;
             this.tbx_numint.Name = "tbx_numint";
             this.tbx_numint.Size = new System.Drawing.Size(67, 22);
-            this.tbx_numint.TabIndex = 10;
+            this.tbx_numint.TabIndex = 11;
             // 
             // tbx_numext
             // 
@@ -252,7 +253,7 @@
             this.tbx_numext.MaxLength = 10;
             this.tbx_numext.Name = "tbx_numext";
             this.tbx_numext.Size = new System.Drawing.Size(68, 22);
-            this.tbx_numext.TabIndex = 9;
+            this.tbx_numext.TabIndex = 10;
             // 
             // label7
             // 
@@ -292,7 +293,7 @@
             this.tbx_estado.MaxLength = 30;
             this.tbx_estado.Name = "tbx_estado";
             this.tbx_estado.Size = new System.Drawing.Size(130, 22);
-            this.tbx_estado.TabIndex = 13;
+            this.tbx_estado.TabIndex = 14;
             // 
             // tbx_munic
             // 
@@ -302,7 +303,7 @@
             this.tbx_munic.MaxLength = 30;
             this.tbx_munic.Name = "tbx_munic";
             this.tbx_munic.Size = new System.Drawing.Size(124, 22);
-            this.tbx_munic.TabIndex = 12;
+            this.tbx_munic.TabIndex = 13;
             // 
             // label10
             // 
@@ -332,7 +333,7 @@
             this.tbx_cp.MaxLength = 5;
             this.tbx_cp.Name = "tbx_cp";
             this.tbx_cp.Size = new System.Drawing.Size(97, 22);
-            this.tbx_cp.TabIndex = 14;
+            this.tbx_cp.TabIndex = 15;
             // 
             // label12
             // 
@@ -352,7 +353,7 @@
             this.tbx_email.MaxLength = 60;
             this.tbx_email.Name = "tbx_email";
             this.tbx_email.Size = new System.Drawing.Size(257, 22);
-            this.tbx_email.TabIndex = 16;
+            this.tbx_email.TabIndex = 17;
             // 
             // label13
             // 
@@ -373,7 +374,7 @@
             this.tbx_password.Name = "tbx_password";
             this.tbx_password.PasswordChar = '*';
             this.tbx_password.Size = new System.Drawing.Size(258, 22);
-            this.tbx_password.TabIndex = 17;
+            this.tbx_password.TabIndex = 18;
             // 
             // btn_cancel
             // 
@@ -382,7 +383,7 @@
             this.btn_cancel.Location = new System.Drawing.Point(443, 335);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(118, 26);
-            this.btn_cancel.TabIndex = 19;
+            this.btn_cancel.TabIndex = 20;
             this.btn_cancel.Text = "Cancelar";
             this.btn_cancel.UseVisualStyleBackColor = false;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
@@ -394,7 +395,7 @@
             this.btn_ok.Location = new System.Drawing.Point(313, 335);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(118, 26);
-            this.btn_ok.TabIndex = 18;
+            this.btn_ok.TabIndex = 19;
             this.btn_ok.Text = "Agregar";
             this.btn_ok.UseVisualStyleBackColor = false;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
@@ -415,7 +416,7 @@
             this.lbx_telefonos.ForeColor = System.Drawing.SystemColors.Control;
             this.lbx_telefonos.FormattingEnabled = true;
             this.lbx_telefonos.ItemHeight = 16;
-            this.lbx_telefonos.Location = new System.Drawing.Point(12, 205);
+            this.lbx_telefonos.Location = new System.Drawing.Point(12, 237);
             this.lbx_telefonos.Name = "lbx_telefonos";
             this.lbx_telefonos.Size = new System.Drawing.Size(257, 84);
             this.lbx_telefonos.TabIndex = 0;
@@ -434,10 +435,10 @@
             // 
             this.btn_addtel.BackColor = System.Drawing.Color.DimGray;
             this.btn_addtel.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_addtel.Location = new System.Drawing.Point(18, 295);
+            this.btn_addtel.Location = new System.Drawing.Point(204, 205);
             this.btn_addtel.Name = "btn_addtel";
             this.btn_addtel.Size = new System.Drawing.Size(30, 30);
-            this.btn_addtel.TabIndex = 6;
+            this.btn_addtel.TabIndex = 7;
             this.btn_addtel.Text = "+";
             this.btn_addtel.UseVisualStyleBackColor = false;
             this.btn_addtel.Click += new System.EventHandler(this.btn_addtel_Click);
@@ -446,10 +447,10 @@
             // 
             this.btn_deltel.BackColor = System.Drawing.Color.DimGray;
             this.btn_deltel.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_deltel.Location = new System.Drawing.Point(55, 295);
+            this.btn_deltel.Location = new System.Drawing.Point(240, 205);
             this.btn_deltel.Name = "btn_deltel";
             this.btn_deltel.Size = new System.Drawing.Size(30, 30);
-            this.btn_deltel.TabIndex = 7;
+            this.btn_deltel.TabIndex = 8;
             this.btn_deltel.Text = "-";
             this.btn_deltel.UseVisualStyleBackColor = false;
             this.btn_deltel.Click += new System.EventHandler(this.btn_deltel_Click);
@@ -473,7 +474,7 @@
             this.tbx_curp.MaxLength = 18;
             this.tbx_curp.Name = "tbx_curp";
             this.tbx_curp.Size = new System.Drawing.Size(260, 22);
-            this.tbx_curp.TabIndex = 15;
+            this.tbx_curp.TabIndex = 16;
             // 
             // tbx_col
             // 
@@ -483,7 +484,7 @@
             this.tbx_col.MaxLength = 30;
             this.tbx_col.Name = "tbx_col";
             this.tbx_col.Size = new System.Drawing.Size(260, 22);
-            this.tbx_col.TabIndex = 11;
+            this.tbx_col.TabIndex = 12;
             // 
             // label17
             // 
@@ -495,12 +496,23 @@
             this.label17.TabIndex = 21;
             this.label17.Text = "Colonia*";
             // 
+            // tbx_telefono
+            // 
+            this.tbx_telefono.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_telefono.ForeColor = System.Drawing.SystemColors.Control;
+            this.tbx_telefono.Location = new System.Drawing.Point(11, 209);
+            this.tbx_telefono.MaxLength = 10;
+            this.tbx_telefono.Name = "tbx_telefono";
+            this.tbx_telefono.Size = new System.Drawing.Size(187, 22);
+            this.tbx_telefono.TabIndex = 6;
+            // 
             // AgregarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(573, 373);
+            this.Controls.Add(this.tbx_telefono);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.tbx_col);
             this.Controls.Add(this.tbx_curp);
@@ -590,5 +602,6 @@
         private System.Windows.Forms.TextBox tbx_curp;
         private System.Windows.Forms.TextBox tbx_col;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox tbx_telefono;
     }
 }

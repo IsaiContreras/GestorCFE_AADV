@@ -41,12 +41,12 @@
             this.dgv_registro.AllowUserToResizeColumns = false;
             this.dgv_registro.AllowUserToResizeRows = false;
             this.dgv_registro.BackgroundColor = System.Drawing.Color.DimGray;
-            this.dgv_registro.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgv_registro.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_registro.Location = new System.Drawing.Point(12, 51);
             this.dgv_registro.MultiSelect = false;
             this.dgv_registro.Name = "dgv_registro";
             this.dgv_registro.ReadOnly = true;
-            this.dgv_registro.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgv_registro.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgv_registro.RowTemplate.Height = 24;
             this.dgv_registro.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_registro.Size = new System.Drawing.Size(596, 264);

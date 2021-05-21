@@ -53,6 +53,7 @@
             this.btn_addtel = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.lbx_telefonos = new System.Windows.Forms.ListBox();
+            this.tbx_telefono = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -217,7 +218,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.ForeColor = System.Drawing.SystemColors.Control;
-            this.label7.Location = new System.Drawing.Point(16, 207);
+            this.label7.Location = new System.Drawing.Point(16, 239);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(51, 17);
             this.label7.TabIndex = 0;
@@ -228,7 +229,7 @@
             this.tbx_curp.BackColor = System.Drawing.Color.DimGray;
             this.tbx_curp.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tbx_curp.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_curp.Location = new System.Drawing.Point(12, 227);
+            this.tbx_curp.Location = new System.Drawing.Point(13, 259);
             this.tbx_curp.MaxLength = 18;
             this.tbx_curp.Name = "tbx_curp";
             this.tbx_curp.Size = new System.Drawing.Size(258, 22);
@@ -303,7 +304,7 @@
             this.btn_ok.Location = new System.Drawing.Point(301, 304);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(157, 27);
-            this.btn_ok.TabIndex = 12;
+            this.btn_ok.TabIndex = 13;
             this.btn_ok.Text = "Agregar";
             this.btn_ok.UseVisualStyleBackColor = false;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
@@ -315,7 +316,7 @@
             this.btn_cancel.Location = new System.Drawing.Point(466, 304);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(95, 27);
-            this.btn_cancel.TabIndex = 13;
+            this.btn_cancel.TabIndex = 14;
             this.btn_cancel.Text = "Cancelar";
             this.btn_cancel.UseVisualStyleBackColor = false;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
@@ -324,10 +325,10 @@
             // 
             this.btn_deltel.BackColor = System.Drawing.Color.DimGray;
             this.btn_deltel.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_deltel.Location = new System.Drawing.Point(530, 255);
+            this.btn_deltel.Location = new System.Drawing.Point(528, 177);
             this.btn_deltel.Name = "btn_deltel";
             this.btn_deltel.Size = new System.Drawing.Size(30, 30);
-            this.btn_deltel.TabIndex = 11;
+            this.btn_deltel.TabIndex = 12;
             this.btn_deltel.Text = "-";
             this.btn_deltel.UseVisualStyleBackColor = false;
             this.btn_deltel.Click += new System.EventHandler(this.btn_deltel_Click);
@@ -336,10 +337,10 @@
             // 
             this.btn_addtel.BackColor = System.Drawing.Color.DimGray;
             this.btn_addtel.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_addtel.Location = new System.Drawing.Point(493, 255);
+            this.btn_addtel.Location = new System.Drawing.Point(492, 177);
             this.btn_addtel.Name = "btn_addtel";
             this.btn_addtel.Size = new System.Drawing.Size(30, 30);
-            this.btn_addtel.TabIndex = 10;
+            this.btn_addtel.TabIndex = 11;
             this.btn_addtel.Text = "+";
             this.btn_addtel.UseVisualStyleBackColor = false;
             this.btn_addtel.Click += new System.EventHandler(this.btn_addtel_Click);
@@ -348,7 +349,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.ForeColor = System.Drawing.SystemColors.Control;
-            this.label15.Location = new System.Drawing.Point(298, 161);
+            this.label15.Location = new System.Drawing.Point(301, 161);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(71, 17);
             this.label15.TabIndex = 0;
@@ -360,10 +361,20 @@
             this.lbx_telefonos.ForeColor = System.Drawing.SystemColors.Control;
             this.lbx_telefonos.FormattingEnabled = true;
             this.lbx_telefonos.ItemHeight = 16;
-            this.lbx_telefonos.Location = new System.Drawing.Point(300, 181);
+            this.lbx_telefonos.Location = new System.Drawing.Point(300, 213);
             this.lbx_telefonos.Name = "lbx_telefonos";
             this.lbx_telefonos.Size = new System.Drawing.Size(260, 68);
             this.lbx_telefonos.TabIndex = 0;
+            // 
+            // tbx_telefono
+            // 
+            this.tbx_telefono.BackColor = System.Drawing.Color.DimGray;
+            this.tbx_telefono.ForeColor = System.Drawing.SystemColors.Control;
+            this.tbx_telefono.Location = new System.Drawing.Point(301, 181);
+            this.tbx_telefono.MaxLength = 10;
+            this.tbx_telefono.Name = "tbx_telefono";
+            this.tbx_telefono.Size = new System.Drawing.Size(185, 22);
+            this.tbx_telefono.TabIndex = 10;
             // 
             // Agregar
             // 
@@ -371,6 +382,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(573, 343);
+            this.Controls.Add(this.tbx_telefono);
             this.Controls.Add(this.btn_deltel);
             this.Controls.Add(this.btn_addtel);
             this.Controls.Add(this.label15);
@@ -436,5 +448,6 @@
         private System.Windows.Forms.Button btn_addtel;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ListBox lbx_telefonos;
+        private System.Windows.Forms.TextBox tbx_telefono;
     }
 }

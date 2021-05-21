@@ -37,13 +37,14 @@ namespace CFE_GestionRecibos
         {
 
         }
-        public EmpleadoClass(string nombres, string apellidos, LocalDate fechaNac, string rfc, string curp, string email, string password)
+        public EmpleadoClass(string nombres, string apellidos, LocalDate fechaNac, string rfc, string curp, List<string> tel, string email, string password)
         {
             this.nombres = nombres;
             this.apellidos = apellidos;
             fecha_nac = fechaNac;
             this.rfc = rfc;
             this.curp = curp;
+            telefonos = tel;
             correo_electronico = email;
             contrasena = password;
         }
@@ -71,7 +72,7 @@ namespace CFE_GestionRecibos
         public ClienteClass() {
 
         }
-        public ClienteClass(Guid numemp, string empUser, string nombres, string apellidos, LocalDate fecNac, Domicilio domic, string curp, string email, string password)
+        public ClienteClass(Guid numemp, string empUser, string nombres, string apellidos, LocalDate fecNac, Domicilio domic, string curp, List<string> tel, string email, string password)
         {
             id_emp = numemp;
             this.nombres = nombres;
@@ -79,6 +80,7 @@ namespace CFE_GestionRecibos
             fecha_nac = fecNac;
             this.domic = domic;
             this.curp = curp;
+            telefonos = tel;
             correo_electronico = email;
             contrasena = password;
             empUsername = empUser;
@@ -160,43 +162,47 @@ namespace CFE_GestionRecibos
         {
             domic = new Domicilio(domicilio);
         }
-        public Guid id_ser;
-        public Guid id_rec;
-        public int year;
-        public sbyte month;
-        public bool tipo_ser;
-        public long medidor;
-        public string domicilio;
-        public LocalDate fec_venc;
-        public int consumo_basico;
-        public int consumo_intermedio;
-        public int consumo_excedente;
-        public int consumo_total;
-        public decimal precio_basico;
-        public decimal precio_intermedio;
-        public decimal precio_excedente;
-        public decimal precio_total;
-        public decimal cargo_iva;
-        public decimal pago_total;
-        public decimal importe_pago;
-        public decimal pendiente_pago;
-        public decimal prev_pendiente;
-        public bool pagado;
-        public Domicilio domic;
+        public Guid id_ser { get; set; }
+        public Guid id_rec { get; set; }
+        public int year { get; set; }
+        public sbyte month { get; set; }
+        public bool tipo_ser { get; set; }
+        public long medidor { get; set; }
+        public string domicilio { get; set; }
+        public LocalDate fec_venc { get; set; }
+        public int consumo_basico { get; set; }
+        public int consumo_intermedio { get; set; }
+        public int consumo_excedente { get; set; }
+        public int consumo_total { get; set; }
+        public decimal tarifa_basica { get; set; }
+        public decimal tarifa_intermedia { get; set; }
+        public decimal tarifa_excedente { get; set; }
+        public decimal precio_basico { get; set; }
+        public decimal precio_intermedio { get; set; }
+        public decimal precio_excedente { get; set; }
+        public decimal precio_total { get; set; }
+        public decimal cargo_iva { get; set; }
+        public decimal pago_total { get; set; }
+        public decimal importe_pago { get; set; }
+        public decimal pendiente_pago { get; set; }
+        public decimal prev_pendiente { get; set; }
+        public bool pagado { get; set; }
+        public Domicilio domic { get; set; }
     }
 
-    public class Telefono_cl
+    public class ReciboList
     {
-        public Guid id;
-        public string telefono;
-        public long id_cl;
-    }
+        public ReciboList()
+        {
 
-    public class Telefono_emp
-    {
-        public Guid id;
-        public string telefono;
-        public long id_cl;
+        }
+        public int year { get; set; }
+        public sbyte month { get; set; }
+        public long medidor { get; set; }
+        public bool tipo_serv { get; set; }
+        public LocalDate fecha_venci { get; set; }
+        public Guid id_serv { get; set; }
+        public Guid id_rec { get; set; }
     }
 
     public class TarifaClass
@@ -290,7 +296,7 @@ namespace CFE_GestionRecibos
         public decimal importe_pago { get; set; }
         public decimal pendiente_pago { get; set; }
     }
-
+    
     public class Domicilio
     {
         public Domicilio()
@@ -339,8 +345,75 @@ namespace CFE_GestionRecibos
             {
                 numinterstr = ", #" + numint;
             }
-            return calle + " #" + numext + numinterstr + ", Col. " + col + ", " + munic + ", " + estado + ". " + cp;
+            return calle + " #" + numext + numinterstr + ", Col. " + col + ", " + munic + ", " + estado + ". CP " + cp;
         }
+    }
+
+    public class RegistroActClass
+    {
+        public RegistroActClass()
+        {
+
+        }
+        public Guid num_empleado { get; set; }
+        public Guid clave { get; set; }
+        public DateTimeOffset fecha_reg { get; set; }
+        public string accion { get; set; }
+        public string descripcion { get; set; }
+    }
+
+    public class RegistroActList
+    {
+        public RegistroActList()
+        {
+
+        }
+        public DateTimeOffset fecha_reg { get; set; }
+        public string accion { get; set; }
+        public Guid clave { get; set; }
+    }
+
+    public class TarjetaClass
+    {
+        public TarjetaClass()
+        {
+
+        }
+        public TarjetaClass(string num, string mes, string año, string cvv)
+        {
+            tarjetas = num+","+mes+","+año+","+cvv;
+            numero = num;
+        }
+        public void split()
+        {
+            string[] parts = tarjetas.Split(',');
+            if (parts.Length == 4)
+            {
+                numero = parts[0];
+                mes = parts[1];
+                año = parts[2];
+                cvv = parts[3];
+            }
+        }
+        public string tarjetas { get; set; }
+        public string numero;
+        public string mes;
+        public string año;
+        public string cvv;
+    }
+
+    public class CuentasClass
+    {
+        public CuentasClass()
+        {
+
+        }
+        public void split()
+        {
+
+        }
+        public string cuentas_bancarias { get; set; }
+        public string numero;
     }
 
     class RegexUtilities

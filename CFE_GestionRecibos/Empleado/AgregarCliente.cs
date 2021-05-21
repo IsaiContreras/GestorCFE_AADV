@@ -20,6 +20,8 @@ namespace CFE_GestionRecibos.Empleado
         public Guid id_emp;
         public string empUsername;
 
+        private List<string> telef = new List<string>();
+
         public AgregarCliente()
         {
             InitializeComponent();
@@ -137,6 +139,7 @@ namespace CFE_GestionRecibos.Empleado
                 new LocalDate(dt.Year, dt.Month,dt.Day),
                 new Domicilio(tbx_calle.Text, tbx_numext.Text, tbx_numint.Text, tbx_col.Text, tbx_munic.Text, tbx_estado.Text, tbx_cp.Text),
                 tbx_curp.Text,
+                telef,
                 tbx_email.Text,
                 tbx_password.Text
             );
@@ -163,6 +166,8 @@ namespace CFE_GestionRecibos.Empleado
             tbx_estado.Text = clientMod.domic.estado;
             tbx_cp.Text = clientMod.domic.cp;
             tbx_curp.Text = clientMod.curp;
+            lbx_telefonos.DataSource = clientMod.telefonos;
+            telef = clientMod.telefonos;
             tbx_email.Text = clientMod.correo_electronico;
             tbx_password.Text = clientMod.contrasena;
         }
@@ -229,13 +234,31 @@ namespace CFE_GestionRecibos.Empleado
 
         private void btn_addtel_Click(object sender, EventArgs e)
         {
-            Teléfono dialogT = new Teléfono();
-            dialogT.ShowDialog();
+            if (tbx_telefono.TextLength == 0)
+            {
+                MessageBox.Show("Capture el teléfono en el recuadro.", "Información incompleta", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return;
+            }
+            if (!RegexUtilities.IsOnlyNumerics(tbx_telefono.Text))
+            {
+                MessageBox.Show("El teléfono no debe contener letras.", "Información inválida", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return;
+            }
+            telef.Add(tbx_telefono.Text);
+            lbx_telefonos.DataSource = null;
+            lbx_telefonos.DataSource = telef;
+            tbx_telefono.Text = "";
         }
 
         private void btn_deltel_Click(object sender, EventArgs e)
         {
-            //QUITA TELEFONO
+            telef.Remove((string)lbx_telefonos.SelectedItem);
+            if (telef.Count > 0)
+            {
+                lbx_telefonos.DataSource = null;
+                lbx_telefonos.DataSource = telef;
+            }
+            else lbx_telefonos.DataSource = null;
         }
     }
 }

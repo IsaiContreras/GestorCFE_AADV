@@ -23,12 +23,17 @@ namespace CFE_GestionRecibos.Cliente
         private void btn_info_Click(object sender, EventArgs e)
         {
             Información dialogInfo = new Información();
+            dialogInfo.id_cli = id;
             dialogInfo.ShowDialog();
         }
 
         private void btn_recibo_Click(object sender, EventArgs e)
         {
             Recibos dialogR = new Recibos();
+            dialogR.id_cli = id;
+            dialogR.username = username;
+            dialogR.id_serv = (Guid)cbx_servicios.SelectedValue;
+            dialogR.id_rec = (Guid)dgv_recibos.SelectedRows[0].Cells[6].Value;
             dialogR.ShowDialog();
         }
 
@@ -36,6 +41,16 @@ namespace CFE_GestionRecibos.Cliente
         {
             st_identity.Text = "ID: " + id.ToString();
             st_username.Text = "Usuario: " + username;
+            EnlaceCassandra link = new EnlaceCassandra();
+            cbx_servicios.DisplayMember = "medidor";
+            cbx_servicios.ValueMember = "id_serv";
+            cbx_servicios.DataSource = link.LlenarServicios(id);
+        }
+
+        private void cbx_servicios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            EnlaceCassandra link = new EnlaceCassandra();
+            dgv_recibos.DataSource = link.LlenarRecibos((Guid)cbx_servicios.SelectedValue);
         }
     }
 }

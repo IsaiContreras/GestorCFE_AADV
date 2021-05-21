@@ -12,7 +12,7 @@ namespace CFE_GestionRecibos.Administrador
 {
     public partial class Registro : Form
     {
-        public int id = 00;
+        public Guid id;
 
         public Registro()
         {
@@ -27,15 +27,16 @@ namespace CFE_GestionRecibos.Administrador
         private void btn_detalles_Click(object sender, EventArgs e)
         {
             RegistroDetalles dialogRD = new RegistroDetalles();
-            dialogRD.id = Convert.ToInt64(dgv_registro.SelectedRows[0].Cells[0].Value);
+            dialogRD.id = (Guid)dgv_registro.SelectedRows[0].Cells[2].Value;
+            dialogRD.id_emp = id;
             dialogRD.ShowDialog();
         }
 
         private void Registro_Load(object sender, EventArgs e)
         {
-            //EnlaceDB link = new EnlaceDB();
-            //dgv_registro.DataSource = link.LlenarRegistroAct(id);
-            //dgv_registro.AutoResizeColumns();
+            EnlaceCassandra link = new EnlaceCassandra();
+            dgv_registro.DataSource = link.LlenarRegistroAct(id);
+            dgv_registro.AutoResizeColumns();
         }
     }
 }

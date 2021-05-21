@@ -18,6 +18,8 @@ namespace CFE_GestionRecibos.Administrador
         EmpleadoClass empMod;
         public Guid id_emp;
 
+        List<string> telef = new List<string>();
+
         public Agregar()
         {
             InitializeComponent();
@@ -98,6 +100,7 @@ namespace CFE_GestionRecibos.Administrador
                 new LocalDate(dt.Year, dt.Month, dt.Day),
                 tbx_rfc.Text,
                 tbx_curp.Text,
+                telef,
                 tbx_email.Text,
                 tbx_password.Text
             );
@@ -119,6 +122,8 @@ namespace CFE_GestionRecibos.Administrador
             tbx_rfc.Text = empMod.rfc;
             tbx_email.Text = empMod.correo_electronico;
             tbx_password.Text = empMod.contrasena;
+            lbx_telefonos.DataSource = empMod.telefonos;
+            telef = empMod.telefonos;
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
@@ -183,13 +188,32 @@ namespace CFE_GestionRecibos.Administrador
 
         private void btn_addtel_Click(object sender, EventArgs e)
         {
-            Teléfono dialogT = new Teléfono();
-            dialogT.ShowDialog();
+            if (tbx_telefono.TextLength == 0)
+            {
+                MessageBox.Show("Capture el teléfono en el recuadro.", "Información incompleta", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return;
+            }
+            if (!RegexUtilities.IsOnlyNumerics(tbx_telefono.Text))
+            {
+                MessageBox.Show("El teléfono no debe contener letras.", "Información inválida", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return;
+            }
+            telef.Add(tbx_telefono.Text);
+            lbx_telefonos.DataSource = null;
+            lbx_telefonos.DataSource = telef;
+            tbx_telefono.Text = "";
         }
 
         private void btn_deltel_Click(object sender, EventArgs e)
         {
             //QUITA TELEFONO
+            telef.Remove((string)lbx_telefonos.SelectedItem);
+            if (telef.Count > 0)
+            {
+                lbx_telefonos.DataSource = null;
+                lbx_telefonos.DataSource = telef;
+            } 
+            else lbx_telefonos.DataSource = null;
         }
     }
 }

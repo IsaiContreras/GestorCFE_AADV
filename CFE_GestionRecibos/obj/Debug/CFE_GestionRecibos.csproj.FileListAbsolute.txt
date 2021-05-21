@@ -51,7 +51,6 @@ D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AAD
 D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\obj\Debug\CFE_GestionRecibos.Empleado.ReporteTarifas.resources
 D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\obj\Debug\CFE_GestionRecibos.LOG_IN.resources
 D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\obj\Debug\CFE_GestionRecibos.Properties.Resources.resources
-D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\obj\Debug\CFE_GestionRecibos.Teléfono.resources
 D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\obj\Debug\CFE_GestionRecibos.csproj.GenerateResource.cache
 D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\obj\Debug\CFE_GestionRecibos.csproj.CoreCompileInputs.cache
 D:\alexi\Documents\CARPETAS DE PROYECTOS\Proyectos VISUAL\CFE_GestionRecibos AADV\CFE_GestionRecibos\obj\Debug\CFE_GestionRecibos.exe

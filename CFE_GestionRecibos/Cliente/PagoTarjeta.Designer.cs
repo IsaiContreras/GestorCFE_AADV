@@ -201,6 +201,7 @@
             this.cbx_tarjetas.Name = "cbx_tarjetas";
             this.cbx_tarjetas.Size = new System.Drawing.Size(298, 24);
             this.cbx_tarjetas.TabIndex = 1;
+            this.cbx_tarjetas.SelectedIndexChanged += new System.EventHandler(this.cbx_tarjetas_SelectedIndexChanged);
             // 
             // btn_del
             // 
@@ -254,6 +255,7 @@
             this.MinimumSize = new System.Drawing.Size(492, 349);
             this.Name = "PagoTarjeta";
             this.Text = "Pago con tarjeta";
+            this.Load += new System.EventHandler(this.PagoTarjeta_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

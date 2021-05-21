@@ -14,6 +14,9 @@ namespace CFE_GestionRecibos.Empleado
     {
         ConsumoClass consumo;
 
+        public Guid id_emp;
+        public string username;
+
         public Consumo()
         {
             InitializeComponent();
@@ -77,7 +80,7 @@ namespace CFE_GestionRecibos.Empleado
             if (validar())
             {
                 EnlaceCassandra link = new EnlaceCassandra();
-                if (link.AgregarConsumo(consumo))
+                if (link.AgregarConsumo(consumo, id_emp, username))
                 {
                     MessageBox.Show("Consumo capturado.", "Información");
                     Close();

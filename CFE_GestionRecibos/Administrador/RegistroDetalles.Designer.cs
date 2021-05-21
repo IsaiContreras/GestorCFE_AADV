@@ -41,9 +41,9 @@
             // 
             this.btn_ok.BackColor = System.Drawing.Color.DimGray;
             this.btn_ok.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_ok.Location = new System.Drawing.Point(261, 307);
+            this.btn_ok.Location = new System.Drawing.Point(361, 307);
             this.btn_ok.Name = "btn_ok";
-            this.btn_ok.Size = new System.Drawing.Size(108, 26);
+            this.btn_ok.Size = new System.Drawing.Size(209, 26);
             this.btn_ok.TabIndex = 1;
             this.btn_ok.Text = "Aceptar";
             this.btn_ok.UseVisualStyleBackColor = false;
@@ -102,7 +102,7 @@
             this.st_descripcion.Multiline = true;
             this.st_descripcion.Name = "st_descripcion";
             this.st_descripcion.ReadOnly = true;
-            this.st_descripcion.Size = new System.Drawing.Size(229, 119);
+            this.st_descripcion.Size = new System.Drawing.Size(339, 119);
             this.st_descripcion.TabIndex = 0;
             // 
             // label1
@@ -121,7 +121,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(381, 345);
+            this.ClientSize = new System.Drawing.Size(582, 345);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.st_descripcion);
             this.Controls.Add(this.st_fechahora);
@@ -131,9 +131,9 @@
             this.Controls.Add(this.btn_ok);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(399, 392);
+            this.MaximumSize = new System.Drawing.Size(600, 392);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(399, 392);
+            this.MinimumSize = new System.Drawing.Size(600, 392);
             this.Name = "RegistroDetalles";
             this.Text = "Detalles";
             this.Load += new System.EventHandler(this.RegistroDetalles_Load);

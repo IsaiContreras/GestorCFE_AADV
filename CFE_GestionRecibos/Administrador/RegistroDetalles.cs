@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Cassandra;
 
 namespace CFE_GestionRecibos.Administrador
 {
     public partial class RegistroDetalles : Form
     {
-        public long id = 00;
+        public Guid id;
+        public Guid id_emp;
 
         public RegistroDetalles()
         {
@@ -26,15 +28,15 @@ namespace CFE_GestionRecibos.Administrador
 
         private void RegistroDetalles_Load(object sender, EventArgs e)
         {
-            //EnlaceDB link = new EnlaceDB();
-            //DateTime tm;
-            //DataRow registro = link.ObtenerRegistroAct(id);
-            //st_registroid.Text = "ID Registro: " + Convert.ToString(registro.ItemArray[0]);
-            //st_numempl.Text = "Núm. de empleado: " + Convert.ToString(registro.ItemArray[1]);
-            //tm = (DateTime)registro.ItemArray[2];
-            //st_fechahora.Text = "Fecha y hora: " + string.Format(tm.ToString(), "dd/mm/aaaa HH:mm:ss");
-            //st_actividad.Text = "Actividad: " + Convert.ToString(registro.ItemArray[3]);
-            //st_descripcion.Text = Convert.ToString(registro.ItemArray[4]);
+            EnlaceCassandra link = new EnlaceCassandra();
+            DateTime dt;
+            RegistroActClass registro = link.DatosRegistroAct(id_emp, id);
+            st_registroid.Text = "ID Registro: " + registro.clave.ToString();
+            st_numempl.Text = "Núm. de empleado: " + registro.num_empleado;
+            dt = new DateTime(registro.fecha_reg.Year, registro.fecha_reg.Month, registro.fecha_reg.Day, registro.fecha_reg.Hour, registro.fecha_reg.Minute, registro.fecha_reg.Second);
+            st_fechahora.Text = "Fecha y hora: " + string.Format(dt.ToString(), "dd/mm/aaaa HH:mm:ss");
+            st_actividad.Text = "Actividad: " + registro.accion;
+            st_descripcion.Text = registro.descripcion;
         }
     }
 }

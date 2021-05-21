@@ -209,6 +209,7 @@ namespace CFE_GestionRecibos.Empleado
         private void btn_infocliente_Click(object sender, EventArgs e)
         {
             Cliente.Información dialogIC = new Cliente.Información();
+            dialogIC.id_cli = (Guid)dgv_clientes.SelectedRows[0].Cells[4].Value;
             dialogIC.ShowDialog();
         }
 
@@ -230,12 +231,16 @@ namespace CFE_GestionRecibos.Empleado
         private void btn_regtaf_Click(object sender, EventArgs e)
         {
             Tarifa dialogTar = new Tarifa();
+            dialogTar.id_emp = id;
+            dialogTar.username = username;
             dialogTar.ShowDialog();
         }
 
         private void btn_regcons_Click(object sender, EventArgs e)
         {
             Consumo dialogCon = new Consumo();
+            dialogCon.id_emp = id;
+            dialogCon.username = username;
             dialogCon.ShowDialog();
         }
 

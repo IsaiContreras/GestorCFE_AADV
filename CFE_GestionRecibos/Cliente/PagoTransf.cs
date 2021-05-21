@@ -12,9 +12,34 @@ namespace CFE_GestionRecibos.Cliente
 {
     public partial class PagoTransf : Form
     {
+        public Guid id_cli;
+        public Guid id_serv;
+        public Guid id_rec;
+
         public PagoTransf()
         {
             InitializeComponent();
+        }
+
+        public bool validar()
+        {
+            if (tbx_numcuenta.TextLength == 0)
+            {
+                return false;
+            }
+            else if (!RegexUtilities.IsOnlyNumerics(tbx_numcuenta.Text))
+            {
+                return false;
+            }
+            if (tbx_cantidad.TextLength == 0)
+            {
+                return false;
+            }
+            else if (!RegexUtilities.IsDecimalNumber(tbx_cantidad.Text))
+            {
+                return false;
+            }
+            return true;
         }
 
         private void PagoTransf_FormClosing(object sender, EventArgs e)
@@ -24,14 +49,24 @@ namespace CFE_GestionRecibos.Cliente
 
         private void btn_pagar_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
-            Close();
+            if (validar())
+            {
+                EnlaceCassandra link = new EnlaceCassandra();
+                link.Pago(id_cli, id_serv, id_rec, Convert.ToDecimal(tbx_cantidad.Text));
+                DialogResult = DialogResult.OK;
+                Close();
+            }
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void PagoTransf_Load(object sender, EventArgs e)
+        {
+            
         }
     }
 }

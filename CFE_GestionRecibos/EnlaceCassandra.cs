@@ -336,6 +336,46 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
+        public List<RegistroActList> LlenarRegistroAct(Guid id_emp)
+        {
+            try
+            {
+                string qry = "select Fecha_reg, Accion, CLAVE from Registro_actividad where NUM_Empleado = ? allow filtering;";
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<RegistroActList> lista = mapper.Fetch<RegistroActList>(qry, id_emp);
+
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public RegistroActClass DatosRegistroAct(Guid id_emp, Guid clave)
+        {
+            try
+            {
+                string qry = "select NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion from Registro_actividad where NUM_Empleado = ? and CLAVE = ?;";
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                RegistroActClass user = mapper.Single<RegistroActClass>(qry, id_emp, clave);                return user;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
 
         private long ExisteUsuario(string correo, char tipo)
         {
@@ -377,13 +417,27 @@ namespace CFE_GestionRecibos
                     insertqry += "values(?, ?, ?, ?, ?, ?, ?, ?, ?);";
                     string logininsert = "insert into Log_Empleado(Correo_electronico, Contrasena, NUM_Empleado, Nombre_usuario, Bloqueo) ";
                     logininsert += "values(?, ?, ?, ?, ?);";
+                    string add_tel = "update Empleado set Telefonos = {";
+                    bool first = true;
+                    foreach (string telefono in emp.telefonos)
+                    {
+                        if (first)
+                        {
+                            add_tel += "'" + telefono + "'";
+                            first = false;
+                        }
+                        else add_tel += ",'" + telefono + "'";
+                    }
+                    add_tel += "} where NUM_Empleado = ?;";
                     conectar();
                     var empinsert = _session.Prepare(insertqry);
                     var login = _session.Prepare(logininsert);
+                    var telefonos = _session.Prepare(add_tel);
                     LocalDate fecNac = new LocalDate(emp.fecha_nac.Year, emp.fecha_nac.Month, emp.fecha_nac.Day);
                     var batch = new BatchStatement()
                                 .Add(empinsert.Bind(generated_id, emp.nombres, emp.apellidos, fecNac, emp.rfc, emp.curp, emp.correo_electronico, emp.contrasena, true))
-                                .Add(login.Bind(emp.correo_electronico, emp.contrasena, generated_id, emp.nombres + " " + emp.apellidos, false));
+                                .Add(login.Bind(emp.correo_electronico, emp.contrasena, generated_id, emp.nombres + " " + emp.apellidos, false))
+                                .Add(telefonos.Bind(generated_id));
                     _session.Execute(batch);
                     return true;
                 }
@@ -424,13 +478,27 @@ namespace CFE_GestionRecibos
                 string updateqry = "update Empleado set Nombres = ?, Apellidos = ?, Fecha_nac = ?, RFC = ?, CURP = ?, Correo_electronico = ?, Contrasena = ? ";
                 updateqry += "where NUM_Empleado = ?;";
                 string updatelog = "update Log_Empleado set Nombre_usuario = ? where Correo_electronico = ?;";
+                string add_tel = "update Empleado set Telefonos = {";
+                bool first = true;
+                foreach (string telefono in newemp.telefonos)
+                {
+                    if (first)
+                    {
+                        add_tel += "'" + telefono + "'";
+                        first = false;
+                    }
+                    else add_tel += ",'" + telefono + "'";
+                }
+                add_tel += "} where NUM_Empleado = ?;";
                 conectar();
                 var empinsert = _session.Prepare(updateqry);
                 var updlogin = _session.Prepare(updatelog);
+                var telefonos = _session.Prepare(add_tel);
                 LocalDate fecNac = new LocalDate(newemp.fecha_nac.Year, newemp.fecha_nac.Month, newemp.fecha_nac.Day);
                 var batch = new BatchStatement()
                             .Add(empinsert.Bind(newemp.nombres, newemp.apellidos, fecNac, newemp.rfc, newemp.curp, newemp.correo_electronico, newemp.contrasena, oldemp.num_empleado))
-                            .Add(updlogin.Bind(newemp.nombres + " " + newemp.apellidos, oldemp.correo_electronico));
+                            .Add(updlogin.Bind(newemp.nombres + " " + newemp.apellidos, oldemp.correo_electronico))
+                            .Add(telefonos.Bind(oldemp.num_empleado));
                 _session.Execute(batch);
                 return true;
             }
@@ -568,7 +636,6 @@ namespace CFE_GestionRecibos
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
             finally
@@ -645,7 +712,7 @@ namespace CFE_GestionRecibos
         {
             try
             {
-                string qry = "select Year, Month, Medidor, kW_basica, kW_intermedia, kW_excedente from Reporte_Consumos ";
+                string qry = "select Year, Month, Medidor, kW_totales, kW_basica, kW_intermedia, kW_excedente from Reporte_Consumos ";
                 qry += "where Year = {0} allow filtering;";
                 qry = string.Format(qry, year);
                 conectar();
@@ -668,7 +735,7 @@ namespace CFE_GestionRecibos
         {
             try
             {
-                string qry = "select Year, Month, Tar_basica, Tar_intermedia, Tar_excedente from Reporte_Tarifas ";
+                string qry = "select Year, Month, Tipo_serv, Tar_basica, Tar_intermedia, Tar_excedente from Reporte_Tarifas ";
                 qry += "where Year = {0} allow filtering;";
                 qry = string.Format(qry, year);
                 conectar();
@@ -757,6 +824,18 @@ namespace CFE_GestionRecibos
                     insertqry += "values(?, ?, ?, ?, ?, ?, ?, ?, ?);";
                     string logininsert = "insert into Log_Cliente(Correo_electronico, Contrasena, ID_Cliente, Nombre_usuario, Bloqueo) ";
                     logininsert += "values(?, ?, ?, ?, ?);";
+                    string add_tel = "update Cliente set Telefonos = {";
+                    bool first = true;
+                    foreach (string telefono in cli.telefonos)
+                    {
+                        if (first)
+                        {
+                            add_tel += "'" + telefono + "'";
+                            first = false;
+                        }
+                        else add_tel += ",'" + telefono + "'";
+                    }
+                    add_tel += "} where ID_Cliente = ?;";
                     string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
                     regactquery += "values(?, ?, toTimestamp(now()), 'Registro de Cliente', ?);";
                     string descripcion = "Empleado con ID {0}, {1}, registró a cliente con ID {2}, {3}.";
@@ -764,11 +843,13 @@ namespace CFE_GestionRecibos
                     conectar();
                     var empinsert = _session.Prepare(insertqry);
                     var login = _session.Prepare(logininsert);
+                    var telefonos = _session.Prepare(add_tel);
                     var regactinsert = _session.Prepare(regactquery);
                     LocalDate fecNac = new LocalDate(cli.fecha_nac.Year, cli.fecha_nac.Month, cli.fecha_nac.Day);
                     var batch = new BatchStatement()
                                 .Add(empinsert.Bind(generated_id, cli.nombres, cli.apellidos, fecNac, cli.domic.getAssembled(), cli.curp, cli.correo_electronico, cli.contrasena, true))
                                 .Add(login.Bind(cli.correo_electronico, cli.contrasena, generated_id, cli.nombres + " " + cli.apellidos, false))
+                                .Add(telefonos.Bind(generated_id))
                                 .Add(regactinsert.Bind(cli.id_emp, regact_clave, descripcion));
                     _session.Execute(batch);
                     return true;
@@ -810,6 +891,18 @@ namespace CFE_GestionRecibos
                 Guid regact_clave = Guid.NewGuid();
                 string updateqry = "update Cliente set Nombres = ?, Apellidos = ?, Fecha_nac = ?, Domicilio = ?, CURP = ?, Correo_electronico = ?, Contrasena = ? ";
                 updateqry += "where ID_Cliente = ?;";
+                string add_tel = "update Cliente set Telefonos = {";
+                bool first = true;
+                foreach (string telefono in newcli.telefonos)
+                {
+                    if (first)
+                    {
+                        add_tel += "'" + telefono + "'";
+                        first = false;
+                    }
+                    else add_tel += ",'" + telefono + "'";
+                }
+                add_tel += "} where ID_Cliente = ?;";
                 string updatelog = "update Log_Cliente set Nombre_usuario = ? where Correo_electronico = ?;";
                 string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
                 regactquery += "values(?, ?, toTimestamp(now()), 'Modificación de Cliente', ?);";
@@ -817,11 +910,13 @@ namespace CFE_GestionRecibos
                 descripcion = string.Format(descripcion, newcli.id_emp, newcli.empUsername, oldcli.id_cliente, newcli.nombres + ' ' + newcli.apellidos);
                 conectar();
                 var updcli = _session.Prepare(updateqry);
+                var telefonos = _session.Prepare(add_tel);
                 var updlogin = _session.Prepare(updatelog);
                 var regactinsert = _session.Prepare(regactquery);
                 LocalDate fecNac = new LocalDate(newcli.fecha_nac.Year, newcli.fecha_nac.Month, newcli.fecha_nac.Day);
                 var batch2 = new BatchStatement()
                             .Add(updcli.Bind(newcli.nombres, newcli.apellidos, fecNac, newcli.domic.getAssembled(), newcli.curp, newcli.correo_electronico, newcli.contrasena, oldcli.id_cliente))
+                            .Add(telefonos.Bind(oldcli.id_cliente))
                             .Add(updlogin.Bind(newcli.nombres + " " + newcli.apellidos, newcli.correo_electronico))
                             .Add(regactinsert.Bind(newcli.id_emp, regact_clave, descripcion));
                 _session.Execute(batch2);
@@ -993,16 +1088,26 @@ namespace CFE_GestionRecibos
             }
         }
 
-        public bool AgregarTarifa(TarifaClass tar)
+        public bool AgregarTarifa(TarifaClass tar, Guid id_emp, string username)
         {
             try
             {
+                Guid regact_id = Guid.NewGuid();
                 string insert_tar = "update Reporte_Tarifas set Tar_basica = ?, Tar_intermedia = ?, Tar_excedente = ? ";
                 insert_tar += "where Year = ? and Month = ? and Tipo_serv = ?;";
+                string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
+                regactquery += "values(?, ?, toTimestamp(now()), 'Registro de Tarifa', ?);";
+                string descripcion = "Empleado con ID {0}, {1}, registró/modificó tarifa para el periodo {2}/{3} de tipo {4}.";
+                string type;
+                if (!tar.tipo_serv) type = "Doméstico";
+                else type = "Industrial";
+                descripcion = string.Format(descripcion, id_emp, username, tar.year, tar.month, type);
                 conectar();
                 var insert = _session.Prepare(insert_tar);
+                var regact = _session.Prepare(regactquery);
                 var batch = new BatchStatement()
-                            .Add(insert.Bind(tar.tar_basica, tar.tar_intermedia, tar.tar_excedente, tar.year, tar.month, tar.tipo_serv));
+                            .Add(insert.Bind(tar.tar_basica, tar.tar_intermedia, tar.tar_excedente, tar.year, tar.month, tar.tipo_serv))
+                            .Add(regact.Bind(id_emp, regact_id, descripcion));
                 _session.Execute(batch);
                 return true;
             }
@@ -1016,10 +1121,11 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
-        public bool AgregarConsumo(ConsumoClass cons)
+        public bool AgregarConsumo(ConsumoClass cons, Guid id_emp, string username)
         {
             try
             {
+                Guid regact_id = Guid.NewGuid();
                 ServicioClass ser = DatosServicioPorMed(cons.medidor);
                 if (ser == null)
                 {
@@ -1029,12 +1135,18 @@ namespace CFE_GestionRecibos
                 insert_rep += "where Year = ? and Month = ? and Tipo_serv = ? and Medidor = ?;";
                 string cons_hist = "update Consumo_Historico set Medidor = ?, Consumo_kW = ?, Pago_total = 0, Importe_Pago = 0, Pendiente_Pago = 0 ";
                 cons_hist += "where ID_Serv = ? and Year = ? and Month = ?;";
+                string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
+                regactquery += "values(?, ?, toTimestamp(now()), 'Registro de Consumo', ?);";
+                string descripcion = "Empleado con ID {0}, {1}, registró/modificó consumo del periodo {2}/{3} para el medidor {4}.";
+                descripcion = string.Format(descripcion, id_emp, username, cons.year, cons.month, cons.medidor);
                 conectar();
                 var report = _session.Prepare(insert_rep);
                 var hist = _session.Prepare(cons_hist);
+                var regact = _session.Prepare(regactquery);
                 var batch = new BatchStatement()
                             .Add(report.Bind(cons.kw_totales, cons.kw_basica, cons.kw_intermedia, cons.kw_excedente, cons.year, cons.month, ser.tipo_serv, cons.medidor))
-                            .Add(hist.Bind(cons.medidor, cons.kw_totales, ser.id_serv, cons.year, cons.month));
+                            .Add(hist.Bind(cons.medidor, cons.kw_totales, ser.id_serv, cons.year, cons.month))
+                            .Add(regact.Bind(id_emp, regact_id, descripcion));
                 _session.Execute(batch);
                 return true;
             }
@@ -1107,6 +1219,9 @@ namespace CFE_GestionRecibos
                     r.consumo_intermedio = cons.kw_intermedia;
                     r.consumo_excedente = cons.kw_excedente;
                     r.consumo_total = cons.kw_totales;
+                    r.tarifa_basica = tarifa.tar_basica;
+                    r.tarifa_intermedia = tarifa.tar_intermedia;
+                    r.tarifa_excedente = tarifa.tar_excedente;
                     r.precio_basico = tarifa.tar_basica * cons.kw_basica;
                     r.precio_intermedio = tarifa.tar_intermedia * cons.kw_intermedia;
                     r.precio_excedente = tarifa.tar_excedente * cons.kw_excedente;
@@ -1126,6 +1241,7 @@ namespace CFE_GestionRecibos
                 {
                     string qry = "update Recibos set Year = ?, Month = ?, Tipo_serv = ?, Medidor = ?, Domicilio = ?, Fecha_venci = ?, ";
                     qry += "Consumo_basico = ?, Consumo_intermedio = ?, Consumo_excedente = ?, Consumo_total = ?, ";
+                    qry += "Tarifa_basica = ?, Tarifa_intermedia = ?, Tarifa_excedente = ?, ";
                     qry += "Precio_basico = ?, Precio_intermedio = ?, Precio_excedente = ?, Precio_total = ?, ";
                     qry += "Cargo_IVA = ?, Pago_total = ?, Importe_Pago = ?, Pendiente_Pago = ?, Prev_pendiente = ?, Pagado = ? ";
                     qry += "where ID_Serv = ? and ID_Rec = ?;";
@@ -1133,11 +1249,19 @@ namespace CFE_GestionRecibos
                     batch.Add(insertqry.Bind(
                                 reg.year, reg.month, reg.tipo_ser, reg.medidor, reg.domicilio, reg.fec_venc,
                                 reg.consumo_basico, reg.consumo_intermedio, reg.consumo_excedente, reg.consumo_total,
+                                reg.tarifa_basica, reg.tarifa_intermedia, reg.tarifa_excedente,
                                 reg.precio_basico, reg.precio_intermedio, reg.precio_excedente, reg.precio_total,
                                 reg.cargo_iva, reg.pago_total, reg.importe_pago, reg.pendiente_pago, reg.prev_pendiente, reg.pagado,
                                 reg.id_ser, reg.id_rec
                               ));
                 }
+                Guid regact_id = Guid.NewGuid();
+                string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
+                regactquery += "values(?, ?, toTimestamp(now()), 'Generación de Recibos', ?);";
+                string descripcion = "Empleado con ID {0}, {1}, generó recibos del periodo {2}/{3} de tipo {4}.";
+                descripcion = string.Format(descripcion, id_emp, emp_name, year, month, tipo_serv);
+                var regact = _session.Prepare(regactquery);
+                batch.Add(regact.Bind(id_emp, regact_id, descripcion));
                 _session.Execute(batch);
                 return true;
             }
@@ -1147,6 +1271,180 @@ namespace CFE_GestionRecibos
                 return false;
             }
             finally{
+                desconectar();
+            }
+        }
+
+        // CLIENTE
+        public List<ReciboList> LlenarRecibos(Guid id_serv)
+        {
+            try
+            {
+                string qry = "select Year, Month, Medidor, Tipo_serv, Fecha_venci, ID_Serv, ID_Rec from Recibos ";
+                qry += "where ID_Serv = {0} allow filtering;";
+                qry = string.Format(qry, id_serv);
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<ReciboList> lista = mapper.Fetch<ReciboList>(qry);
+
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public ReciboClass DatosRecibo(Guid id_serv, Guid id_rec)
+        {
+            try
+            {
+                string qry = "select Year, Month, Tipo_serv, Medidor, Domicilio, Fecha_venci, ";
+                qry += "Consumo_basico, Consumo_intermedio, Consumo_excedente, Consumo_total, ";
+                qry += "Tarifa_basica, Tarifa_intermedia, Tarifa_excedente, ";
+                qry += "Precio_basico, Precio_intermedio, Precio_excedente, Precio_total, ";
+                qry += "Cargo_IVA, Pago_total, Importe_Pago, Pendiente_Pago, Prev_pendiente, Pagado ";
+                qry += "from Recibos where ";
+                qry += "ID_Serv = {0} and ID_Rec = {1};";
+                qry = string.Format(qry, id_serv, id_rec);
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                ReciboClass user = mapper.Single<ReciboClass>(qry);                return user;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public List<TarjetaClass> Tarjetas(Guid id_cli)
+        {
+            try
+            {
+                string qry = "select Tarjetas from Cliente where ID_Cliente = ?;";
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<TarjetaClass> lista = mapper.Fetch<TarjetaClass>(qry, id_cli);
+                foreach (TarjetaClass tar in lista)
+                {
+                    tar.split();
+                }
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public List<CuentasClass> CuentasBancarias(Guid id_cli)
+        {
+            try
+            {
+                string qry = "select Cuentas_bancarias from Cliente where ID_Cliente = ?;";
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<CuentasClass> lista = mapper.Fetch<CuentasClass>(qry, id_cli);
+                foreach (CuentasClass cons in lista)
+                {
+                    cons.split();
+                }
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public bool AgregarTarjeta(Guid id_cli, string info)
+        {
+            try
+            {
+                string qry = "update Cliente set Tarjetas = [ {0} ] + Tarjetas WHERE ID_Cliente = {1};";
+                qry = string.Format(qry, info, id_cli);
+                _session.Execute(qry);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public bool AgregarCuenta(Guid id_cli, string info)
+        {
+            try
+            {
+                string qry = "update Cliente set Cuentas_bancarias = [ '{0}' ] + Cuentas_bancarias WHERE ID_Cliente = {1};";
+                qry = string.Format(qry, info, id_cli);
+                _session.Execute(qry);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public bool Pago(Guid id_cli, Guid id_serv, Guid id_rec, decimal cant)
+        {
+            try
+            {
+                ReciboClass recibo = DatosRecibo(id_serv, id_rec);
+                if (recibo.pagado)
+                {
+                    return false;
+                }
+                if (cant > recibo.pago_total)
+                {
+                    return false;
+                }
+                decimal pendiente = recibo.pago_total - cant;
+                string qry = "update Recibos set Importe_Pago = ?, Pendiente_Pago = ?, Pagado = true where ID_Serv = ? and ID_Rec = ?;";
+                string reporte = "update Reporte_General set Total_pago = ?, Total_pendiente = ? ";
+                reporte += "where ID_Cliente = ? and Year = ? and Month = ? and Tipo_serv = ?;";
+                string consumo_h = "update Consumo_Historico set Pago_total = ?, Importe_Pago = ?, Pendiente_Pago = ? ";
+                consumo_h += "where ID_Serv = ? and Year = ? and Month = ?;";
+                conectar();
+                var pago = _session.Prepare(qry);
+                var reporte_gen = _session.Prepare(reporte);
+                var consumo = _session.Prepare(consumo_h);
+                var batch = new BatchStatement()
+                            .Add(pago.Bind(cant, pendiente, id_serv, id_rec))
+                            .Add(reporte_gen.Bind(cant, pendiente, id_cli, recibo.year, recibo.month, recibo.tipo_ser))
+                            .Add(consumo.Bind(recibo.pago_total, cant, pendiente, id_serv, recibo.year, recibo.month));
+                _session.Execute(batch);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            finally
+            {
                 desconectar();
             }
         }

@@ -21,5 +21,15 @@ namespace CFE_GestionRecibos.Empleado
         {
             Close();
         }
+
+        private void ReporteGeneral_Load(object sender, EventArgs e)
+        {
+            cbx_tiposerv.SelectedIndex = 0;
+        }
+
+        private void btn_buscar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
