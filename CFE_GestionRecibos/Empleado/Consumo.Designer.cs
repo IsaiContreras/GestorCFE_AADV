@@ -178,6 +178,7 @@
             this.btn_archivo.TabIndex = 10;
             this.btn_archivo.Text = "Desde archivo";
             this.btn_archivo.UseVisualStyleBackColor = false;
+            this.btn_archivo.Click += new System.EventHandler(this.btn_archivo_Click);
             // 
             // Consumo
             // 

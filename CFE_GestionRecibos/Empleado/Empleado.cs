@@ -248,5 +248,11 @@ namespace CFE_GestionRecibos.Empleado
         {
             UpdateServiciosDgv();
         }
+
+        private void btn_desbloq_Click(object sender, EventArgs e)
+        {
+            DesbloqCliente dialogDC = new DesbloqCliente();
+            dialogDC.ShowDialog();
+        }
     }
 }

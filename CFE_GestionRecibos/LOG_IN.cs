@@ -79,7 +79,7 @@ namespace CFE_GestionRecibos
                                     break;
                                 }
                             case 1:
-                                MessageBox.Show("El correo electrónico no existe.", "Dato globito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                MessageBox.Show("El correo electrónico no existe.", "Ingreso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 break;
                             case 2:
                                 if (mailused == cbx_email.Text) tries++;
@@ -87,16 +87,16 @@ namespace CFE_GestionRecibos
                                 if (tries == 2)
                                 {
                                     link.LockCliente(cbx_email.Text, true);
-                                    MessageBox.Show("Se ha bloqueado el usuario por demasiados intentos fallidos.", "Dato globito.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    MessageBox.Show("Se ha bloqueado el usuario por demasiados intentos fallidos.", "Ingreso.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Contraseña incorrecta.", "Dato globito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    MessageBox.Show("Contraseña incorrecta.", "Ingreso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                     mailused = cbx_email.Text;
                                 }
                                 break;
                             case 3:
-                                MessageBox.Show("Usuario bloqueado.", "Dato globito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                MessageBox.Show("Usuario bloqueado.", "Ingreso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 break;
                             default:
                                 break;
@@ -130,24 +130,24 @@ namespace CFE_GestionRecibos
                                     break;
                                 }
                             case 1:
-                                MessageBox.Show("El correo electrónico no existe.", "Dato globito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                MessageBox.Show("El correo electrónico no existe.", "Ingreso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 break;
                             case 2:
                                 if (mailused == cbx_email.Text) tries++;
                                 else tries = 0;
-                                if (tries == 3)
+                                if (tries == 2)
                                 {
-                                    MessageBox.Show("Se ha bloqueado el usuario por demasiados intentos fallidos.", "Dato globito.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    MessageBox.Show("Se ha bloqueado el usuario por demasiados intentos fallidos.", "Ingreso.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                     link.LockEmpleado(cbx_email.Text, true);
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Contraseña incorrecta.", "Dato globito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    MessageBox.Show("Contraseña incorrecta.", "Ingreso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                     mailused = cbx_email.Text;
                                 }
                                 break;
                             case 3:
-                                MessageBox.Show("Usuario bloqueado.", "Dato globito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                MessageBox.Show("Usuario bloqueado.", "Ingreso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 break;
                             default:
                                 break;
@@ -181,10 +181,10 @@ namespace CFE_GestionRecibos
                                     break;
                                 }
                             case 1:
-                                MessageBox.Show("El correo electrónico no existe.", "Dato globito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                MessageBox.Show("El correo electrónico no existe.", "Ingreso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 break;
                             case 2:
-                                MessageBox.Show("Contraseña incorrecta.", "Dato globito", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                MessageBox.Show("Contraseña incorrecta.", "Ingreso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 break;
                             default:
                                 break;

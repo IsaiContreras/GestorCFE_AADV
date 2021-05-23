@@ -102,6 +102,12 @@
     <Compile Include="Administrador\Agregar.Designer.cs">
       <DependentUpon>Agregar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Administrador\DesbloqEmp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Administrador\DesbloqEmp.Designer.cs">
+      <DependentUpon>DesbloqEmp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Administrador\Registro.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -175,6 +181,12 @@
     <Compile Include="Empleado\ConsumoHistórico.Designer.cs">
       <DependentUpon>ConsumoHistórico.cs</DependentUpon>
     </Compile>
+    <Compile Include="Empleado\DesbloqCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Empleado\DesbloqCliente.Designer.cs">
+      <DependentUpon>DesbloqCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="Empleado\Empleado.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -232,6 +244,9 @@
     <EmbeddedResource Include="Administrador\Agregar.resx">
       <DependentUpon>Agregar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Administrador\DesbloqEmp.resx">
+      <DependentUpon>DesbloqEmp.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Administrador\Registro.resx">
       <DependentUpon>Registro.cs</DependentUpon>
     </EmbeddedResource>
@@ -267,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Empleado\ConsumoHistórico.resx">
       <DependentUpon>ConsumoHistórico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Empleado\DesbloqCliente.resx">
+      <DependentUpon>DesbloqCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Empleado\Empleado.resx">
       <DependentUpon>Empleado.cs</DependentUpon>

@@ -12,10 +12,21 @@ namespace CFE_GestionRecibos
 {
     public class Login
     {
-        public string correo_e;
-        public string contra;
-        public Guid id;
-        public string username;
+        public Login()
+        {
+
+        }
+        public Login(string correo, string contra, Guid id, string user)
+        {
+            correo_e = correo;
+            this.contra = contra;
+            this.id = id;
+            username = user;
+        }
+        public string correo_e { get; set; }
+        public string contra { get; set; }
+        public Guid id { get; set; }
+        public string username { get; set; }
     }
 
     public class LogRem

@@ -32,8 +32,7 @@
             this.st_identity = new System.Windows.Forms.Label();
             this.dgv_clientes = new System.Windows.Forms.DataGridView();
             this.dgv_servicios = new System.Windows.Forms.DataGridView();
-            this.tbx_buscar = new System.Windows.Forms.TextBox();
-            this.btn_buscar = new System.Windows.Forms.Button();
+            this.btn_desbloq = new System.Windows.Forms.Button();
             this.btn_agrclient = new System.Windows.Forms.Button();
             this.btn_modclient = new System.Windows.Forms.Button();
             this.btn_elimclient = new System.Windows.Forms.Button();
@@ -114,25 +113,17 @@
             this.dgv_servicios.Size = new System.Drawing.Size(387, 252);
             this.dgv_servicios.TabIndex = 11;
             // 
-            // tbx_buscar
+            // btn_desbloq
             // 
-            this.tbx_buscar.BackColor = System.Drawing.Color.DimGray;
-            this.tbx_buscar.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_buscar.Location = new System.Drawing.Point(13, 137);
-            this.tbx_buscar.Name = "tbx_buscar";
-            this.tbx_buscar.Size = new System.Drawing.Size(307, 22);
-            this.tbx_buscar.TabIndex = 4;
-            // 
-            // btn_buscar
-            // 
-            this.btn_buscar.BackColor = System.Drawing.Color.DimGray;
-            this.btn_buscar.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_buscar.Location = new System.Drawing.Point(326, 130);
-            this.btn_buscar.Name = "btn_buscar";
-            this.btn_buscar.Size = new System.Drawing.Size(181, 29);
-            this.btn_buscar.TabIndex = 5;
-            this.btn_buscar.Text = "Buscar";
-            this.btn_buscar.UseVisualStyleBackColor = false;
+            this.btn_desbloq.BackColor = System.Drawing.Color.DimGray;
+            this.btn_desbloq.ForeColor = System.Drawing.SystemColors.Control;
+            this.btn_desbloq.Location = new System.Drawing.Point(326, 130);
+            this.btn_desbloq.Name = "btn_desbloq";
+            this.btn_desbloq.Size = new System.Drawing.Size(181, 29);
+            this.btn_desbloq.TabIndex = 5;
+            this.btn_desbloq.Text = "Clientes bloqueados";
+            this.btn_desbloq.UseVisualStyleBackColor = false;
+            this.btn_desbloq.Click += new System.EventHandler(this.btn_desbloq_Click);
             // 
             // btn_agrclient
             // 
@@ -140,7 +131,7 @@
             this.btn_agrclient.ForeColor = System.Drawing.SystemColors.Control;
             this.btn_agrclient.Location = new System.Drawing.Point(13, 95);
             this.btn_agrclient.Name = "btn_agrclient";
-            this.btn_agrclient.Size = new System.Drawing.Size(307, 29);
+            this.btn_agrclient.Size = new System.Drawing.Size(307, 64);
             this.btn_agrclient.TabIndex = 1;
             this.btn_agrclient.Text = "Agregar";
             this.btn_agrclient.UseVisualStyleBackColor = false;
@@ -380,8 +371,7 @@
             this.Controls.Add(this.btn_elimclient);
             this.Controls.Add(this.btn_modclient);
             this.Controls.Add(this.btn_agrclient);
-            this.Controls.Add(this.btn_buscar);
-            this.Controls.Add(this.tbx_buscar);
+            this.Controls.Add(this.btn_desbloq);
             this.Controls.Add(this.dgv_servicios);
             this.Controls.Add(this.dgv_clientes);
             this.Controls.Add(this.st_identity);
@@ -406,8 +396,7 @@
         private System.Windows.Forms.Label st_identity;
         private System.Windows.Forms.DataGridView dgv_clientes;
         private System.Windows.Forms.DataGridView dgv_servicios;
-        private System.Windows.Forms.TextBox tbx_buscar;
-        private System.Windows.Forms.Button btn_buscar;
+        private System.Windows.Forms.Button btn_desbloq;
         private System.Windows.Forms.Button btn_agrclient;
         private System.Windows.Forms.Button btn_modclient;
         private System.Windows.Forms.Button btn_elimclient;

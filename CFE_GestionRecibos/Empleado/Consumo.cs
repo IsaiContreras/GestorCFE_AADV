@@ -17,6 +17,8 @@ namespace CFE_GestionRecibos.Empleado
         public Guid id_emp;
         public string username;
 
+        List<ConsumoClass> massive;
+
         public Consumo()
         {
             InitializeComponent();
@@ -70,6 +72,48 @@ namespace CFE_GestionRecibos.Empleado
             return true;
         }
 
+        private void ReadCSV(string path)
+        {
+            string[] lines = null;
+            try
+            {
+                lines = System.IO.File.ReadAllLines(path, Encoding.GetEncoding("iso-8859-1"));
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.ToString(), "Error al intentar leer el archivo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            massive = new List<ConsumoClass>();
+            bool first = true;
+            int medI = 0, consI = 0, añoI = 0, mesI = 0;
+            foreach (string line in lines)
+            {
+                string[] columns = line.Split(',');
+                if (first)
+                {
+                    medI = Array.FindIndex(columns, x => x.Contains("Medidor"));
+                    consI = Array.FindIndex(columns, x => x.Contains("Consumo"));
+                    añoI = Array.FindIndex(columns, x => x.Contains("Año"));
+                    mesI = Array.FindIndex(columns, x => x.Contains("Mes"));
+                    if (medI < 0 | consI < 0 | añoI < 0 | mesI < 0)
+                    {
+                        MessageBox.Show("Los datos del archivo no corresponden con los esperados. Asegurese de indicar cada dato en la primera fila del archivo.", "Archivo no compatible.", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        return;
+                    }
+                    first = false;
+                }
+                else
+                {
+                    massive.Add(new ConsumoClass(
+                        Convert.ToInt32(columns[añoI]),
+                        Convert.ToSByte(columns[mesI]),
+                        Convert.ToInt64(columns[medI]),
+                        Convert.ToInt32(columns[consI])
+                    ));
+                }
+            }
+        }
+
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -83,12 +127,36 @@ namespace CFE_GestionRecibos.Empleado
                 if (link.AgregarConsumo(consumo, id_emp, username))
                 {
                     MessageBox.Show("Consumo capturado.", "Información");
-                    Close();
                 }
                 else
                 {
                     MessageBox.Show("No se pudo registrar el consumo.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    Close();
+                }
+                tbx_medidor.Text = "";
+                tbx_año.Text = "";
+                cbx_mes.SelectedIndex = -1;
+                tbx_consumo.Text = "";
+            }
+        }
+
+        private void btn_archivo_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog csvFile = new OpenFileDialog();
+            csvFile.InitialDirectory = "C:\\Users\\alexi\\Documents";
+            csvFile.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+            csvFile.FilterIndex = 0;
+            csvFile.RestoreDirectory = true;
+            if (csvFile.ShowDialog() == DialogResult.OK)
+            {
+                ReadCSV(csvFile.FileName);
+                EnlaceCassandra link = new EnlaceCassandra();
+                if (!link.ConsumoMasiva(massive, id_emp, username))
+                {
+                    MessageBox.Show("Ocurrió un error al cargar los consumos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                else
+                {
+                    MessageBox.Show("Consumos registrados con éxito.", "Aviso");
                 }
             }
         }

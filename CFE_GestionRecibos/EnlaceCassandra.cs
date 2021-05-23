@@ -295,6 +295,51 @@ namespace CFE_GestionRecibos
             }
             return true;
         }
+        public List<Login> LogsBloqueados(byte type)
+        {
+            try
+            {
+                string qry = "";
+                string id_t = "";
+                switch (type)
+                {
+                    case 0:
+                        qry = "select Correo_electronico, Contrasena, ID_Cliente, Nombre_usuario, Bloqueo ";
+                        qry += "from Log_Cliente where Bloqueo = true allow filtering;";
+                        id_t = "id_cliente";
+                        break;
+                    case 1:
+                        qry = "select Correo_electronico, Contrasena, NUM_Empleado, Nombre_usuario, Bloqueo ";
+                        qry += "from Log_Empleado where Bloqueo = true allow filtering;";
+                        id_t = "num_empleado";
+                        break;
+                    default:
+                        return null;
+                }
+                List<Login> lista = new List<Login>();
+                conectar();
+                var result = _session.Execute(qry);
+                foreach (var rs in result)
+                {
+                    lista.Add(new Login(
+                        rs.GetValue<string>("correo_electronico"),
+                        rs.GetValue<string>("contrasena"),
+                        rs.GetValue<Guid>(id_t),
+                        rs.GetValue<string>("nombre_usuario")
+                    ));
+                }
+                return lista;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
 
         // ADMINISTRADOR
         public List<EmpleadoList> LlenarEmpleados()
@@ -317,6 +362,7 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
+        
         public EmpleadoClass DatosEmpleado(Guid id)
         {
             try
@@ -324,7 +370,8 @@ namespace CFE_GestionRecibos
                 string qry = "select NUM_Empleado, Nombres, Apellidos, Fecha_nac, RFC, CURP, Telefonos, Correo_electronico, Contrasena from Empleado where NUM_Empleado = ?; ";
                 conectar();
                 IMapper mapper = new Mapper(_session);
-                EmpleadoClass user = mapper.Single<EmpleadoClass>(qry, id);                return user;
+                EmpleadoClass user = mapper.Single<EmpleadoClass>(qry, id);
+                return user;
             }
             catch (Exception e)
             {
@@ -364,7 +411,8 @@ namespace CFE_GestionRecibos
                 string qry = "select NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion from Registro_actividad where NUM_Empleado = ? and CLAVE = ?;";
                 conectar();
                 IMapper mapper = new Mapper(_session);
-                RegistroActClass user = mapper.Single<RegistroActClass>(qry, id_emp, clave);                return user;
+                RegistroActClass user = mapper.Single<RegistroActClass>(qry, id_emp, clave);
+                return user;
             }
             catch (Exception e)
             {
@@ -540,6 +588,26 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
+        public bool DesbloquearEmpleado(string correo)
+        {
+            try
+            {
+                string qry = "update Log_Empleado set Bloqueo = false where Correo_electronico = '{0}';";
+                qry = string.Format(qry, correo);
+                conectar();
+                _session.Execute(qry);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
 
         // EMPLEADO
         public List<ClientList> LlenarClientes()
@@ -570,7 +638,8 @@ namespace CFE_GestionRecibos
                 string qry = "select ID_Cliente, Nombres, Apellidos, Fecha_nac, Domicilio, CURP, Telefonos, Correo_electronico, Contrasena from Cliente where ID_Cliente = ?; ";
                 conectar();
                 IMapper mapper = new Mapper(_session);
-                ClienteClass user = mapper.Single<ClienteClass>(qry, id);                return user;
+                ClienteClass user = mapper.Single<ClienteClass>(qry, id);
+                return user;
             }
             catch (Exception e)
             {
@@ -612,7 +681,8 @@ namespace CFE_GestionRecibos
                 qry = string.Format(qry, id_cl, id_serv);
                 conectar();
                 IMapper mapper = new Mapper(_session);
-                ServicioClass user = mapper.Single<ServicioClass>(qry);                return user;
+                ServicioClass user = mapper.Single<ServicioClass>(qry);
+                return user;
             }
             catch (Exception e)
             {
@@ -632,7 +702,8 @@ namespace CFE_GestionRecibos
                 qry = string.Format(qry, med);
                 conectar();
                 IMapper mapper = new Mapper(_session);
-                ServicioClass user = mapper.Single<ServicioClass>(qry);                return user;
+                ServicioClass user = mapper.Single<ServicioClass>(qry);
+                return user;
             }
             catch (Exception e)
             {
@@ -643,6 +714,21 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
+        public long ID_ServPorMed(long med)
+        {
+            try
+            {
+                string qry = "select ID_Serv from Servicio where Medidor = {0} allow filtering; ";
+                qry = string.Format(qry, med);
+                IMapper mapper = new Mapper(_session);
+                long user = mapper.Single<long>(qry);
+                return user;
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
         public TarifaClass DatosTarifa(int year, sbyte month, bool tipo_serv)
         {
             try
@@ -651,7 +737,8 @@ namespace CFE_GestionRecibos
                 qry = string.Format(qry, year, month, tipo_serv);
                 conectar();
                 IMapper mapper = new Mapper(_session);
-                TarifaClass user = mapper.Single<TarifaClass>(qry);                return user;
+                TarifaClass user = mapper.Single<TarifaClass>(qry);
+                return user;
             }
             catch (Exception e)
             {
@@ -754,6 +841,26 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
+        public bool DesbloquearCliente(string correo)
+        {
+            try
+            {
+                string qry = "update Log_Cliente set Bloqueo = false where Correo_electronico = '{0}';";
+                qry = string.Format(qry, correo);
+                conectar();
+                _session.Execute(qry);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
 
         private long ExisteTarifa(int year, sbyte month, bool tipo)
         {
@@ -793,14 +900,14 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
-        private long ExisteServicio(long medidor, bool tipo)
+        private long ExisteServicio(long medidor)
         {
             try
             {
-                string search = "select count(*) from Servicio where Medidor = ? and Tipo_serv = ? allow filtering";
+                string search = "select count(*) from Servicio where Medidor = ? allow filtering";
                 conectar();
                 IMapper mapper = new Mapper(_session);
-                return mapper.Single<long>(search, medidor, tipo);
+                return mapper.Single<long>(search, medidor);
             }
             catch (Exception e)
             {
@@ -810,6 +917,20 @@ namespace CFE_GestionRecibos
             finally
             {
                 desconectar();
+            }
+        }
+        private long ExisteServicioNoConection(long medidor)
+        {
+            try
+            {
+                string search = "select count(*) from Servicio where Medidor = ? allow filtering";
+                IMapper mapper = new Mapper(_session);
+                return mapper.Single<long>(search, medidor);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return -1;
             }
         }
         public bool AgregarCliente(ClienteClass cli)
@@ -982,7 +1103,7 @@ namespace CFE_GestionRecibos
         {
             try
             {
-                if (ExisteServicio(serv.medidor, serv.tipo_serv) == 0)
+                if (ExisteServicio(serv.medidor) == 0)
                 {
                     Guid id_servicio = Guid.NewGuid();
                     Guid regact_clave = Guid.NewGuid();
@@ -1019,7 +1140,7 @@ namespace CFE_GestionRecibos
             {
                 if ((newserv.medidor != oldserv.medidor) | (newserv.tipo_serv != oldserv.tipo_serv))
                 {
-                    if (ExisteServicio(newserv.medidor, newserv.tipo_serv) == 0)
+                    if (ExisteServicio(newserv.medidor) == 0)
                     {
                         string updservmod = "update Servicio set Medidor = ?, Tipo_serv = ? where ID_Cliente = ? and ID_Serv = ?;";
                         conectar();
@@ -1153,6 +1274,92 @@ namespace CFE_GestionRecibos
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public bool TarifaMasiva(List<TarifaClass> param, Guid id_emp, string username)
+        {
+            try
+            {
+                conectar();
+                var batch = new BatchStatement();
+                foreach (TarifaClass tar in param)
+                {
+                    string insert_tar = "update Reporte_Tarifas set Tar_basica = ?, Tar_intermedia = ?, Tar_excedente = ? ";
+                    insert_tar += "where Year = ? and Month = ? and Tipo_serv = ?;";
+                    var insertion = _session.Prepare(insert_tar);
+                    batch.Add(insertion.Bind(
+                        tar.tar_basica, tar.tar_intermedia, tar.tar_excedente,
+                        tar.year, tar.month, tar.tipo_serv
+                    ));
+                }
+                Guid regact_id = Guid.NewGuid();
+                string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
+                regactquery += "values(?, ?, toTimestamp(now()), 'Registro de Tarifas Masivas', ?);";
+                string descripcion = "Empleado con ID {0}, {1}, capturó tarifas de forma masiva.";
+                descripcion = string.Format(descripcion, id_emp, username);
+                var regact = _session.Prepare(regactquery);
+                batch.Add(regact.Bind(id_emp, regact_id, descripcion));
+                _session.Execute(batch);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public bool ConsumoMasiva(List<ConsumoClass> param, Guid id_emp, string username)
+        {
+            try
+            {
+                conectar();
+                var batch = new BatchStatement();
+                bool anyregisters = false;
+                foreach(ConsumoClass cons in param)
+                {
+                    if (ExisteServicioNoConection(cons.medidor) != 0)
+                    {
+                        anyregisters = true;
+                        long id_serv = ID_ServPorMed(cons.medidor);
+                        string insert_rep = "update Reporte_Consumos set kW_totales = ?, kW_basica = ?, kW_intermedia = ?, kW_excedente = ? ";
+                        insert_rep += "where Year = ? and Month = ? and Medidor = ?;";
+                        string cons_hist = "update Consumo_Historico set Medidor = ?, Consumo_kW = ?, Pago_total = 0, Importe_Pago = 0, Pendiente_Pago = 0 ";
+                        cons_hist += "where ID_Serv = ? and Year = ? and Month = ?;";
+                        var insertion = _session.Prepare(insert_rep);
+                        var conshist = _session.Prepare(cons_hist);
+                        batch.Add(insertion.Bind(
+                            cons.kw_totales, cons.kw_basica, cons.kw_intermedia, cons.kw_excedente,
+                            cons.year, cons.month, cons.medidor
+                            ));
+                        batch.Add(conshist.Bind(
+                            cons.medidor, cons.kw_totales, id_serv, cons.year, cons.month
+                        ));
+                    }
+                }
+                if (anyregisters)
+                {
+                    Guid regact_id = Guid.NewGuid();
+                    string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
+                    regactquery += "values(?, ?, toTimestamp(now()), 'Registro Masivo de Consumos', ?);";
+                    string descripcion = "Empleado con ID {0}, {1}, capturó consumos de forma masiva.";
+                    descripcion = string.Format(descripcion, id_emp, username);
+                    var regact = _session.Prepare(regactquery);
+                    batch.Add(regact.Bind(id_emp, regact_id, descripcion));
+                    _session.Execute(batch);
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
                 return false;
             }
             finally
@@ -1313,7 +1520,8 @@ namespace CFE_GestionRecibos
                 qry = string.Format(qry, id_serv, id_rec);
                 conectar();
                 IMapper mapper = new Mapper(_session);
-                ReciboClass user = mapper.Single<ReciboClass>(qry);                return user;
+                ReciboClass user = mapper.Single<ReciboClass>(qry);
+                return user;
             }
             catch (Exception e)
             {

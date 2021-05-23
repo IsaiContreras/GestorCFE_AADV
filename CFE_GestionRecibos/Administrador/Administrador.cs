@@ -90,5 +90,10 @@ namespace CFE_GestionRecibos.Administrador
             dialogInfo.ShowDialog();
         }
 
+        private void btn_desbloq_Click(object sender, EventArgs e)
+        {
+            DesbloqEmp dialogDE = new DesbloqEmp();
+            dialogDE.ShowDialog();
+        }
     }
 }

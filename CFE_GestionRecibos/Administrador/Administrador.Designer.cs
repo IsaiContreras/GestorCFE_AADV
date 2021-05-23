@@ -37,6 +37,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btn_regact = new System.Windows.Forms.Button();
             this.btn_info = new System.Windows.Forms.Button();
+            this.btn_desbloq = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_empleados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -135,9 +136,9 @@
             this.btn_regact.BackColor = System.Drawing.Color.DimGray;
             this.btn_regact.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_regact.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_regact.Location = new System.Drawing.Point(228, 137);
+            this.btn_regact.Location = new System.Drawing.Point(204, 137);
             this.btn_regact.Name = "btn_regact";
-            this.btn_regact.Size = new System.Drawing.Size(228, 35);
+            this.btn_regact.Size = new System.Drawing.Size(173, 35);
             this.btn_regact.TabIndex = 5;
             this.btn_regact.Text = "Registro de actividad";
             this.btn_regact.UseVisualStyleBackColor = false;
@@ -149,11 +150,23 @@
             this.btn_info.ForeColor = System.Drawing.SystemColors.Control;
             this.btn_info.Location = new System.Drawing.Point(12, 137);
             this.btn_info.Name = "btn_info";
-            this.btn_info.Size = new System.Drawing.Size(210, 35);
+            this.btn_info.Size = new System.Drawing.Size(186, 35);
             this.btn_info.TabIndex = 6;
             this.btn_info.Text = "Información de empleado";
             this.btn_info.UseVisualStyleBackColor = false;
             this.btn_info.Click += new System.EventHandler(this.btn_info_Click);
+            // 
+            // btn_desbloq
+            // 
+            this.btn_desbloq.BackColor = System.Drawing.Color.DimGray;
+            this.btn_desbloq.ForeColor = System.Drawing.SystemColors.Control;
+            this.btn_desbloq.Location = new System.Drawing.Point(384, 137);
+            this.btn_desbloq.Name = "btn_desbloq";
+            this.btn_desbloq.Size = new System.Drawing.Size(187, 35);
+            this.btn_desbloq.TabIndex = 7;
+            this.btn_desbloq.Text = "Usuarios bloqueados";
+            this.btn_desbloq.UseVisualStyleBackColor = false;
+            this.btn_desbloq.Click += new System.EventHandler(this.btn_desbloq_Click);
             // 
             // Administrador
             // 
@@ -161,6 +174,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(800, 503);
+            this.Controls.Add(this.btn_desbloq);
             this.Controls.Add(this.btn_info);
             this.Controls.Add(this.btn_regact);
             this.Controls.Add(this.label1);
@@ -193,5 +207,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_regact;
         private System.Windows.Forms.Button btn_info;
+        private System.Windows.Forms.Button btn_desbloq;
     }
 }
