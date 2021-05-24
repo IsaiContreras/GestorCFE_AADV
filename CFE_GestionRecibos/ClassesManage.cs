@@ -400,24 +400,25 @@ namespace CFE_GestionRecibos
         {
 
         }
-        public TarjetaClass(string num, string mes, string año, string cvv)
+        public TarjetaClass(string tarjeta)
         {
-            tarjetas = num+","+mes+","+año+","+cvv;
-            numero = num;
-        }
-        public void split()
-        {
-            string[] parts = tarjetas.Split(',');
+            string[] parts = tarjeta.Split(',');
             if (parts.Length == 4)
             {
+                tarjetainfo = tarjeta;
                 numero = parts[0];
                 mes = parts[1];
                 año = parts[2];
                 cvv = parts[3];
             }
         }
-        public string tarjetas { get; set; }
-        public string numero;
+        public TarjetaClass(string num, string mes, string año, string cvv)
+        {
+            tarjetainfo = num+","+mes+","+año+","+cvv;
+            numero = num;
+        }
+        public string tarjetainfo { get; set; }
+        public string numero { get; set; }
         public string mes;
         public string año;
         public string cvv;

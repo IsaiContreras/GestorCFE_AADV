@@ -359,16 +359,16 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
-        
-        public EmpleadoClass DatosEmpleado(Guid id)
+        public List<RegistroActList> LlenarRegistroAct(Guid id_emp)
         {
             try
             {
-                string qry = "select NUM_Empleado, Nombres, Apellidos, Fecha_nac, RFC, CURP, Telefonos, Correo_electronico, Contrasena from Empleado where NUM_Empleado = ?; ";
+                string qry = "select Fecha_reg, Accion, CLAVE from Registro_actividad where NUM_Empleado = ? allow filtering;";
                 conectar();
                 IMapper mapper = new Mapper(_session);
-                EmpleadoClass user = mapper.Single<EmpleadoClass>(qry, id);
-                return user;
+                IEnumerable<RegistroActList> lista = mapper.Fetch<RegistroActList>(qry, id_emp);
+
+                return lista.ToList();
             }
             catch (Exception e)
             {
@@ -380,16 +380,16 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
-        public List<RegistroActList> LlenarRegistroAct(Guid id_emp)
+
+        public EmpleadoClass DatosEmpleado(Guid id)
         {
             try
             {
-                string qry = "select Fecha_reg, Accion, CLAVE from Registro_actividad where NUM_Empleado = ? allow filtering;";
+                string qry = "select NUM_Empleado, Nombres, Apellidos, Fecha_nac, RFC, CURP, Telefonos, Correo_electronico, Contrasena from Empleado where NUM_Empleado = ?; ";
                 conectar();
                 IMapper mapper = new Mapper(_session);
-                IEnumerable<RegistroActList> lista = mapper.Fetch<RegistroActList>(qry, id_emp);
-
-                return lista.ToList();
+                EmpleadoClass user = mapper.Single<EmpleadoClass>(qry, id);
+                return user;
             }
             catch (Exception e)
             {
@@ -451,6 +451,7 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
+
         public bool AgregarEmpleado(EmpleadoClass emp)
         {
             try
@@ -557,6 +558,26 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
+        public bool DesbloquearEmpleado(string correo)
+        {
+            try
+            {
+                string qry = "update Log_Empleado set Bloqueo = false where Correo_electronico = '{0}';";
+                qry = string.Format(qry, correo);
+                conectar();
+                _session.Execute(qry);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
         public bool EliminarEmpleado(Guid id_emp)
         {
             try{
@@ -573,26 +594,6 @@ namespace CFE_GestionRecibos
                             .Add(delete_login.Bind(delemp.correo_electronico))
                             .Add(delete_rem.Bind((sbyte)1, delemp.correo_electronico));
                 _session.Execute(batch);
-                return true;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        public bool DesbloquearEmpleado(string correo)
-        {
-            try
-            {
-                string qry = "update Log_Empleado set Bloqueo = false where Correo_electronico = '{0}';";
-                qry = string.Format(qry, correo);
-                conectar();
-                _session.Execute(qry);
                 return true;
             }
             catch (Exception e)
@@ -628,26 +629,6 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
-        public ClienteClass DatosCliente(Guid id)
-        {
-            try
-            {
-                string qry = "select ID_Cliente, Nombres, Apellidos, Fecha_nac, Domicilio, CURP, Telefonos, Correo_electronico, Contrasena from Cliente where ID_Cliente = ?; ";
-                conectar();
-                IMapper mapper = new Mapper(_session);
-                ClienteClass user = mapper.Single<ClienteClass>(qry, id);
-                return user;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
         public List<ServicioList> LlenarServicios(Guid id)
         {
             try
@@ -659,6 +640,57 @@ namespace CFE_GestionRecibos
                 IEnumerable<ServicioList> lista = mapper.Fetch<ServicioList>(qry);
 
                 return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public ServicioClass DatosServicioPorMed(long med)
+        {
+            try
+            {
+                string qry = "select ID_Cliente, ID_Serv, Medidor, Tipo_serv, Domicilio from Servicio where Medidor = {0} allow filtering; ";
+                qry = string.Format(qry, med);
+                IMapper mapper = new Mapper(_session);
+                ServicioClass user = mapper.Single<ServicioClass>(qry);
+                return user;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        public TarifaClass DatosTarifa(int year, sbyte month, bool tipo_serv)
+        {
+            try
+            {
+                string qry = "select Year, Month, Tipo_serv, Tar_basica, Tar_intermedia, Tar_excedente from Reporte_Tarifas where Year = {0} and Month = {1} and Tipo_serv = {2};";
+                qry = string.Format(qry, year, month, tipo_serv);
+                IMapper mapper = new Mapper(_session);
+                TarifaClass user = mapper.Single<TarifaClass>(qry);
+                return user;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        public ClienteClass DatosCliente(Guid id)
+        {
+            try
+            {
+                string qry = "select ID_Cliente, Nombres, Apellidos, Fecha_nac, Domicilio, CURP, Telefonos, Correo_electronico, Contrasena from Cliente where ID_Cliente = ?; ";
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                ClienteClass user = mapper.Single<ClienteClass>(qry, id);
+                return user;
             }
             catch (Exception e)
             {
@@ -691,267 +723,12 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
-        public ServicioClass DatosServicioPorMed(long med)
-        {
-            try
-            {
-                string qry = "select ID_Cliente, ID_Serv, Medidor, Tipo_serv, Domicilio from Servicio where Medidor = {0} allow filtering; ";
-                qry = string.Format(qry, med);
-                conectar();
-                IMapper mapper = new Mapper(_session);
-                ServicioClass user = mapper.Single<ServicioClass>(qry);
-                return user;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        public long ID_ServPorMed(long med)
-        {
-            try
-            {
-                string qry = "select ID_Serv from Servicio where Medidor = {0} allow filtering; ";
-                qry = string.Format(qry, med);
-                IMapper mapper = new Mapper(_session);
-                long user = mapper.Single<long>(qry);
-                return user;
-            }
-            catch (Exception e)
-            {
-                return -1;
-            }
-        }
-        public TarifaClass DatosTarifa(int year, sbyte month, bool tipo_serv)
-        {
-            try
-            {
-                string qry = "select Year, Month, Tipo_serv, Tar_basica, Tar_intermedia, Tar_excedente from Reporte_Tarifas where Year = {0} and Month = {1} and Tipo_serv = {2};";
-                qry = string.Format(qry, year, month, tipo_serv);
-                conectar();
-                IMapper mapper = new Mapper(_session);
-                TarifaClass user = mapper.Single<TarifaClass>(qry);
-                return user;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        public List<ConsumoClass> ListaConsumos(int year, sbyte month, bool tipo_serv)
-        {
-            try
-            {
-                string qry = "select Year, Month, Tipo_serv, Medidor, kW_totales, kW_basica, kW_intermedia, kW_excedente from Reporte_Consumos ";
-                qry += "where Year = {0} and Month = {1} and Tipo_serv = {2} allow filtering;";
-                qry = string.Format(qry, year, month, tipo_serv);
-                conectar();
-                IMapper mapper = new Mapper(_session);
-                IEnumerable<ConsumoClass> lista = mapper.Fetch<ConsumoClass>(qry);
 
-                return lista.ToList();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        public List<ReporteGenClass> ReporteGeneral(Guid id_cli, int year, sbyte month, sbyte tipo)
-        {
-            try
-            {
-                string qry = "select Year, Month, Tipo_serv, Total_pago, Total_pendiente from Reporte_General where ID_Cliente = {0} and Year = {1}";
-                qry = string.Format(qry, id_cli, year);
-                if (month != 0)
-                {
-                    qry += " and Month = {0}";
-                    qry = string.Format(qry, month);
-                }
-                if (tipo != 0)
-                {
-                    if (tipo == 1) qry += " and Tipo_serv = false";
-                    else qry += " and Tipo_serv = true";
-                }
-                qry += ";";
-                IMapper mapper = new Mapper(_session);
-                IEnumerable<ReporteGenClass> lista = mapper.Fetch<ReporteGenClass>(qry);
-                return lista.ToList();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        public List<ConsumoHist> Consumo_Historico(Guid id_serv, int year)
-        {
-            try
-            {
-                string qry = "select Year, Month, Medidor, Consumo_kW, Pago_total, Importe_Pago, Pendiente_Pago from Consumo_Historico ";
-                qry += "where ID_Serv = {0} and Year = {1} allow filtering;";
-                qry = string.Format(qry, id_serv, year);
-                conectar();
-                IMapper mapper = new Mapper(_session);
-                IEnumerable<ConsumoHist> lista = mapper.Fetch<ConsumoHist>(qry);
-
-                return lista.ToList();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        public List<ConsumoClass> ReporteConsumos(int year)
-        {
-            try
-            {
-                string qry = "select Year, Month, Medidor, kW_totales, kW_basica, kW_intermedia, kW_excedente from Reporte_Consumos ";
-                qry += "where Year = {0} allow filtering;";
-                qry = string.Format(qry, year);
-                conectar();
-                IMapper mapper = new Mapper(_session);
-                IEnumerable<ConsumoClass> lista = mapper.Fetch<ConsumoClass>(qry);
-
-                return lista.ToList();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        public List<TarifaClass> ReporteTarifas(int year)
-        {
-            try
-            {
-                string qry = "select Year, Month, Tipo_serv, Tar_basica, Tar_intermedia, Tar_excedente from Reporte_Tarifas ";
-                qry += "where Year = {0} allow filtering;";
-                qry = string.Format(qry, year);
-                conectar();
-                IMapper mapper = new Mapper(_session);
-                IEnumerable<TarifaClass> lista = mapper.Fetch<TarifaClass>(qry);
-
-                return lista.ToList();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        public bool DesbloquearCliente(string correo)
-        {
-            try
-            {
-                string qry = "update Log_Cliente set Bloqueo = false where Correo_electronico = '{0}';";
-                qry = string.Format(qry, correo);
-                conectar();
-                _session.Execute(qry);
-                return true;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-
-        private long ExisteTarifa(int year, sbyte month, bool tipo)
-        {
-            try
-            {
-                string qry = "select count(*) from Reporte_Tarifas where Year = ? and Month = ? and Tipo_serv = ?;";
-                conectar();
-                IMapper mapper = new Mapper(_session);
-                return mapper.Single<long>(qry, year, month, tipo);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return -1;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        private long ExisteConsumo(Guid id_serv, int year, sbyte month)
-        {
-            try
-            {
-                string qry = "select count(*) from Consumo where ID_Serv = ? and Year = ? and Month = ?;";
-                conectar();
-                IMapper mapper = new Mapper(_session);
-                return mapper.Single<long>(qry, id_serv, year, month);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return -1;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
         private long ExisteServicio(long medidor)
         {
             try
             {
                 string search = "select count(*) from Servicio where Medidor = ? allow filtering";
-                conectar();
-                IMapper mapper = new Mapper(_session);
-                return mapper.Single<long>(search, medidor);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return -1;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-        private long ExisteServicioNoConection(long medidor)
-        {
-            try
-            {
-                string search = "select count(*) from Servicio where Medidor = ? allow filtering";
                 IMapper mapper = new Mapper(_session);
                 return mapper.Single<long>(search, medidor);
             }
@@ -961,6 +738,7 @@ namespace CFE_GestionRecibos
                 return -1;
             }
         }
+
         public bool AgregarCliente(ClienteClass cli)
         {
             try
@@ -1081,6 +859,26 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
+        public bool DesbloquearCliente(string correo)
+        {
+            try
+            {
+                string qry = "update Log_Cliente set Bloqueo = false where Correo_electronico = '{0}';";
+                qry = string.Format(qry, correo);
+                conectar();
+                _session.Execute(qry);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
         public bool EliminarCliente(Guid id_cli, Guid id_emp)
         {
             try
@@ -1131,6 +929,7 @@ namespace CFE_GestionRecibos
         {
             try
             {
+                conectar();
                 if (ExisteServicio(serv.medidor) == 0)
                 {
                     Guid id_servicio = Guid.NewGuid();
@@ -1141,7 +940,6 @@ namespace CFE_GestionRecibos
                     regactquery += "values(?, ?, toTimestamp(now()), 'Registro de Servicio', ?);";
                     string descripcion = "Empleado con ID {0}, {1}, registró servicio con Medidor {2} para cliente con ID {3}, {4}.";
                     descripcion = string.Format(descripcion, serv.id_emp, serv.empUsername, serv.medidor, serv.id_cliente, serv.cliUsername);
-                    conectar();
                     var empinsert = _session.Prepare(insertqry);
                     var regactinsert = _session.Prepare(regactquery);
                     var batch = new BatchStatement()
@@ -1166,6 +964,7 @@ namespace CFE_GestionRecibos
         {
             try
             {
+                conectar();
                 if ((newserv.medidor != oldserv.medidor) | (newserv.tipo_serv != oldserv.tipo_serv))
                 {
                     if (ExisteServicio(newserv.medidor) == 0)
@@ -1185,7 +984,6 @@ namespace CFE_GestionRecibos
                 regactquery += "values(?, ?, toTimestamp(now()), 'Modificación de Servicio', ?);";
                 string descripcion = "Empleado con ID {0}, {1}, modificó servicio con Medidor {2} para cliente con ID {3}, {4}.";
                 descripcion = string.Format(descripcion, newserv.id_emp, newserv.empUsername, newserv.medidor, newserv.id_cliente, newserv.cliUsername);
-                conectar();
                 var serv_dom = _session.Prepare(updservdom);
                 var regact = _session.Prepare(regactquery);
                 var batch2 = new BatchStatement()
@@ -1274,26 +1072,26 @@ namespace CFE_GestionRecibos
         {
             try
             {
+                conectar();
                 Guid regact_id = Guid.NewGuid();
                 ServicioClass ser = DatosServicioPorMed(cons.medidor);
                 if (ser == null)
                 {
                     return false;
                 }
-                string insert_rep = "update Reporte_Consumos set kW_totales = ?, kW_basica = ?, kW_intermedia = ?, kW_excedente = ? ";
-                insert_rep += "where Year = ? and Month = ? and Tipo_serv = ? and Medidor = ?;";
+                string insert_rep = "update Reporte_Consumos set kW_totales = ?, kW_basica = ?, kW_intermedia = ?, kW_excedente = ?, Tipo_serv = ? ";
+                insert_rep += "where Year = ? and Month = ? and Medidor = ?;";
                 string cons_hist = "update Consumo_Historico set Medidor = ?, Consumo_kW = ?, Pago_total = 0, Importe_Pago = 0, Pendiente_Pago = 0 ";
                 cons_hist += "where ID_Serv = ? and Year = ? and Month = ?;";
                 string regactquery = "insert into Registro_actividad(NUM_Empleado, CLAVE, Fecha_reg, Accion, Descripcion) ";
                 regactquery += "values(?, ?, toTimestamp(now()), 'Registro de Consumo', ?);";
                 string descripcion = "Empleado con ID {0}, {1}, registró/modificó consumo del periodo {2}/{3} para el medidor {4}.";
                 descripcion = string.Format(descripcion, id_emp, username, cons.year, cons.month, cons.medidor);
-                conectar();
                 var report = _session.Prepare(insert_rep);
                 var hist = _session.Prepare(cons_hist);
                 var regact = _session.Prepare(regactquery);
                 var batch = new BatchStatement()
-                            .Add(report.Bind(cons.kw_totales, cons.kw_basica, cons.kw_intermedia, cons.kw_excedente, cons.year, cons.month, ser.tipo_serv, cons.medidor))
+                            .Add(report.Bind(cons.kw_totales, cons.kw_basica, cons.kw_intermedia, cons.kw_excedente, ser.tipo_serv, cons.year, cons.month, cons.medidor))
                             .Add(hist.Bind(cons.medidor, cons.kw_totales, ser.id_serv, cons.year, cons.month))
                             .Add(regact.Bind(id_emp, regact_id, descripcion));
                 _session.Execute(batch);
@@ -1354,24 +1152,22 @@ namespace CFE_GestionRecibos
                 bool anyregisters = false;
                 foreach(ConsumoClass cons in param)
                 {
-                    if (ExisteServicioNoConection(cons.medidor) != 0)
-                    {
-                        anyregisters = true;
-                        long id_serv = ID_ServPorMed(cons.medidor);
-                        string insert_rep = "update Reporte_Consumos set kW_totales = ?, kW_basica = ?, kW_intermedia = ?, kW_excedente = ? ";
-                        insert_rep += "where Year = ? and Month = ? and Medidor = ?;";
-                        string cons_hist = "update Consumo_Historico set Medidor = ?, Consumo_kW = ?, Pago_total = 0, Importe_Pago = 0, Pendiente_Pago = 0 ";
-                        cons_hist += "where ID_Serv = ? and Year = ? and Month = ?;";
-                        var insertion = _session.Prepare(insert_rep);
-                        var conshist = _session.Prepare(cons_hist);
-                        batch.Add(insertion.Bind(
-                            cons.kw_totales, cons.kw_basica, cons.kw_intermedia, cons.kw_excedente,
-                            cons.year, cons.month, cons.medidor
-                            ));
-                        batch.Add(conshist.Bind(
-                            cons.medidor, cons.kw_totales, id_serv, cons.year, cons.month
-                        ));
-                    }
+                    ServicioClass serv = DatosServicioPorMed(cons.medidor);
+                    if (serv == null) continue;
+                    string insert_rep = "update Reporte_Consumos set kW_totales = ?, kW_basica = ?, kW_intermedia = ?, kW_excedente = ?, Tipo_serv = ? ";
+                    insert_rep += "where Year = ? and Month = ? and Medidor = ?;";
+                    string cons_hist = "update Consumo_Historico set Medidor = ?, Consumo_kW = ?, Pago_total = 0, Importe_Pago = 0, Pendiente_Pago = 0 ";
+                    cons_hist += "where ID_Serv = ? and Year = ? and Month = ?;";
+                    var insertion = _session.Prepare(insert_rep);
+                    var conshist = _session.Prepare(cons_hist);
+                    batch.Add(insertion.Bind(
+                        cons.kw_totales, cons.kw_basica, cons.kw_intermedia, cons.kw_excedente, serv.tipo_serv,
+                        cons.year, cons.month, cons.medidor
+                    ));
+                    batch.Add(conshist.Bind(
+                        cons.medidor, cons.kw_totales, serv.id_serv, cons.year, cons.month
+                    ));
+                    anyregisters = true;
                 }
                 if (anyregisters)
                 {
@@ -1396,12 +1192,128 @@ namespace CFE_GestionRecibos
             }
         }
 
+        public List<ReporteGenClass> ReporteGeneral(Guid id_cli, int year, sbyte month, sbyte tipo)
+        {
+            try
+            {
+                string qry = "select Year, Month, Tipo_serv, Total_pago, Total_pendiente from Reporte_General where ID_Cliente = {0} and Year = {1}";
+                qry = string.Format(qry, id_cli, year);
+                if (month != 0)
+                {
+                    qry += " and Month = {0}";
+                    qry = string.Format(qry, month);
+                }
+                if (tipo != 0)
+                {
+                    if (tipo == 1) qry += " and Tipo_serv = false";
+                    else qry += " and Tipo_serv = true";
+                }
+                qry += ";";
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<ReporteGenClass> lista = mapper.Fetch<ReporteGenClass>(qry);
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public List<ConsumoHist> Consumo_Historico(Guid id_serv, int year)
+        {
+            try
+            {
+                string qry = "select Year, Month, Medidor, Consumo_kW, Pago_total, Importe_Pago, Pendiente_Pago from Consumo_Historico ";
+                qry += "where ID_Serv = {0} and Year = {1} allow filtering;";
+                qry = string.Format(qry, id_serv, year);
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<ConsumoHist> lista = mapper.Fetch<ConsumoHist>(qry);
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public List<ConsumoClass> ReporteConsumos(int year)
+        {
+            try
+            {
+                string qry = "select Year, Month, Medidor, kW_totales, kW_basica, kW_intermedia, kW_excedente from Reporte_Consumos ";
+                qry += "where Year = {0} allow filtering;";
+                qry = string.Format(qry, year);
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<ConsumoClass> lista = mapper.Fetch<ConsumoClass>(qry);
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public List<TarifaClass> ReporteTarifas(int year)
+        {
+            try
+            {
+                string qry = "select Year, Month, Tipo_serv, Tar_basica, Tar_intermedia, Tar_excedente from Reporte_Tarifas ";
+                qry += "where Year = {0} allow filtering;";
+                qry = string.Format(qry, year);
+                conectar();
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<TarifaClass> lista = mapper.Fetch<TarifaClass>(qry);
+
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public List<ConsumoClass> ListaConsumos(int year, sbyte month, bool tipo_serv)
+        {
+            try
+            {
+                string qry = "select Year, Month, Tipo_serv, Medidor, kW_totales, kW_basica, kW_intermedia, kW_excedente from Reporte_Consumos ";
+                qry += "where Year = {0} and Month = {1} and Tipo_serv = {2} allow filtering;";
+                qry = string.Format(qry, year, month, tipo_serv);
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<ConsumoClass> lista = mapper.Fetch<ConsumoClass>(qry);
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
         public decimal PrevRecibo(Guid id_serv, int year, sbyte month)
         {
             try
             {
                 string search = "select Pendiente_Pago from Recibos where ID_Serv = ? and Year = ? and Month = ? allow filtering;";
-                conectar();
                 IMapper mapper = new Mapper(_session);
                 return mapper.Single<decimal>(search, id_serv, year, month);
             }
@@ -1409,15 +1321,12 @@ namespace CFE_GestionRecibos
             {
                 return 0;
             }
-            finally
-            {
-                desconectar();
-            }
         }
         public bool GenerarRecibos(Guid id_emp, string emp_name, int year, sbyte month, bool tipo_serv)
         {
             try
             {
+                conectar();
                 TarifaClass tarifa = DatosTarifa(year, month, tipo_serv);
                 if (tarifa == null) return false;
                 List<ConsumoClass> consumos = ListaConsumos(year, month, tipo_serv);
@@ -1471,7 +1380,6 @@ namespace CFE_GestionRecibos
                 }
                 PreparedStatement insertqry;
                 var batch = new BatchStatement();
-                conectar();
                 foreach(ReciboClass reg in recibos)
                 {
                     string qry = "update Recibos set Year = ?, Month = ?, Tipo_serv = ?, Medidor = ?, Domicilio = ?, Fecha_venci = ?, ";
@@ -1534,6 +1442,7 @@ namespace CFE_GestionRecibos
                 desconectar();
             }
         }
+
         public ReciboClass DatosRecibo(Guid id_serv, Guid id_rec)
         {
             try
@@ -1568,12 +1477,16 @@ namespace CFE_GestionRecibos
                 string qry = "select Tarjetas from Cliente where ID_Cliente = ?;";
                 conectar();
                 IMapper mapper = new Mapper(_session);
-                IEnumerable<TarjetaClass> lista = mapper.Fetch<TarjetaClass>(qry, id_cli);
-                foreach (TarjetaClass tar in lista)
+                IEnumerable<string> lista = mapper.Fetch<string>(qry, id_cli);
+                List<TarjetaClass> listatar = new List<TarjetaClass>();
+                if (lista != null)
                 {
-                    tar.split();
+                    foreach (string s in lista)
+                    {
+                        listatar.Add(new TarjetaClass(s));
+                    }
                 }
-                return lista.ToList();
+                return listatar;
             }
             catch (Exception e)
             {
@@ -1618,10 +1531,10 @@ namespace CFE_GestionRecibos
                 {
                     if (first)
                     {
-                        qry += "'" + tar.tarjetas + "'";
+                        qry += "'" + tar.tarjetainfo + "'";
                         first = false;
                     }
-                    else qry += ",'" + tar.tarjetas + "'";
+                    else qry += ",'" + tar.tarjetainfo + "'";
                 }
                 qry += "] where ID_Cliente = {0};";
                 qry = string.Format(qry, id_cli);

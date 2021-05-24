@@ -16,8 +16,7 @@ namespace CFE_GestionRecibos.Cliente
         public Guid id_serv;
         public Guid id_rec;
 
-        TarjetaClass tarjeta_n;
-        List<TarjetaClass> tarjetas;
+        List<TarjetaClass> tarjetas = new List<TarjetaClass>();
 
         public PagoTarjeta()
         {
@@ -88,8 +87,8 @@ namespace CFE_GestionRecibos.Cliente
             if (validar())
             {
                 EnlaceCassandra link = new EnlaceCassandra();
-                link.Pago(id_cli, id_serv, id_rec, Convert.ToDecimal(tbx_cantidad.Text));
                 link.AgregarTarjeta(id_cli, tarjetas);
+                link.Pago(id_cli, id_serv, id_rec, Convert.ToDecimal(tbx_cantidad.Text));
                 DialogResult = DialogResult.OK;
                 Close();
             }
@@ -104,11 +103,8 @@ namespace CFE_GestionRecibos.Cliente
         private void PagoTarjeta_Load(object sender, EventArgs e)
         {
             EnlaceCassandra link = new EnlaceCassandra();
-            tarjetas = link.Tarjetas(id_cli);
-            foreach(TarjetaClass tar in tarjetas)
-            {
-                tar.split();
-            }
+            List<TarjetaClass> buffer = link.Tarjetas(id_cli);
+            if (buffer != null) tarjetas = buffer;
             cbx_tarjetas.DisplayMember = "numero";
             cbx_tarjetas.DataSource = tarjetas;
             cbx_tarjetas.SelectedIndex = -1;
@@ -128,12 +124,15 @@ namespace CFE_GestionRecibos.Cliente
 
         private void btn_add_Click(object sender, EventArgs e)
         {
-            foreach (TarjetaClass tar in tarjetas)
+            if (tarjetas != null)
             {
-                if (tbx_numtarj.Text == tar.numero)
+                foreach (TarjetaClass tar in tarjetas)
                 {
-                    MessageBox.Show("Esta tarjeta ya existe.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    return;
+                    if (tbx_numtarj.Text == tar.numero)
+                    {
+                        MessageBox.Show("Esta tarjeta ya existe.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        return;
+                    }
                 }
             }
             if (validarTarjeta())
@@ -146,6 +145,7 @@ namespace CFE_GestionRecibos.Cliente
                 ));
             }
             cbx_tarjetas.DataSource = null;
+            cbx_tarjetas.DisplayMember = "numero";
             cbx_tarjetas.DataSource = tarjetas;
         }
 
