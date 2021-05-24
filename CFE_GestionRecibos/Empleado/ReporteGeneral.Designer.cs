@@ -32,11 +32,12 @@
             this.dgv_reporte = new System.Windows.Forms.DataGridView();
             this.btn_buscar = new System.Windows.Forms.Button();
             this.tbx_año = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cbx_mes = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cbx_tiposerv = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.st_identity = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_reporte)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +49,7 @@
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(113, 31);
             this.btn_ok.TabIndex = 6;
-            this.btn_ok.Text = "Aceptar";
+            this.btn_ok.Text = "Regresar";
             this.btn_ok.UseVisualStyleBackColor = false;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
@@ -56,10 +57,10 @@
             // 
             this.dgv_reporte.BackgroundColor = System.Drawing.Color.DimGray;
             this.dgv_reporte.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_reporte.Location = new System.Drawing.Point(13, 71);
+            this.dgv_reporte.Location = new System.Drawing.Point(13, 100);
             this.dgv_reporte.Name = "dgv_reporte";
             this.dgv_reporte.RowTemplate.Height = 24;
-            this.dgv_reporte.Size = new System.Drawing.Size(526, 263);
+            this.dgv_reporte.Size = new System.Drawing.Size(526, 234);
             this.dgv_reporte.TabIndex = 5;
             // 
             // btn_buscar
@@ -84,30 +85,30 @@
             this.tbx_año.Size = new System.Drawing.Size(123, 22);
             this.tbx_año.TabIndex = 1;
             // 
-            // comboBox1
+            // cbx_mes
             // 
-            this.comboBox1.BackColor = System.Drawing.Color.DimGray;
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.ForeColor = System.Drawing.SystemColors.Control;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.cbx_mes.BackColor = System.Drawing.Color.DimGray;
+            this.cbx_mes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_mes.ForeColor = System.Drawing.SystemColors.Control;
+            this.cbx_mes.FormattingEnabled = true;
+            this.cbx_mes.Items.AddRange(new object[] {
             "Todos",
-            "Enero",
-            "Febrero",
-            "Marzo",
-            "Abril",
-            "Mayo",
-            "Junio",
-            "Julio",
-            "Agosto",
-            "Septiembre",
-            "Octubre",
-            "Noviembre",
-            "Diciembre"});
-            this.comboBox1.Location = new System.Drawing.Point(141, 27);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(92, 24);
-            this.comboBox1.TabIndex = 2;
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12"});
+            this.cbx_mes.Location = new System.Drawing.Point(141, 27);
+            this.cbx_mes.Name = "cbx_mes";
+            this.cbx_mes.Size = new System.Drawing.Size(92, 24);
+            this.cbx_mes.TabIndex = 2;
             // 
             // label1
             // 
@@ -135,6 +136,7 @@
             this.cbx_tiposerv.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbx_tiposerv.FormattingEnabled = true;
             this.cbx_tiposerv.Items.AddRange(new object[] {
+            "Ambos",
             "Doméstico",
             "Industrial"});
             this.cbx_tiposerv.Location = new System.Drawing.Point(240, 27);
@@ -152,17 +154,29 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "Tipo de servicio";
             // 
+            // st_identity
+            // 
+            this.st_identity.AutoSize = true;
+            this.st_identity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.st_identity.ForeColor = System.Drawing.SystemColors.Control;
+            this.st_identity.Location = new System.Drawing.Point(12, 69);
+            this.st_identity.Name = "st_identity";
+            this.st_identity.Size = new System.Drawing.Size(36, 20);
+            this.st_identity.TabIndex = 0;
+            this.st_identity.Text = "ID: ";
+            // 
             // ReporteGeneral
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(551, 385);
+            this.Controls.Add(this.st_identity);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.cbx_tiposerv);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cbx_mes);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.dgv_reporte);
             this.Controls.Add(this.btn_buscar);
@@ -187,10 +201,11 @@
         private System.Windows.Forms.DataGridView dgv_reporte;
         private System.Windows.Forms.Button btn_buscar;
         private System.Windows.Forms.TextBox tbx_año;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbx_mes;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cbx_tiposerv;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label st_identity;
     }
 }

@@ -73,7 +73,7 @@
             this.btn_salir.Name = "btn_salir";
             this.btn_salir.Size = new System.Drawing.Size(134, 31);
             this.btn_salir.TabIndex = 3;
-            this.btn_salir.Text = "Salir";
+            this.btn_salir.Text = "Regresar";
             this.btn_salir.UseVisualStyleBackColor = false;
             this.btn_salir.Click += new System.EventHandler(this.btn_salir_Click);
             // 

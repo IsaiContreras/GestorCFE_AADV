@@ -193,7 +193,12 @@ namespace CFE_GestionRecibos.Administrador
                 MessageBox.Show("Capture el teléfono en el recuadro.", "Información incompleta", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;
             }
-            if (!RegexUtilities.IsOnlyNumerics(tbx_telefono.Text))
+            else if (tbx_telefono.TextLength != 10)
+            {
+                MessageBox.Show("El teléfono debe tener 10 dígitos.", "Información incompleta", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return;
+            }
+            else if (!RegexUtilities.IsOnlyNumerics(tbx_telefono.Text))
             {
                 MessageBox.Show("El teléfono no debe contener letras.", "Información inválida", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;

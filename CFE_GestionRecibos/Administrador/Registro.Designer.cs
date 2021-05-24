@@ -73,7 +73,7 @@
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(155, 29);
             this.btn_ok.TabIndex = 2;
-            this.btn_ok.Text = "Aceptar";
+            this.btn_ok.Text = "Regresar";
             this.btn_ok.UseVisualStyleBackColor = false;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 

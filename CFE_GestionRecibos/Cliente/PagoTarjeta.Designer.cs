@@ -76,7 +76,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.Control;
-            this.label2.Location = new System.Drawing.Point(326, 212);
+            this.label2.Location = new System.Drawing.Point(326, 217);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(50, 17);
             this.label2.TabIndex = 0;
@@ -86,7 +86,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.Control;
-            this.label1.Location = new System.Drawing.Point(106, 189);
+            this.label1.Location = new System.Drawing.Point(100, 192);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(72, 17);
             this.label1.TabIndex = 0;
@@ -96,7 +96,7 @@
             // 
             this.tbx_cantidad.BackColor = System.Drawing.Color.DimGray;
             this.tbx_cantidad.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbx_cantidad.Location = new System.Drawing.Point(100, 209);
+            this.tbx_cantidad.Location = new System.Drawing.Point(101, 212);
             this.tbx_cantidad.MaxLength = 30;
             this.tbx_cantidad.Name = "tbx_cantidad";
             this.tbx_cantidad.Size = new System.Drawing.Size(219, 22);
@@ -213,6 +213,7 @@
             this.btn_del.TabIndex = 8;
             this.btn_del.Text = "-";
             this.btn_del.UseVisualStyleBackColor = false;
+            this.btn_del.Click += new System.EventHandler(this.btn_del_Click);
             // 
             // btn_add
             // 
@@ -224,6 +225,7 @@
             this.btn_add.TabIndex = 7;
             this.btn_add.Text = "+";
             this.btn_add.UseVisualStyleBackColor = false;
+            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
             // 
             // PagoTarjeta
             // 

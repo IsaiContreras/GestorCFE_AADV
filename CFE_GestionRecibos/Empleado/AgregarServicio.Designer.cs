@@ -50,6 +50,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tbx_col = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label12
@@ -282,12 +283,23 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "Colonia*";
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.ForeColor = System.Drawing.SystemColors.Control;
+            this.label18.Location = new System.Drawing.Point(9, 221);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(238, 17);
+            this.label18.TabIndex = 23;
+            this.label18.Text = "Los campos con (*) son obligatorios.";
+            // 
             // AgregarServicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(573, 255);
+            this.Controls.Add(this.label18);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.tbx_col);
             this.Controls.Add(this.label2);
@@ -347,5 +359,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbx_col;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label18;
     }
 }

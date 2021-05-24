@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Configuration;
 using Cassandra;
 using System.Globalization;
@@ -306,6 +303,19 @@ namespace CFE_GestionRecibos
         public decimal pago_total { get; set; }
         public decimal importe_pago { get; set; }
         public decimal pendiente_pago { get; set; }
+    }
+
+    public class ReporteGenClass
+    {
+        public ReporteGenClass()
+        {
+
+        }
+        public int year { get; set; }
+        public sbyte month { get; set; }
+        public bool tipo_serv { get; set; }
+        public decimal total_pago { get; set; }
+        public decimal total_pendiente { get; set; }
     }
     
     public class Domicilio

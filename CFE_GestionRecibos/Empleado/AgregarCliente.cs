@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Cassandra;
 using System.Windows.Forms;
 
@@ -239,7 +233,12 @@ namespace CFE_GestionRecibos.Empleado
                 MessageBox.Show("Capture el teléfono en el recuadro.", "Información incompleta", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;
             }
-            if (!RegexUtilities.IsOnlyNumerics(tbx_telefono.Text))
+            else if (tbx_telefono.TextLength != 10)
+            {
+                MessageBox.Show("El teléfono debe tener 10 dígitos.", "Información incompleta", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return;
+            }
+            else if (!RegexUtilities.IsOnlyNumerics(tbx_telefono.Text))
             {
                 MessageBox.Show("El teléfono no debe contener letras.", "Información inválida", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;

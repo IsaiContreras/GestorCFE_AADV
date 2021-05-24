@@ -94,6 +94,7 @@
             this.dgv_clientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_clientes.Size = new System.Drawing.Size(668, 252);
             this.dgv_clientes.TabIndex = 7;
+            this.dgv_clientes.SelectionChanged += new System.EventHandler(dgv_clientes_SelectionChanged);
             // 
             // dgv_servicios
             // 
@@ -244,7 +245,7 @@
             this.btn_regtaf.Name = "btn_regtaf";
             this.btn_regtaf.Size = new System.Drawing.Size(150, 29);
             this.btn_regtaf.TabIndex = 13;
-            this.btn_regtaf.Text = "Registrar tarifas";
+            this.btn_regtaf.Text = "Cargar tarifas";
             this.btn_regtaf.UseVisualStyleBackColor = false;
             this.btn_regtaf.Click += new System.EventHandler(this.btn_regtaf_Click);
             // 
@@ -256,7 +257,7 @@
             this.btn_regcons.Name = "btn_regcons";
             this.btn_regcons.Size = new System.Drawing.Size(150, 29);
             this.btn_regcons.TabIndex = 14;
-            this.btn_regcons.Text = "Registrar consumos";
+            this.btn_regcons.Text = "Cargar consumos";
             this.btn_regcons.UseVisualStyleBackColor = false;
             this.btn_regcons.Click += new System.EventHandler(this.btn_regcons_Click);
             // 
@@ -301,7 +302,7 @@
             // 
             this.btn_repgen.BackColor = System.Drawing.Color.DimGray;
             this.btn_repgen.ForeColor = System.Drawing.SystemColors.Control;
-            this.btn_repgen.Location = new System.Drawing.Point(325, 462);
+            this.btn_repgen.Location = new System.Drawing.Point(532, 427);
             this.btn_repgen.Name = "btn_repgen";
             this.btn_repgen.Size = new System.Drawing.Size(150, 29);
             this.btn_repgen.TabIndex = 18;
@@ -328,7 +329,7 @@
             this.btn_genrec.ForeColor = System.Drawing.SystemColors.Control;
             this.btn_genrec.Location = new System.Drawing.Point(326, 427);
             this.btn_genrec.Name = "btn_genrec";
-            this.btn_genrec.Size = new System.Drawing.Size(149, 29);
+            this.btn_genrec.Size = new System.Drawing.Size(149, 64);
             this.btn_genrec.TabIndex = 15;
             this.btn_genrec.Text = "Generar Recibos";
             this.btn_genrec.UseVisualStyleBackColor = false;

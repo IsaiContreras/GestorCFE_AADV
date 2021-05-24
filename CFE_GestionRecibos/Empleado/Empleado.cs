@@ -37,6 +37,7 @@ namespace CFE_GestionRecibos.Empleado
                 btn_infocliente.Enabled = true;
                 btn_agrserv.Enabled = true;
                 btn_showserv.Enabled = true;
+                btn_repgen.Enabled = true;
             }
             else
             {
@@ -48,6 +49,7 @@ namespace CFE_GestionRecibos.Empleado
                 btn_modserv.Enabled = false;
                 btn_elimserv.Enabled = false;
                 btn_conshist.Enabled = false;
+                btn_repgen.Enabled = false;
             }
         }
 
@@ -156,6 +158,7 @@ namespace CFE_GestionRecibos.Empleado
         private void btn_repgen_Click(object sender, EventArgs e)
         {
             ReporteGeneral dialogRG = new ReporteGeneral();
+            dialogRG.id_cli = (Guid)dgv_clientes.SelectedRows[0].Cells[4].Value;
             dialogRG.ShowDialog();
         }
 
@@ -253,6 +256,14 @@ namespace CFE_GestionRecibos.Empleado
         {
             DesbloqCliente dialogDC = new DesbloqCliente();
             dialogDC.ShowDialog();
+        }
+
+        private void dgv_clientes_SelectionChanged(object sender, EventArgs e)
+        {
+            dgv_servicios.DataSource = null;
+            btn_modserv.Enabled = false;
+            btn_elimserv.Enabled = false;
+            btn_conshist.Enabled = false;
         }
     }
 }

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Cassandra;
 using Cassandra.Mapping;
 using System.Configuration;
-using System.Data;
 using System.Windows.Forms;
 
 namespace CFE_GestionRecibos
@@ -760,6 +757,37 @@ namespace CFE_GestionRecibos
                 IMapper mapper = new Mapper(_session);
                 IEnumerable<ConsumoClass> lista = mapper.Fetch<ConsumoClass>(qry);
 
+                return lista.ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+        public List<ReporteGenClass> ReporteGeneral(Guid id_cli, int year, sbyte month, sbyte tipo)
+        {
+            try
+            {
+                string qry = "select Year, Month, Tipo_serv, Total_pago, Total_pendiente from Reporte_General where ID_Cliente = {0} and Year = {1}";
+                qry = string.Format(qry, id_cli, year);
+                if (month != 0)
+                {
+                    qry += " and Month = {0}";
+                    qry = string.Format(qry, month);
+                }
+                if (tipo != 0)
+                {
+                    if (tipo == 1) qry += " and Tipo_serv = false";
+                    else qry += " and Tipo_serv = true";
+                }
+                qry += ";";
+                IMapper mapper = new Mapper(_session);
+                IEnumerable<ReporteGenClass> lista = mapper.Fetch<ReporteGenClass>(qry);
                 return lista.ToList();
             }
             catch (Exception e)
@@ -1580,12 +1608,24 @@ namespace CFE_GestionRecibos
             }
         }
 
-        public bool AgregarTarjeta(Guid id_cli, string info)
+        public bool AgregarTarjeta(Guid id_cli, List<TarjetaClass> tarjeta)
         {
             try
             {
-                string qry = "update Cliente set Tarjetas = [ {0} ] + Tarjetas WHERE ID_Cliente = {1};";
-                qry = string.Format(qry, info, id_cli);
+                string qry = "update Cliente set Tarjetas = [";
+                bool first = true;
+                foreach (TarjetaClass tar in tarjeta)
+                {
+                    if (first)
+                    {
+                        qry += "'" + tar.tarjetas + "'";
+                        first = false;
+                    }
+                    else qry += ",'" + tar.tarjetas + "'";
+                }
+                qry += "] where ID_Cliente = {0};";
+                qry = string.Format(qry, id_cli);
+                conectar();
                 _session.Execute(qry);
                 return true;
             }

@@ -66,6 +66,7 @@
             this.tbx_col = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.tbx_telefono = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label6
@@ -506,12 +507,23 @@
             this.tbx_telefono.Size = new System.Drawing.Size(187, 22);
             this.tbx_telefono.TabIndex = 6;
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.ForeColor = System.Drawing.SystemColors.Control;
+            this.label18.Location = new System.Drawing.Point(15, 335);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(238, 17);
+            this.label18.TabIndex = 22;
+            this.label18.Text = "Los campos con (*) son obligatorios.";
+            // 
             // AgregarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(573, 373);
+            this.Controls.Add(this.label18);
             this.Controls.Add(this.tbx_telefono);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.tbx_col);
@@ -603,5 +615,6 @@
         private System.Windows.Forms.TextBox tbx_col;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox tbx_telefono;
+        private System.Windows.Forms.Label label18;
     }
 }
